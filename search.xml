@@ -4,6 +4,82 @@
   
     
     <entry>
+      <title>漏洞发现</title>
+      <link href="/2023/06/06/%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0/"/>
+      <url>/2023/06/06/%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="漏洞发现-使用工具"><a href="#漏洞发现-使用工具" class="headerlink" title="漏洞发现-使用工具"></a>漏洞发现-使用工具</h1><p>信息收集 ~</p><ul><li>漏洞扫描</li></ul><p>批量特征漏洞扫描<br>特定目标漏洞扫描  </p><p>fofa shodan quake zoomeye</p><h3 id="常规思路"><a href="#常规思路" class="headerlink" title="常规思路"></a>常规思路</h3><p>1、目标搜集</p><ul><li><p>web资产 - awvs xray goby 等等</p></li><li><p>框架  </p></li><li><p>APP</p></li><li><p>端口服务</p></li><li><p>服务器系统</p></li></ul><p><strong>部分漏洞需要手工探测分析</strong></p><p>新消息收集可以交个搜索引擎（不建议批量漏洞挖掘）<br>因为信息收集不充分</p><p>对特定目标搜索：<br><strong>fofamap</strong> 自带了 nuclei工具 利用fofa收集到的目标的资产信息导入到nuclei扫描</p><p>weblogic 特定漏洞漏洞扫描：</p><p>直接fofa “weblogic” &amp;&amp; port&#x3D;“7001”</p><p>fofamap ：</p><blockquote><p>python fofamap.py -q ‘ “weblogic” &amp;&amp; port&#x3D;“7001” ‘ -s -n</p></blockquote><p>搜出红色就存在漏洞</p><p>可以添加“edu.cn” and port&#x3D;”7001” &amp;&amp; title&#x3D;&#x3D;”Error 404 Not Found”</p><h4 id="建议用sodan-扫，国外的"><a href="#建议用sodan-扫，国外的" class="headerlink" title="建议用sodan 扫，国外的"></a>建议用sodan 扫，国外的</h4><p><strong>fiora插件  可以加载在burp中</strong></p><p><strong>漏洞发现：</strong></p><ul><li><p>web层面</p><ul><li>Burp     - 联动其他工具</li><li>Xray     - 内部社区版本 - 被动扫描 - 主动扫描</li><li>Awvs     - 所有暴露资产扫描</li><li>Goby     - 所有暴露资产特扫 - 插件可联动</li><li>Afrog    - 常见web及框架特扫 - Pocassist 升级版</li><li>Vulmap   - 常见web及框架特扫</li><li>Pocassist- 学习思路DIY poc</li></ul></li><li><p>操作系统</p><ul><li>Goby     - </li><li>Nessus   - 所有暴露资产特扫 - Fofamap - POC多</li><li>Nexpose  - 操作系统</li><li>Neclei   - 操作系统</li></ul></li><li><p>框架层面</p></li><li><p>服务</p></li><li><p>中间件</p></li><li><p>APP</p></li><li><p>小程序</p></li><li><p>PC操作系统层面</p></li></ul><h1 id="漏洞发现-漏洞检测-amp-工具辅助插件"><a href="#漏洞发现-漏洞检测-amp-工具辅助插件" class="headerlink" title="漏洞发现- 漏洞检测 &amp; 工具辅助插件"></a>漏洞发现- 漏洞检测 &amp; 工具辅助插件</h1><p>目标：</p><ul><li>用其他工具项目检测漏洞</li><li>用Burpsuite抓包后代入插件检测<ul><li>有部分目标需要特定的数据包访问</li></ul></li></ul><p>   登录状态和未登录状态<br>   不同目标访问的数据包不同</p><p>辅助插件</p><p>penetration Testing hack<br>hack-tools<br>FoFa view</p><p>Tomm闪电搜索</p><p>漏洞集成：<br><a href="https://gitlab.com/exploit-database/exploitdb">https://gitlab.com/exploit-database/exploitdb</a></p><p>viper漏洞集成</p><p>1、漏洞类型<br>2、漏洞编号</p><ul><li>CVE</li><li>CNVD<br>3、漏洞对象</li></ul><p>查找库</p><ul><li><p>信息</p><ul><li>编号</li><li>对象名称</li><li>类型 端口</li></ul></li><li><p>项目</p><ul><li>Poc-in-github</li><li>exploitdb</li></ul></li><li><p>整理库</p><ul><li><p>完善</p><ul><li>最新漏洞监控</li><li>实现关键字搜索</li></ul></li><li><p>项目</p><ul><li>CNVD监控</li><li>CVE监控</li></ul><p>nessus</p></li></ul></li></ul><h1 id="漏洞发现-Web框架中间件-amp-漏洞系统扫描工具"><a href="#漏洞发现-Web框架中间件-amp-漏洞系统扫描工具" class="headerlink" title="漏洞发现-Web框架中间件&amp;漏洞系统扫描工具"></a>漏洞发现-Web框架中间件&amp;漏洞系统扫描工具</h1><p>1、Burp 简单介绍&amp;使用说明<br>2、Xray 简单介绍&amp;使用说明<br>3、Awvs 简单介绍&amp;使用说明<br>4、Goby 简单介绍&amp;使用说明<br>5、Afrog 简单介绍&amp;使用说明<br>6、Vulmap 简单介绍&amp;使用说明<br>7、Pocassist 简单介绍&amp;使用说明<br>8、掌握工具安装使用&amp;原理&amp;联动&amp;适用</p><p><a href="https://www.ddosi.org/awvs14-6-log4j-rce/">https://www.ddosi.org/awvs14-6-log4j-rce/</a><br><a href="https://github.com/chaitin/xray/releases">https://github.com/chaitin/xray/releases</a><br><a href="https://github.com/zan8in/afrog/releases">https://github.com/zan8in/afrog/releases</a><br><a href="https://github.com/zhzyker/vulmap/releases">https://github.com/zhzyker/vulmap/releases</a><br><a href="https://github.com/jweny/pocassist/releases">https://github.com/jweny/pocassist/releases</a><br><a href="https://github.com/gobysec/Goby/releases">https://github.com/gobysec/Goby/releases</a></p><h2 id="具体项目："><a href="#具体项目：" class="headerlink" title="具体项目："></a>具体项目：</h2><p><strong>Burpsuite，Awvs，Xray，Goby，Afrog，Vulmap，Pocassist，<br>Nessus，Nuclei，Pentestkit，Kunyu，BP 插件<br>(HaE,ShiroScan.FastJsonScan,Log4j2Scan 等)等。</strong></p><h2 id="其他特扫："><a href="#其他特扫：" class="headerlink" title="其他特扫："></a>其他特扫：</h2><p>1、GUI_TOOLS_V6.1_by 安全圈小王子–bugfixed<br>2、CMS 漏洞扫描器名称 支持的 CMS 平台<br>Droopescan WordPress，Joomla，Drupal，Moodle，SilverStripe<br>CMSmap WordPress，Joomla，Drupal，Moodle<br>CMSeeK WordPress，Joomla，Drupal 等<br>WPXF WordPress<br>WPScan WordPress<br>WPSeku WordPress<br>WPForce WordPress<br>JoomScan Joomla<br>JoomlaVS Joomla<br>JScanner Joomla<br>Drupwn Drupal<br>Typo3Scan Typo3</p><p>致远 OA 综合利用工具 <a href="https://github.com/Summer177/seeyon_exp">https://github.com/Summer177/seeyon_exp</a><br>seeyon_exp<br>通达 OA 综合利用工具 <a href="https://github.com/xinyu2428/TDOA_RCE">https://github.com/xinyu2428/TDOA_RCE</a> TDOA_RCE<br>蓝凌 OA 漏洞利用工具&#x2F;前台无条件 RCE&#x2F;文件写入<br><a href="https://github.com/yuanhaiGreg/LandrayExploit">https://github.com/yuanhaiGreg/LandrayExploit</a> LandrayExploit<br>泛微 OA 漏洞综合利用脚本 <a href="https://github.com/z1un/weaver_exp">https://github.com/z1un/weaver_exp</a><br>weaver_exp<br>锐捷网络 EG 易网关 RCE 批量安全检测<br><a href="https://github.com/Tas9er/EgGateWayGetShell">https://github.com/Tas9er/EgGateWayGetShell</a> EgGateWayGetShell<br>CMSmap 针对流行 CMS 进行安全扫描的工具<br><a href="https://github.com/Dionach/CMSmap">https://github.com/Dionach/CMSmap</a> CMSmap<br>使用 Go 开发的 WordPress 漏洞扫描工具<br><a href="https://github.com/blackbinn/wprecon">https://github.com/blackbinn/wprecon</a> wprecon<br>一个 Ruby 框架，旨在帮助对 WordPress 系统进行渗透测试<br><a href="https://github.com/rastating/wordpress-exploit-framework">https://github.com/rastating/wordpress-exploit-framework</a><br>wordpress-exploit-framework<br>WPScan WordPress 安全扫描器 <a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>wpscan</p><h1 id="自动化工具AI推荐"><a href="#自动化工具AI推荐" class="headerlink" title="自动化工具AI推荐"></a>自动化工具AI推荐</h1><p>OpenVAS：OpenVAS是一款功能强大的开源漏洞扫描工具，提供广泛的漏洞检测能力。它具有用户友好的界面、多种扫描选项和详细的报告生成功能。</p><p>Nikto：Nikto是一款专注于Web应用程序的开源漏洞扫描工具。它可以扫描Web服务器和应用程序，检测常见的漏洞、配置错误和安全风险。</p><p>OWASP ZAP：OWASP ZAP（Zed Attack Proxy）是一款功能强大的开源Web应用程序安全测试工具。它提供了漏洞扫描、漏洞利用、安全审计和自动化测试等功能。</p><p>Arachni：Arachni是一款开源的Web应用程序安全测试工具，具有强大的漏洞扫描和漏洞利用能力。它支持多种漏洞检测插件，并提供了灵活的配置选项。</p><p>Wapiti：Wapiti是一款用于Web应用程序的开源漏洞扫描工具。它可以自动发现和报告各种类型的漏洞，如跨站脚本（XSS）、SQL注入、文件包含等。</p><p>InsightVM：是一款功能强大的商业漏洞管理和扫描工具，由Rapid7公司开发。它提供了全面的漏洞管理解决方案，包括主动扫描、漏洞评估、报告生成和漏洞修复跟踪等功能。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 漏洞发现 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>服务攻防-中间件、协议、框架</title>
+      <link href="/2023/06/06/%E6%9C%8D%E5%8A%A1%E6%94%BB%E9%98%B2-%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%89%E5%85%A8/"/>
+      <url>/2023/06/06/%E6%9C%8D%E5%8A%A1%E6%94%BB%E9%98%B2-%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%89%E5%85%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="服务攻防-中间件安全"><a href="#服务攻防-中间件安全" class="headerlink" title="服务攻防-中间件安全"></a>服务攻防-中间件安全</h1><h2 id="中间件及框架"><a href="#中间件及框架" class="headerlink" title="中间件及框架"></a>中间件及框架</h2><p>IIS，Apache，Nginx，Tomcat，Docker，Weblogic,JBos,WebSphere,Jenkins,GlassFish,Jira,Struts2,Laravel,Solr<br>Shiro,Thinkphp,Spring,Flask,jQuery</p><p>1、中间件-IIS-短文件-&amp; 文件解析 &amp; https.sys 蓝屏 CVE2017-7269<br>2、中间件-Apache-RCE &amp; 目录遍历 &amp; 文件解析等<br>3、中间件-Nginx-文件解析 &amp; 命令执行 配置不当 CVE-2<br>4、中间件-Tomcat- 文件上传 文件包含 拒绝服务（危害过大，无法取得权限） 反序列化（利用条件太苛刻）</p><h3 id="常见中间件安全测试："><a href="#常见中间件安全测试：" class="headerlink" title="常见中间件安全测试："></a>常见中间件安全测试：</h3><p>1、配置不当 - 解析 - 弱口令<br>2、安全机制-特定安全漏洞<br>3、安全机制-弱口令爆破攻击<br>4、安全应用-框架特定安全漏洞</p><h1 id="服务攻防-中间件安全-2"><a href="#服务攻防-中间件安全-2" class="headerlink" title="服务攻防-中间件安全-2"></a>服务攻防-中间件安全-2</h1><p>1、weblogic安全<br>2、JBoss安全<br>3、Jenkins安全<br>4、GlassFish安全</p><h3 id="常见测试流程"><a href="#常见测试流程" class="headerlink" title="常见测试流程"></a>常见测试流程</h3><p>1、判断中间件信息-名称-版本-三方<br>2、判断中间件问题-配置不当-弱口令-公开漏洞<br>3、中间件利用-弱口令 - exp - 框架漏洞</p><h2 id="这几个中间件直接用脚本扫，一把梭哈"><a href="#这几个中间件直接用脚本扫，一把梭哈" class="headerlink" title="这几个中间件直接用脚本扫，一把梭哈"></a>这几个中间件直接用脚本扫，一把梭哈</h2><h1 id="中间件安全-3"><a href="#中间件安全-3" class="headerlink" title="中间件安全-3"></a>中间件安全-3</h1><p>k8s - Kubernetes 云原生渗透 未授权访问<br>Jetty<br>Docker<br>WebSphere -1、 CVE-2015-7450-反序列化  &amp;  2、 CVE-2020-4455:没有利用的EXP<br>配合Fofa_Viewer  </p><h1 id="服务攻防-框架安全"><a href="#服务攻防-框架安全" class="headerlink" title="服务攻防-框架安全"></a>服务攻防-框架安全</h1><h2 id="推荐靶场-vulfocus"><a href="#推荐靶场-vulfocus" class="headerlink" title="推荐靶场-vulfocus"></a>推荐靶场-vulfocus</h2><p>常见语言开发框架：</p><p>PHP：-Thinkphp ，-Laravel ，YII ，CodeIgniter ，CakePHP ，Zend等<br>JAVA：-Spring ，MyBatis，Hibernate，-Struts2 ，Springboot等<br>Python：Django ，FlaskBottle ，Turbobars ，Tornado ，Web2py，等<br>Javascript：Vue.js ，Node.js ，Bootstrap ，JQuery ，Angular等</p><p>框架利用：</p><p>1、判断开发语言以及框架<br>2、寻找该框架存在的问题漏洞<br>3、框架漏洞利用</p><ul><li>thinkphp框架可以 直接用工具扫漏洞</li><li>框架都可以直接扫漏洞</li><li>有漏洞找复现文章，学习，利用</li></ul><h1 id="服务攻防-应用协议"><a href="#服务攻防-应用协议" class="headerlink" title="服务攻防-应用协议"></a>服务攻防-应用协议</h1><p>知识点<br>1、服务攻防-远程控制&amp; 文件传输<br>2、远程控制-RDP 弱口令<br>3、文件传输-FTP Rsync 弱口令漏洞</p><p>口令猜解</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 中间件安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>服务攻防-数据库安全</title>
+      <link href="/2023/06/06/%E6%9C%8D%E5%8A%A1%E6%94%BB%E9%98%B2-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/"/>
+      <url>/2023/06/06/%E6%9C%8D%E5%8A%A1%E6%94%BB%E9%98%B2-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="服务攻防-数据库安全"><a href="#服务攻防-数据库安全" class="headerlink" title="服务攻防-数据库安全"></a>服务攻防-数据库安全</h1><h1 id="都需要搭建靶场进行漏洞复现"><a href="#都需要搭建靶场进行漏洞复现" class="headerlink" title="都需要搭建靶场进行漏洞复现"></a>都需要搭建靶场进行漏洞复现</h1><h2 id="Redis-amp-mysql-amp-Hadoop-安全"><a href="#Redis-amp-mysql-amp-Hadoop-安全" class="headerlink" title="Redis &amp; mysql &amp; Hadoop 安全"></a>Redis &amp; mysql &amp; Hadoop 安全</h2><p>1、配置不当，未授权访问<br>2、安全机制-特定安全漏洞<br>3、安全机制-弱口令爆破攻击</p><p>判断服务类型–nmap端口扫描 –(看端口号，开放服务需要开放端口号–6379redis 3306mysql )</p><h1 id="1、判断服务开放-看是什么数据库。。"><a href="#1、判断服务开放-看是什么数据库。。" class="headerlink" title="1、判断服务开放-看是什么数据库。。"></a>1、判断服务开放-看是什么数据库。。</h1><h3 id="服务开放，扫描看到端口号没开"><a href="#服务开放，扫描看到端口号没开" class="headerlink" title="服务开放，扫描看到端口号没开"></a>服务开放，扫描看到端口号没开</h3><p>可能是内网环境<br>站库分离</p><p>组合猜解</p><p>常见的组合搭配，java-中间件-mysql PHP-mysql 推测<br>根据信息来源<br>源码<br>报错<br>扫描探针</p><h1 id="2、判断服务类型-是什么用途"><a href="#2、判断服务类型-是什么用途" class="headerlink" title="2、判断服务类型 - 是什么用途"></a>2、判断服务类型 - 是什么用途</h1><p>数据库<br>文件传输<br>远程控制<br>数据通讯</p><h1 id="3、判断利用方式"><a href="#3、判断利用方式" class="headerlink" title="3、判断利用方式"></a>3、判断利用方式</h1><p>弱口令爆破<br>未授权访问<br>特性漏洞</p><h2 id="mysql相对安全，目前公开漏洞只有一个-CVE-2012-2122-身份认证漏洞"><a href="#mysql相对安全，目前公开漏洞只有一个-CVE-2012-2122-身份认证漏洞" class="headerlink" title="mysql相对安全，目前公开漏洞只有一个  CVE-2012-2122 身份认证漏洞"></a>mysql相对安全，目前公开漏洞只有一个  CVE-2012-2122 身份认证漏洞</h2><p>影响版本<br>mysqlDB 5.1.62 - 5.2.12 - 5.3.6 - 5.5.23<br>MySQL version 5.1.63 - 5.5.24 - 5.6.6</p><h2 id="vulhub-靶场-测试"><a href="#vulhub-靶场-测试" class="headerlink" title="vulhub 靶场 测试"></a>vulhub 靶场 测试</h2><p>综合性猜解，<br>1、判断服务开放 -端口扫描-组合猜解-信息来源<br>2、判断服务类型 -数据库-文件传输-远程控制-数据通讯<br>3、判断利用方式 -弱口令爆破-未授权访问-特性漏洞</p><p>mysql未授权访问漏洞，MySQL<br>mysql默认配置本地登录root用户<br>远程的连接请求拒绝的<br>mysql借助phpmyadmin猜解<br>PHPmyadmin第三方的数据库管理应用搭建在对方的服务器的<br>PHPmyadmin登录mysql，这个数据发送是由本地到本地的过程，所以可以进行测试</p><p>知识点：<br>1、数据库类型安全<br>2、influxdb-未授权访问-jwt验证<br>3、H2database-未授权访问-配置不当<br>4、CouchDB-权限绕过配合RCE-漏洞<br>5、ELasticSearch-文件写入&amp;RCE-漏洞</p><p>常见服务应用安全测试<br>1、配置不当-未授权访问<br>2、安全机制-特定安全漏洞<br>3、安全机制-弱口令爆破</p><hr><h1 id="influxdb数据库8086-x2F-8088"><a href="#influxdb数据库8086-x2F-8088" class="headerlink" title="influxdb数据库8086&#x2F;8088"></a>influxdb数据库8086&#x2F;8088</h1><p>jwt验证不当-未授权访问</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 数据库安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java安全-1</title>
+      <link href="/2023/05/09/Java%E5%AE%89%E5%85%A8-1/"/>
+      <url>/2023/05/09/Java%E5%AE%89%E5%85%A8-1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Java安全-Jwt安全及预编译case注入等"><a href="#Java安全-Jwt安全及预编译case注入等" class="headerlink" title="Java安全-Jwt安全及预编译case注入等"></a>Java安全-Jwt安全及预编译case注入等</h1><p>Java预编译，绑定参数，<strong>减轻SQL注入</strong>，并不是对SQL进行注入防御</p><p>参数绑定也可以绕过</p><p>通过使用case when语句可以将order by 后得orderExpression表达式中添加select语句</p><figure class="highlight plaintext"><figcaption><span>requests</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">form string import digits</span><br><span class="line">chars = digits + &quot;.&quot;</span><br><span class="line"></span><br><span class="line">data1 =</span><br></pre></td></tr></table></figure><p>利用 <strong>case when</strong> 注入</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Java安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>XML&amp;XXE&amp;无回显</title>
       <link href="/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/"/>
       <url>/2023/05/08/XML%20&amp;%20XXE%20&amp;%20%E6%97%A0%E5%9B%9E%E6%98%BE/</url>
