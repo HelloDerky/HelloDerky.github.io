@@ -141,7 +141,7 @@
       <link href="/2023/05/09/Java%E5%AE%89%E5%85%A8-1/"/>
       <url>/2023/05/09/Java%E5%AE%89%E5%85%A8-1/</url>
       
-        <content type="html"><![CDATA[<h1 id="Java安全-Jwt安全及预编译case注入等"><a href="#Java安全-Jwt安全及预编译case注入等" class="headerlink" title="Java安全-Jwt安全及预编译case注入等"></a>Java安全-Jwt安全及预编译case注入等</h1><p>Java预编译，绑定参数，<strong>减轻SQL注入</strong>，并不是对SQL进行注入防御</p><p>参数绑定也可以绕过</p><p>通过使用case when语句可以将order by 后得orderExpression表达式中添加select语句</p><figure class="highlight plaintext"><figcaption><span>requests</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">form string import digits</span><br><span class="line">chars = digits + &quot;.&quot;</span><br><span class="line"></span><br><span class="line">data1 =</span><br></pre></td></tr></table></figure><p>利用 <strong>case when</strong> 注入</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="Java安全-Jwt安全及预编译case注入等"><a href="#Java安全-Jwt安全及预编译case注入等" class="headerlink" title="Java安全-Jwt安全及预编译case注入等"></a>Java安全-Jwt安全及预编译case注入等</h1><p>Java预编译，绑定参数，<strong>减轻SQL注入</strong>，并不是对SQL进行注入防御</p><p>参数绑定也可以绕过</p><p>通过使用case when语句可以将order by 后得orderExpression表达式中添加select语句</p><figure class="highlight plaintext"><figcaption><span>requests</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">form string import digits</span><br><span class="line">chars = digits + &quot;.&quot;</span><br><span class="line"></span><br><span class="line">data1 =</span><br></pre></td></tr></table></figure><p>利用 <strong>case when</strong> 注入 ，前提条件有order by 的使用，预编译直接绕过</p><h3 id="啥是JWT-Json-web-Token-（JSON-WEB-令牌）"><a href="#啥是JWT-Json-web-Token-（JSON-WEB-令牌）" class="headerlink" title="啥是JWT  Json web Token （JSON WEB 令牌）"></a>啥是JWT  Json web Token （JSON WEB 令牌）</h3><p>是一种跨域验证身份的方案，JWT不加密传输的数据，但能够通过数字签名来验证数据未被篡改。</p><p>access token xxxxxx。xxxxxxxxxxxxxxxx。xxxxxxx<br>header-payload-verify signature<br>可以直接在jwt.io 中解密</p><p>不知道验证令牌密码-》不要慌</p><p>解密后，header 设置为none  base64编码</p><p>payload 中： lat为生效时间<br>exp为失效时间</p>]]></content>
       
       
       
@@ -403,17 +403,17 @@
     
     
     <entry>
-      <title>test</title>
+      <title>CSRF-1</title>
       <link href="/2023/05/08/CSRF-1/"/>
       <url>/2023/05/08/CSRF-1/</url>
       
-        <content type="html"><![CDATA[<h1 id="测试模板"><a href="#测试模板" class="headerlink" title="测试模板"></a>测试模板</h1>]]></content>
+        <content type="html"><![CDATA[<h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h1 id="CSRF（跨站请求伪造）"><a href="#CSRF（跨站请求伪造）" class="headerlink" title="CSRF（跨站请求伪造）"></a>CSRF（跨站请求伪造）</h1><h2 id="原理-amp-后台自动添加管理员"><a href="#原理-amp-后台自动添加管理员" class="headerlink" title="原理&amp;后台自动添加管理员"></a>原理&amp;后台自动添加管理员</h2><ul><li>条件：<br>1、目标用户已经登陆的网站，能执行网站的功能<br>2、目标用户访问了攻击者构造的URL</li><li>探针与防御<br>1、验证来源<br>2、看凭据有无token<br>3、看关键操作有无验证</li><li>流程<br>1、获取目标的触发数据包<br>2、利用CSRFTester构造导出<br>3、诱使受害者访问特定地址触发</li></ul><p>黑盒如何判断：<br>防护，只有自己网站请求的数据包才可以响应，<br>不是本站的拒绝响应</p><p>1、直接在站点访问站内的一个跳转链接<br>复制地址直接请求访问<br>如果可以访问到则存在CSRF跨站请求伪造<br>没有同源访问限制<br>2、看数据包中有没有token<br>前后端对比token–随机产生<br>有则无法进行csrf跨站请求伪造</p>]]></content>
       
       
       
         <tags>
             
-            <tag> test </tag>
+            <tag> CSRF </tag>
             
         </tags>
       
