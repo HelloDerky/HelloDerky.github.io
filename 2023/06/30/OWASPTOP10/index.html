@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>OWASP top10 | 💫YaaBlog</title><meta name="author" content="wooyaa"><meta name="copyright" content="wooyaa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="owasp总结A01：失效的访问控制（越权）将敏感信息泄露给未经授权的参与者、通过发送的数据泄露敏感信息、跨站请求伪造  风险说明：访问强制实施策略，使用户无法在于其权限之外操作。失败的访问控制通常导致未授权的信息泄露，修改或销毁所有数据，或在用户权限之外执行业务能力。常见的访问控制脆弱点：  违法最小权限原则，即访问权限应只授权特定能力、角色或用户、但实际上任何人都可以访问。 通过修改URL（参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OWASP top10">
+<meta property="og:url" content="https://www.wooyaa.fun/2023/06/30/OWASPTOP10/index.html">
+<meta property="og:site_name" content="💫YaaBlog">
+<meta property="og:description" content="owasp总结A01：失效的访问控制（越权）将敏感信息泄露给未经授权的参与者、通过发送的数据泄露敏感信息、跨站请求伪造  风险说明：访问强制实施策略，使用户无法在于其权限之外操作。失败的访问控制通常导致未授权的信息泄露，修改或销毁所有数据，或在用户权限之外执行业务能力。常见的访问控制脆弱点：  违法最小权限原则，即访问权限应只授权特定能力、角色或用户、但实际上任何人都可以访问。 通过修改URL（参">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p.qqan.com/up/2021-6/16232083589998732.jpg">
+<meta property="article:published_time" content="2023-06-30T01:34:34.669Z">
+<meta property="article:modified_time" content="2023-06-30T02:04:01.484Z">
+<meta property="article:author" content="wooyaa">
+<meta property="article:tag" content="OWASP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p.qqan.com/up/2021-6/16232083589998732.jpg"><link rel="shortcut icon" href="https://p.qqan.com/up/2021-6/16232083589998732.jpg"><link rel="canonical" href="https://www.wooyaa.fun/2023/06/30/OWASPTOP10/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OWASP top10',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-30 10:04:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic1.zhimg.com/v2-4891bea7d6043f810fa95ea7f71b4a4c_r.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p.qqan.com/up/2021-6/16232083589998732.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">💫YaaBlog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OWASP top10</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-30T01:34:34.669Z" title="发表于 2023-06-30 09:34:34">2023-06-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-30T02:04:01.484Z" title="更新于 2023-06-30 10:04:01">2023-06-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OWASP top10"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="owasp总结"><a href="#owasp总结" class="headerlink" title="owasp总结"></a>owasp总结</h1><h1 id="A01：失效的访问控制（越权）"><a href="#A01：失效的访问控制（越权）" class="headerlink" title="A01：失效的访问控制（越权）"></a>A01：失效的访问控制（越权）</h1><pre><code>将敏感信息泄露给未经授权的参与者、通过发送的数据泄露敏感信息、跨站请求伪造
+</code></pre>
+<h3 id="风险说明："><a href="#风险说明：" class="headerlink" title="风险说明："></a>风险说明：</h3><p>访问强制实施策略，使用户无法在于其权限之外操作。失败的访问控制通常导致未授权的信息泄露，修改或销毁所有数据，或在用户权限之外执行业务能力。<br>常见的访问控制脆弱点：</p>
+<ul>
+<li>违法最小权限原则，即访问权限应只授权特定能力、角色或用户、但实际上任何人都可以访问。</li>
+<li>通过修改URL（参数修改或强制浏览），内部应用程序状态或者HTML页面，或者使用修改API请求的攻击工具绕过访问控制检查。</li>
+<li>通过提供唯一的识别符允许查看或编辑其他账户。</li>
+<li>API没有对POST、PUT和DELETE强制执行访问控制</li>
+<li>特权提升，在未登录的情况下假扮用户或以用户身份登入时充当管理员。</li>
+</ul>
+<h3 id="预防措施："><a href="#预防措施：" class="headerlink" title="预防措施："></a>预防措施：</h3><p>开发人员和QA人员应进行访问控制功能的单元测试和集成测试</p>
+<p>访问控制只在授信服务器端代码或者无服务器API中有效，这样攻击者猜无法修改访问控制检查或元数据</p>
+<ul>
+<li>除公有资源外，默认访问拒绝。</li>
+<li>使用一次性的访问控制机制，并在整个应用程序中不断重复它们，最小化跨站资源共享（CORS）的使用</li>
+<li>建立访问控制模型以强制执行所有权记录，而不是简单接收用户创建、读取、更新或删除的任何记录</li>
+<li>在日志中记录失败的控制访问，并在适当时间向管理员告警（重复故障）</li>
+</ul>
+<hr>
+<h1 id="A02：加密机制失效"><a href="#A02：加密机制失效" class="headerlink" title="A02：加密机制失效"></a>A02：加密机制失效</h1><pre><code>敏感数据泄露
+</code></pre>
+<h3 id="风险说明：-1"><a href="#风险说明：-1" class="headerlink" title="风险说明："></a>风险说明：</h3><p>首先需要确定有哪些数据需要保护，例如：密码、信用卡号、医疗记录、个人信息和商业秘密需要额外保护<br>对于数据，需要确认：</p>
+<ul>
+<li>在传输数据过程中是否使用铭文传输？考虑传输协议：HTTP、SMTP、经过TLS升级的FTP。外部网络流量是有害的，需要验证所有内部通信。</li>
+<li>无论是在默认情况还是在旧的代码中，是否还是用任何旧的或者脆弱的加密算法或传输协议</li>
+<li>是否默认使用加密密钥、生成或重复使用脆弱的加密密钥，或者是否缺少适当的密钥管理密钥回转</li>
+<li>接收到的服务器证书和信任链是否经过正确的验证</li>
+</ul>
+<h3 id="预防措施：-1"><a href="#预防措施：-1" class="headerlink" title="预防措施："></a>预防措施：</h3><ul>
+<li>对应用程序处理、存储或者传输的数据分类，并根据相关要求确认哪些数据敏感</li>
+<li>对于没有必要存储的敏感数据，应当尽快清除</li>
+<li>确保加密存储所有的敏感数据</li>
+<li>确保使用了最新的，强大的标准算法、协议和密钥，并且密钥管理到位</li>
+<li>禁用缓存对包含敏感数据的响应</li>
+<li>不要使用传统协议HTTP、FTP等来传输敏感数据</li>
+</ul>
+<hr>
+<h1 id="A03：注入"><a href="#A03：注入" class="headerlink" title="A03：注入"></a>A03：注入</h1><p>源代码审查是检查应用程序是否易被注入攻击的最佳方法<br>    可以对所有参数、标题、URL、cookie、JSON、SOAP和XML数据输入的自动测试</p>
+<h3 id="风险产生情况："><a href="#风险产生情况：" class="headerlink" title="风险产生情况："></a>风险产生情况：</h3><ul>
+<li>应用程序不会验证、过滤或清洗用户提供的数据</li>
+<li>动态查询或无上下文感知转译的非参数调用之间在解释器中使用</li>
+<li>恶意数据被直接使用或连接。SQL或命令包含动态查询、命令或存储过程中的结构和恶意数据</li>
+</ul>
+<h3 id="预防措施：-2"><a href="#预防措施：-2" class="headerlink" title="预防措施："></a>预防措施：</h3><ul>
+<li>推荐是用安全的API</li>
+<li>是用肯定或白名单服务器端数据验证</li>
+<li>对有任何残余的动态查询，使用该解释器的特定转译语法转译特殊字符</li>
+<li>在查询中使用LIMIT和其他SQL控件，以防止SQL注入的情况下大量纰漏记录</li>
+</ul>
+<hr>
+<h1 id="A04：不安全的设计"><a href="#A04：不安全的设计" class="headerlink" title="A04：不安全的设计"></a>A04：不安全的设计</h1><p>不安全设计和不安全实现直接存在差异，区别设计缺陷和实现缺陷是有原因的，安全设计可能存在实现缺陷，从而导致可能被利用的漏洞<br>    一个不安全设计不能通过一个完美的实现来修复</p>
+<h3 id="预防措施：-3"><a href="#预防措施：-3" class="headerlink" title="预防措施："></a>预防措施：</h3><ul>
+<li>与应用安全专业人员建立并使用安全的开发生命周期，以帮助评估和设计与安全和隐私相关的控制</li>
+<li>限制用户或服务的消耗</li>
+<li>通过设计咋所有层中严格隔离租户</li>
+<li>根据暴露和保护需求，对系统层和网络层进行分成</li>
+</ul>
+<hr>
+<h1 id="A05-安全配置错误"><a href="#A05-安全配置错误" class="headerlink" title="A05: 安全配置错误"></a>A05: 安全配置错误</h1><p>风险说明：<br>    缺少一个体系的，可重复的应用程序安全配置过程，系统将处于高风险中</p>
+<h3 id="配置错误："><a href="#配置错误：" class="headerlink" title="配置错误："></a>配置错误：</h3><ul>
+<li>应用程序栈的任何部分缺少适当的安全加固，或者云服务的权限配置错误</li>
+<li>应用程序启用或安装了不必要的功能（例如：不必要的端口、服务、网页、账户或权限）</li>
+<li>默认账户和密码：仍可用且没有更改</li>
+<li>错误处理机制指向用户纰漏堆栈信息或其他大量错误信息</li>
+<li>对于升级的系统，最新的安全特性被禁用或未安全配置</li>
+<li>应用程序服务器、应用程序框架，库文件，数据库等没有进行安全配置</li>
+</ul>
+<h3 id="预防措施：-4"><a href="#预防措施：-4" class="headerlink" title="预防措施："></a>预防措施：</h3><pre><code>实施安全的安装过程：
+</code></pre>
+<ul>
+<li>一个可以快速且易于部署在另一个锁定环境的可重复的加固过程。开发，质量保证和生产环境都是应该进行相同配置，并且在<br>  每个环境中使用不同的密码。这个过程应该是自动化的，以尽量减少安装一个新安全环境的消耗</li>
+<li>搭建最小化平台，该平台不包含任何不必要的功能、组件、文档和实例。移除或不安装不适用的框架或功能</li>
+<li>检查和修复安全配置来适应最新的安全说明、更新和补丁，并将作为更新管理过程的一部分</li>
+<li>一个能在组件和用户间提供有效的分离和安全性的分段应用程序架构</li>
+</ul>
+<hr>
+<h1 id="A06：自带缺陷和过时的组件"><a href="#A06：自带缺陷和过时的组件" class="headerlink" title="A06：自带缺陷和过时的组件"></a>A06：自带缺陷和过时的组件</h1><pre><code>不安全的组件是我们努力测试和评估风险的已知问题
+</code></pre>
+<h3 id="风险说明：-2"><a href="#风险说明：-2" class="headerlink" title="风险说明："></a>风险说明：</h3><h2 id="如果满足下面某个条件，那么就容易遭到攻击：-不知道所使用的组件版本信息（包括服务端和客户端）。这包括了直接使用的组件或间接依赖的组件-软件易受攻击，不再支持或过时-没有定期做漏洞扫描和订阅使用组件的安全公告-软件工程师没有对更新的、升级的、或打过补丁的组件进行兼容性测试-没有对组件进行安全配置-预防措施：每个组织都应该指定相应的计划，对整个软件生命周期进行监控、评审、升级或更改配置-指定一个补丁管理流程：-移除不适用的依赖、不需要的功能、组件、文件和文档-仅从官方渠道安全的获取组件，并使用前面的机制来降低组件被篡改或加入恶意漏洞的风险-监控那些不再维护或者不发布安全补丁的和组件。如果不能打补丁，就考虑部署虚拟补丁来监控、检查或保护"><a href="#如果满足下面某个条件，那么就容易遭到攻击：-不知道所使用的组件版本信息（包括服务端和客户端）。这包括了直接使用的组件或间接依赖的组件-软件易受攻击，不再支持或过时-没有定期做漏洞扫描和订阅使用组件的安全公告-软件工程师没有对更新的、升级的、或打过补丁的组件进行兼容性测试-没有对组件进行安全配置-预防措施：每个组织都应该指定相应的计划，对整个软件生命周期进行监控、评审、升级或更改配置-指定一个补丁管理流程：-移除不适用的依赖、不需要的功能、组件、文件和文档-仅从官方渠道安全的获取组件，并使用前面的机制来降低组件被篡改或加入恶意漏洞的风险-监控那些不再维护或者不发布安全补丁的和组件。如果不能打补丁，就考虑部署虚拟补丁来监控、检查或保护" class="headerlink" title="如果满足下面某个条件，那么就容易遭到攻击：- 不知道所使用的组件版本信息（包括服务端和客户端）。这包括了直接使用的组件或间接依赖的组件- 软件易受攻击，不再支持或过时- 没有定期做漏洞扫描和订阅使用组件的安全公告- 软件工程师没有对更新的、升级的、或打过补丁的组件进行兼容性测试- 没有对组件进行安全配置### 预防措施：每个组织都应该指定相应的计划，对整个软件生命周期进行监控、评审、升级或更改配置    指定一个补丁管理流程：- 移除不适用的依赖、不需要的功能、组件、文件和文档- 仅从官方渠道安全的获取组件，并使用前面的机制来降低组件被篡改或加入恶意漏洞的风险- 监控那些不再维护或者不发布安全补丁的和组件。如果不能打补丁，就考虑部署虚拟补丁来监控、检查或保护"></a>如果满足下面某个条件，那么就容易遭到攻击：<br>- 不知道所使用的组件版本信息（包括服务端和客户端）。这包括了直接使用的组件或间接依赖的组件<br>- 软件易受攻击，不再支持或过时<br>- 没有定期做漏洞扫描和订阅使用组件的安全公告<br>- 软件工程师没有对更新的、升级的、或打过补丁的组件进行兼容性测试<br>- 没有对组件进行安全配置<br>### 预防措施：<br>每个组织都应该指定相应的计划，对整个软件生命周期进行监控、评审、升级或更改配置<br>    指定一个补丁管理流程：<br>- 移除不适用的依赖、不需要的功能、组件、文件和文档<br>- 仅从官方渠道安全的获取组件，并使用前面的机制来降低组件被篡改或加入恶意漏洞的风险<br>- 监控那些不再维护或者不发布安全补丁的和组件。如果不能打补丁，就考虑部署虚拟补丁来监控、检查或保护</h2><h1 id="A07：身份识别和身份验证错误"><a href="#A07：身份识别和身份验证错误" class="headerlink" title="A07：身份识别和身份验证错误"></a>A07：身份识别和身份验证错误</h1><h2 id="无效的身份认证-风险说明：-允许像是攻击者已经拥有有效用户名和密码列表的撞库自动化攻击-允许暴力或其他自动化攻击-允许预设、脆弱、常见的密码-使用脆弱或无效的认证咨讯回复或忘记密码的流程-使用明码，被加密的或使用较脆弱杂凑法的密码-预防措施：-实施弱密码的检查-在可能得情况下，实施多因素认证防止自动化撞库攻击，暴力破解，以及遭窃认证咨询被重复利用的攻击-不要交付或部署任何预设的认证凭证，特别是管理者-限制或增加登入失败尝试延时"><a href="#无效的身份认证-风险说明：-允许像是攻击者已经拥有有效用户名和密码列表的撞库自动化攻击-允许暴力或其他自动化攻击-允许预设、脆弱、常见的密码-使用脆弱或无效的认证咨讯回复或忘记密码的流程-使用明码，被加密的或使用较脆弱杂凑法的密码-预防措施：-实施弱密码的检查-在可能得情况下，实施多因素认证防止自动化撞库攻击，暴力破解，以及遭窃认证咨询被重复利用的攻击-不要交付或部署任何预设的认证凭证，特别是管理者-限制或增加登入失败尝试延时" class="headerlink" title="无效的身份认证### 风险说明：- 允许像是攻击者已经拥有有效用户名和密码列表的撞库自动化攻击- 允许暴力或其他自动化攻击- 允许预设、脆弱、常见的密码- 使用脆弱或无效的认证咨讯回复或忘记密码的流程	- 使用明码，被加密的或使用较脆弱杂凑法的密码### 预防措施：- 实施弱密码的检查- 在可能得情况下，实施多因素认证防止自动化撞库攻击，暴力破解，以及遭窃认证咨询被重复利用的攻击- 不要交付或部署任何预设的认证凭证，特别是管理者- 限制或增加登入失败尝试延时"></a>无效的身份认证<br>### 风险说明：<br>- 允许像是攻击者已经拥有有效用户名和密码列表的撞库自动化攻击<br>- 允许暴力或其他自动化攻击<br>- 允许预设、脆弱、常见的密码<br>- 使用脆弱或无效的认证咨讯回复或忘记密码的流程	<br>- 使用明码，被加密的或使用较脆弱杂凑法的密码<br>### 预防措施：<br>- 实施弱密码的检查<br>- 在可能得情况下，实施多因素认证防止自动化撞库攻击，暴力破解，以及遭窃认证咨询被重复利用的攻击<br>- 不要交付或部署任何预设的认证凭证，特别是管理者<br>- 限制或增加登入失败尝试延时</h2><h1 id="A08：软件和数据完整性故障"><a href="#A08：软件和数据完整性故障" class="headerlink" title="A08：软件和数据完整性故障"></a>A08：软件和数据完整性故障</h1><h3 id="预防措施：-5"><a href="#预防措施：-5" class="headerlink" title="预防措施："></a>预防措施：</h3><ul>
+<li>使用数字签名或类似机制来验证软件或数据来自预期来源，且未被修改</li>
+<li>确保库和依赖项目，如：npm或maven，正在使用受信任的存储库。如果风险较高，需要托管一个经过审核的，内部一致合格的存储库</li>
+<li>确保使用软件供应链安全工具（如OWASP Dependency Check）来验证组件不包含已知漏洞</li>
+<li>确保对代码和配置更改进行审核，以最大限度地减少恶意代码或配置引入软件管道的可能性</li>
+<li>确保CI&#x2F;CD管道具有适当的隔离、配置和访问控制，以确保代码在构建和部署过程中的完整性</li>
+<li>确保通过特定形式的完整性检查或数字签名来检测序列化数据是否存在篡改或重播，所有未签名或未加密的序列化数据不会发送到不信任的客户端。</li>
+</ul>
+<hr>
+<h1 id="A09：安全日志和监控故障"><a href="#A09：安全日志和监控故障" class="headerlink" title="A09：安全日志和监控故障"></a>A09：安全日志和监控故障</h1><h3 id="风险说明：-3"><a href="#风险说明：-3" class="headerlink" title="风险说明："></a>风险说明：</h3><p>如果不进行日志记录和检测，就无法发现任何违规行为，任何时候都会发现日志记录、检测、监视和主动响应不足的情况：</p>
+<pre><code>- 日志只存储在本地
+- 渗透测试和动态应用安全测试工具的扫描没有触发情报
+- 警告和错误生成的日志或日志记录不充分或日志消息不清晰
+</code></pre>
+<h3 id="预防措施：-6"><a href="#预防措施：-6" class="headerlink" title="预防措施："></a>预防措施：</h3><h2 id="开发人员根据应用的风险，实施以下部分或全部控制-确保所有的登录、访问控制和服务器端输入验证失败都可以被记录在在足够的用户上下文中，以识别可疑或恶意的账户，并保留足够的-时间以允许延迟的取证分析。-确保日志是日志管理解决方案以方便使用的格式生成的-确保日志数据被正确编码加密，以防止对日志或监控系统的注入或攻击-确保高价值交易又完整性控制的审计跟踪，以防止篡改或删除，例如：只附加数据库表或类似的内容-DevSecOps团队应该建立有效的监控和警报，以便发现可疑的活动并迅速做出反应-建立或采用事故应对和恢复计划，例如：美国国家标准技术研究所（NIST）800-61r2或更高版本。-有一些商业和开源的应用程序保护框架：OWASP-ModSecurity核心规则集，以及开源的日志相关软件，如：Elasticsearch、Logstash-Kibana-ELK-、具有自定义告警功能"><a href="#开发人员根据应用的风险，实施以下部分或全部控制-确保所有的登录、访问控制和服务器端输入验证失败都可以被记录在在足够的用户上下文中，以识别可疑或恶意的账户，并保留足够的-时间以允许延迟的取证分析。-确保日志是日志管理解决方案以方便使用的格式生成的-确保日志数据被正确编码加密，以防止对日志或监控系统的注入或攻击-确保高价值交易又完整性控制的审计跟踪，以防止篡改或删除，例如：只附加数据库表或类似的内容-DevSecOps团队应该建立有效的监控和警报，以便发现可疑的活动并迅速做出反应-建立或采用事故应对和恢复计划，例如：美国国家标准技术研究所（NIST）800-61r2或更高版本。-有一些商业和开源的应用程序保护框架：OWASP-ModSecurity核心规则集，以及开源的日志相关软件，如：Elasticsearch、Logstash-Kibana-ELK-、具有自定义告警功能" class="headerlink" title="开发人员根据应用的风险，实施以下部分或全部控制        - 确保所有的登录、访问控制和服务器端输入验证失败都可以被记录在在足够的用户上下文中，以识别可疑或恶意的账户，并保留足够的    时间以允许延迟的取证分析。        - 确保日志是日志管理解决方案以方便使用的格式生成的        - 确保日志数据被正确编码加密，以防止对日志或监控系统的注入或攻击        - 确保高价值交易又完整性控制的审计跟踪，以防止篡改或删除，例如：只附加数据库表或类似的内容        - DevSecOps团队应该建立有效的监控和警报，以便发现可疑的活动并迅速做出反应        - 建立或采用事故应对和恢复计划，例如：美国国家标准技术研究所（NIST）800-61r2或更高版本。        - 有一些商业和开源的应用程序保护框架：OWASP ModSecurity核心规则集，以及开源的日志相关软件，如：Elasticsearch、Logstash    Kibana(ELK)、具有自定义告警功能
+    "></a>开发人员根据应用的风险，实施以下部分或全部控制<br>        - 确保所有的登录、访问控制和服务器端输入验证失败都可以被记录在在足够的用户上下文中，以识别可疑或恶意的账户，并保留足够的<br>    时间以允许延迟的取证分析。<br>        - 确保日志是日志管理解决方案以方便使用的格式生成的<br>        - 确保日志数据被正确编码加密，以防止对日志或监控系统的注入或攻击<br>        - 确保高价值交易又完整性控制的审计跟踪，以防止篡改或删除，例如：只附加数据库表或类似的内容<br>        - DevSecOps团队应该建立有效的监控和警报，以便发现可疑的活动并迅速做出反应<br>        - 建立或采用事故应对和恢复计划，例如：美国国家标准技术研究所（NIST）800-61r2或更高版本。<br>        - 有一些商业和开源的应用程序保护框架：OWASP ModSecurity核心规则集，以及开源的日志相关软件，如：Elasticsearch、Logstash<br>    Kibana(ELK)、具有自定义告警功能
+    </h2><h1 id="A10：服务端请求伪造（SSRF）"><a href="#A10：服务端请求伪造（SSRF）" class="headerlink" title="A10：服务端请求伪造（SSRF）"></a>A10：服务端请求伪造（SSRF）</h1><p><strong>风险说明：</strong><br>    web应用程序在获取远程资源时没有验证用户提供的URL，就会出现SSRF缺陷，他允许攻击者强制应用程序发送一个精心构造的请求到意外的目的地<br>即使是在有防火墙，VPN或其他类型的网络访问控制列表保护的情况下</p>
+<h3 id="预防措施：-7"><a href="#预防措施：-7" class="headerlink" title="预防措施："></a>预防措施：</h3><p>开发者可以通过实现以下部分或全部防御手段，纵深防御来阻止SSRF；</p>
+<p>网络层防御建议:</p>
+<ul>
+<li>在隔离的网络中设置多个远程资源访问功能的网段，以减少SSRF的影响</li>
+<li>执行“默认拒绝”防火墙策略或网络访问控制规则，以阻止除必须的内部网通信外的所有通信。</li>
+<li>建立基于应用的防火墙规则的所有权和生命周期</li>
+<li>在防火墙上记录所有接收和阻止的网络流（参见“A09：2021-安全日志和监控故障”）</li>
+</ul>
+<h3 id="应用层防御建议："><a href="#应用层防御建议：" class="headerlink" title="应用层防御建议："></a>应用层防御建议：</h3><ul>
+<li>检查和验证所有客户端提供的数据。</li>
+<li>使用白名单允许列表执行URL统一资源标志符、端口和目标</li>
+<li>不要给客户端发送原始的回复</li>
+<li>禁用HTTP重定向</li>
+<li>注意URL的一致性，以避免DNS重新绑定和“检查时间，使用时间”（TOCTOU）竞争条件等攻击</li>
+<li>不要通过使用黑名单拒绝列表或正则表达式来缓解SSRF。攻击者拥有有效载荷列表，工具和绕过列表的技能</li>
+</ul>
+<p>需要额外考虑的措施</p>
+<ul>
+<li>不要再前端系统上部署其他与安全相关的服务（如：OpenID）。控制这些系统上的本地流量（如：localhost）</li>
+<li>对于专用和可管理的前端用户，可以在独立的系统上使用网络加密（如：VPN）来满足非常高的安全需求保护</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.wooyaa.fun">wooyaa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.wooyaa.fun/2023/06/30/OWASPTOP10/">https://www.wooyaa.fun/2023/06/30/OWASPTOP10/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.wooyaa.fun" target="_blank">💫YaaBlog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/OWASP/">OWASP</a></div><div class="post_share"><div class="social-share" data-image="https://p.qqan.com/up/2021-6/16232083589998732.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/30/XSS%E6%80%BB%E7%BB%93/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F2076f7ae-d134-4dc4-a865-af1b2029d400%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&amp;refer=http%3A%2F%2Fsafe-img.xhscdn.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1680403724&amp;t=397f7c7fa4dd5ea9209e2c83d400c630" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XSS总结</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.3ceeb9d2b38499a88ee060fa2aac80dd?rik=S4%2bE7PGfVgIyOg&amp;riu=http%3a%2f%2fpic.22520.cn%2fup%2f200502%2f1588389039498824.jpg&amp;ehk=y5EbT8WOdNQnraJr7krw95SKr7IRNc1eAkiLDCV19B0%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文件上传总结</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic1.zhimg.com/v2-4891bea7d6043f810fa95ea7f71b4a4c_r.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wooyaa</div><div class="author-info__description">💫 Future is now.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/HelloDerky" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:yaazhang0608@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到wooyaa.fun</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#owasp%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">owasp总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A01%EF%BC%9A%E5%A4%B1%E6%95%88%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%EF%BC%88%E8%B6%8A%E6%9D%83%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">A01：失效的访问控制（越权）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="toc-number">2.0.1.</span> <span class="toc-text">风险说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A"><span class="toc-number">2.0.2.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A02%EF%BC%9A%E5%8A%A0%E5%AF%86%E6%9C%BA%E5%88%B6%E5%A4%B1%E6%95%88"><span class="toc-number">3.</span> <span class="toc-text">A02：加密机制失效</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E8%AF%B4%E6%98%8E%EF%BC%9A-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">风险说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A03%EF%BC%9A%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">A03：注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E4%BA%A7%E7%94%9F%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-number">4.0.1.</span> <span class="toc-text">风险产生情况：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-2"><span class="toc-number">4.0.2.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A04%EF%BC%9A%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.</span> <span class="toc-text">A04：不安全的设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-3"><span class="toc-number">5.0.1.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A05-%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF"><span class="toc-number">6.</span> <span class="toc-text">A05: 安全配置错误</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%EF%BC%9A"><span class="toc-number">6.0.1.</span> <span class="toc-text">配置错误：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-4"><span class="toc-number">6.0.2.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A06%EF%BC%9A%E8%87%AA%E5%B8%A6%E7%BC%BA%E9%99%B7%E5%92%8C%E8%BF%87%E6%97%B6%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">A06：自带缺陷和过时的组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E8%AF%B4%E6%98%8E%EF%BC%9A-2"><span class="toc-number">7.0.1.</span> <span class="toc-text">风险说明：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E6%BB%A1%E8%B6%B3%E4%B8%8B%E9%9D%A2%E6%9F%90%E4%B8%AA%E6%9D%A1%E4%BB%B6%EF%BC%8C%E9%82%A3%E4%B9%88%E5%B0%B1%E5%AE%B9%E6%98%93%E9%81%AD%E5%88%B0%E6%94%BB%E5%87%BB%EF%BC%9A-%E4%B8%8D%E7%9F%A5%E9%81%93%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E7%BB%84%E4%BB%B6%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%EF%BC%88%E5%8C%85%E6%8B%AC%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%89%E3%80%82%E8%BF%99%E5%8C%85%E6%8B%AC%E4%BA%86%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E7%9A%84%E7%BB%84%E4%BB%B6%E6%88%96%E9%97%B4%E6%8E%A5%E4%BE%9D%E8%B5%96%E7%9A%84%E7%BB%84%E4%BB%B6-%E8%BD%AF%E4%BB%B6%E6%98%93%E5%8F%97%E6%94%BB%E5%87%BB%EF%BC%8C%E4%B8%8D%E5%86%8D%E6%94%AF%E6%8C%81%E6%88%96%E8%BF%87%E6%97%B6-%E6%B2%A1%E6%9C%89%E5%AE%9A%E6%9C%9F%E5%81%9A%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%92%8C%E8%AE%A2%E9%98%85%E4%BD%BF%E7%94%A8%E7%BB%84%E4%BB%B6%E7%9A%84%E5%AE%89%E5%85%A8%E5%85%AC%E5%91%8A-%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%B2%A1%E6%9C%89%E5%AF%B9%E6%9B%B4%E6%96%B0%E7%9A%84%E3%80%81%E5%8D%87%E7%BA%A7%E7%9A%84%E3%80%81%E6%88%96%E6%89%93%E8%BF%87%E8%A1%A5%E4%B8%81%E7%9A%84%E7%BB%84%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95-%E6%B2%A1%E6%9C%89%E5%AF%B9%E7%BB%84%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE-%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A%E6%AF%8F%E4%B8%AA%E7%BB%84%E7%BB%87%E9%83%BD%E5%BA%94%E8%AF%A5%E6%8C%87%E5%AE%9A%E7%9B%B8%E5%BA%94%E7%9A%84%E8%AE%A1%E5%88%92%EF%BC%8C%E5%AF%B9%E6%95%B4%E4%B8%AA%E8%BD%AF%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%BF%9B%E8%A1%8C%E7%9B%91%E6%8E%A7%E3%80%81%E8%AF%84%E5%AE%A1%E3%80%81%E5%8D%87%E7%BA%A7%E6%88%96%E6%9B%B4%E6%94%B9%E9%85%8D%E7%BD%AE-%E6%8C%87%E5%AE%9A%E4%B8%80%E4%B8%AA%E8%A1%A5%E4%B8%81%E7%AE%A1%E7%90%86%E6%B5%81%E7%A8%8B%EF%BC%9A-%E7%A7%BB%E9%99%A4%E4%B8%8D%E9%80%82%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96%E3%80%81%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E5%8A%9F%E8%83%BD%E3%80%81%E7%BB%84%E4%BB%B6%E3%80%81%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E6%A1%A3-%E4%BB%85%E4%BB%8E%E5%AE%98%E6%96%B9%E6%B8%A0%E9%81%93%E5%AE%89%E5%85%A8%E7%9A%84%E8%8E%B7%E5%8F%96%E7%BB%84%E4%BB%B6%EF%BC%8C%E5%B9%B6%E4%BD%BF%E7%94%A8%E5%89%8D%E9%9D%A2%E7%9A%84%E6%9C%BA%E5%88%B6%E6%9D%A5%E9%99%8D%E4%BD%8E%E7%BB%84%E4%BB%B6%E8%A2%AB%E7%AF%A1%E6%94%B9%E6%88%96%E5%8A%A0%E5%85%A5%E6%81%B6%E6%84%8F%E6%BC%8F%E6%B4%9E%E7%9A%84%E9%A3%8E%E9%99%A9-%E7%9B%91%E6%8E%A7%E9%82%A3%E4%BA%9B%E4%B8%8D%E5%86%8D%E7%BB%B4%E6%8A%A4%E6%88%96%E8%80%85%E4%B8%8D%E5%8F%91%E5%B8%83%E5%AE%89%E5%85%A8%E8%A1%A5%E4%B8%81%E7%9A%84%E5%92%8C%E7%BB%84%E4%BB%B6%E3%80%82%E5%A6%82%E6%9E%9C%E4%B8%8D%E8%83%BD%E6%89%93%E8%A1%A5%E4%B8%81%EF%BC%8C%E5%B0%B1%E8%80%83%E8%99%91%E9%83%A8%E7%BD%B2%E8%99%9A%E6%8B%9F%E8%A1%A5%E4%B8%81%E6%9D%A5%E7%9B%91%E6%8E%A7%E3%80%81%E6%A3%80%E6%9F%A5%E6%88%96%E4%BF%9D%E6%8A%A4"><span class="toc-number">7.1.</span> <span class="toc-text">如果满足下面某个条件，那么就容易遭到攻击：- 不知道所使用的组件版本信息（包括服务端和客户端）。这包括了直接使用的组件或间接依赖的组件- 软件易受攻击，不再支持或过时- 没有定期做漏洞扫描和订阅使用组件的安全公告- 软件工程师没有对更新的、升级的、或打过补丁的组件进行兼容性测试- 没有对组件进行安全配置### 预防措施：每个组织都应该指定相应的计划，对整个软件生命周期进行监控、评审、升级或更改配置    指定一个补丁管理流程：- 移除不适用的依赖、不需要的功能、组件、文件和文档- 仅从官方渠道安全的获取组件，并使用前面的机制来降低组件被篡改或加入恶意漏洞的风险- 监控那些不再维护或者不发布安全补丁的和组件。如果不能打补丁，就考虑部署虚拟补丁来监控、检查或保护</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A07%EF%BC%9A%E8%BA%AB%E4%BB%BD%E8%AF%86%E5%88%AB%E5%92%8C%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E9%94%99%E8%AF%AF"><span class="toc-number">8.</span> <span class="toc-text">A07：身份识别和身份验证错误</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%95%88%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81-%E9%A3%8E%E9%99%A9%E8%AF%B4%E6%98%8E%EF%BC%9A-%E5%85%81%E8%AE%B8%E5%83%8F%E6%98%AF%E6%94%BB%E5%87%BB%E8%80%85%E5%B7%B2%E7%BB%8F%E6%8B%A5%E6%9C%89%E6%9C%89%E6%95%88%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E5%88%97%E8%A1%A8%E7%9A%84%E6%92%9E%E5%BA%93%E8%87%AA%E5%8A%A8%E5%8C%96%E6%94%BB%E5%87%BB-%E5%85%81%E8%AE%B8%E6%9A%B4%E5%8A%9B%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%8A%A8%E5%8C%96%E6%94%BB%E5%87%BB-%E5%85%81%E8%AE%B8%E9%A2%84%E8%AE%BE%E3%80%81%E8%84%86%E5%BC%B1%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AF%86%E7%A0%81-%E4%BD%BF%E7%94%A8%E8%84%86%E5%BC%B1%E6%88%96%E6%97%A0%E6%95%88%E7%9A%84%E8%AE%A4%E8%AF%81%E5%92%A8%E8%AE%AF%E5%9B%9E%E5%A4%8D%E6%88%96%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E7%9A%84%E6%B5%81%E7%A8%8B-%E4%BD%BF%E7%94%A8%E6%98%8E%E7%A0%81%EF%BC%8C%E8%A2%AB%E5%8A%A0%E5%AF%86%E7%9A%84%E6%88%96%E4%BD%BF%E7%94%A8%E8%BE%83%E8%84%86%E5%BC%B1%E6%9D%82%E5%87%91%E6%B3%95%E7%9A%84%E5%AF%86%E7%A0%81-%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-%E5%AE%9E%E6%96%BD%E5%BC%B1%E5%AF%86%E7%A0%81%E7%9A%84%E6%A3%80%E6%9F%A5-%E5%9C%A8%E5%8F%AF%E8%83%BD%E5%BE%97%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E5%AE%9E%E6%96%BD%E5%A4%9A%E5%9B%A0%E7%B4%A0%E8%AE%A4%E8%AF%81%E9%98%B2%E6%AD%A2%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%9E%E5%BA%93%E6%94%BB%E5%87%BB%EF%BC%8C%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%81%AD%E7%AA%83%E8%AE%A4%E8%AF%81%E5%92%A8%E8%AF%A2%E8%A2%AB%E9%87%8D%E5%A4%8D%E5%88%A9%E7%94%A8%E7%9A%84%E6%94%BB%E5%87%BB-%E4%B8%8D%E8%A6%81%E4%BA%A4%E4%BB%98%E6%88%96%E9%83%A8%E7%BD%B2%E4%BB%BB%E4%BD%95%E9%A2%84%E8%AE%BE%E7%9A%84%E8%AE%A4%E8%AF%81%E5%87%AD%E8%AF%81%EF%BC%8C%E7%89%B9%E5%88%AB%E6%98%AF%E7%AE%A1%E7%90%86%E8%80%85-%E9%99%90%E5%88%B6%E6%88%96%E5%A2%9E%E5%8A%A0%E7%99%BB%E5%85%A5%E5%A4%B1%E8%B4%A5%E5%B0%9D%E8%AF%95%E5%BB%B6%E6%97%B6"><span class="toc-number">8.1.</span> <span class="toc-text">无效的身份认证### 风险说明：- 允许像是攻击者已经拥有有效用户名和密码列表的撞库自动化攻击- 允许暴力或其他自动化攻击- 允许预设、脆弱、常见的密码- 使用脆弱或无效的认证咨讯回复或忘记密码的流程	- 使用明码，被加密的或使用较脆弱杂凑法的密码### 预防措施：- 实施弱密码的检查- 在可能得情况下，实施多因素认证防止自动化撞库攻击，暴力破解，以及遭窃认证咨询被重复利用的攻击- 不要交付或部署任何预设的认证凭证，特别是管理者- 限制或增加登入失败尝试延时</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A08%EF%BC%9A%E8%BD%AF%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7%E6%95%85%E9%9A%9C"><span class="toc-number">9.</span> <span class="toc-text">A08：软件和数据完整性故障</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-5"><span class="toc-number">9.0.1.</span> <span class="toc-text">预防措施：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A09%EF%BC%9A%E5%AE%89%E5%85%A8%E6%97%A5%E5%BF%97%E5%92%8C%E7%9B%91%E6%8E%A7%E6%95%85%E9%9A%9C"><span class="toc-number">10.</span> <span class="toc-text">A09：安全日志和监控故障</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E8%AF%B4%E6%98%8E%EF%BC%9A-3"><span class="toc-number">10.0.1.</span> <span class="toc-text">风险说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-6"><span class="toc-number">10.0.2.</span> <span class="toc-text">预防措施：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E6%A0%B9%E6%8D%AE%E5%BA%94%E7%94%A8%E7%9A%84%E9%A3%8E%E9%99%A9%EF%BC%8C%E5%AE%9E%E6%96%BD%E4%BB%A5%E4%B8%8B%E9%83%A8%E5%88%86%E6%88%96%E5%85%A8%E9%83%A8%E6%8E%A7%E5%88%B6-%E7%A1%AE%E4%BF%9D%E6%89%80%E6%9C%89%E7%9A%84%E7%99%BB%E5%BD%95%E3%80%81%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%BE%93%E5%85%A5%E9%AA%8C%E8%AF%81%E5%A4%B1%E8%B4%A5%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%A2%AB%E8%AE%B0%E5%BD%95%E5%9C%A8%E5%9C%A8%E8%B6%B3%E5%A4%9F%E7%9A%84%E7%94%A8%E6%88%B7%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%AD%EF%BC%8C%E4%BB%A5%E8%AF%86%E5%88%AB%E5%8F%AF%E7%96%91%E6%88%96%E6%81%B6%E6%84%8F%E7%9A%84%E8%B4%A6%E6%88%B7%EF%BC%8C%E5%B9%B6%E4%BF%9D%E7%95%99%E8%B6%B3%E5%A4%9F%E7%9A%84-%E6%97%B6%E9%97%B4%E4%BB%A5%E5%85%81%E8%AE%B8%E5%BB%B6%E8%BF%9F%E7%9A%84%E5%8F%96%E8%AF%81%E5%88%86%E6%9E%90%E3%80%82-%E7%A1%AE%E4%BF%9D%E6%97%A5%E5%BF%97%E6%98%AF%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BB%A5%E6%96%B9%E4%BE%BF%E4%BD%BF%E7%94%A8%E7%9A%84%E6%A0%BC%E5%BC%8F%E7%94%9F%E6%88%90%E7%9A%84-%E7%A1%AE%E4%BF%9D%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%A2%AB%E6%AD%A3%E7%A1%AE%E7%BC%96%E7%A0%81%E5%8A%A0%E5%AF%86%EF%BC%8C%E4%BB%A5%E9%98%B2%E6%AD%A2%E5%AF%B9%E6%97%A5%E5%BF%97%E6%88%96%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%B3%A8%E5%85%A5%E6%88%96%E6%94%BB%E5%87%BB-%E7%A1%AE%E4%BF%9D%E9%AB%98%E4%BB%B7%E5%80%BC%E4%BA%A4%E6%98%93%E5%8F%88%E5%AE%8C%E6%95%B4%E6%80%A7%E6%8E%A7%E5%88%B6%E7%9A%84%E5%AE%A1%E8%AE%A1%E8%B7%9F%E8%B8%AA%EF%BC%8C%E4%BB%A5%E9%98%B2%E6%AD%A2%E7%AF%A1%E6%94%B9%E6%88%96%E5%88%A0%E9%99%A4%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A%E5%8F%AA%E9%99%84%E5%8A%A0%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E6%88%96%E7%B1%BB%E4%BC%BC%E7%9A%84%E5%86%85%E5%AE%B9-DevSecOps%E5%9B%A2%E9%98%9F%E5%BA%94%E8%AF%A5%E5%BB%BA%E7%AB%8B%E6%9C%89%E6%95%88%E7%9A%84%E7%9B%91%E6%8E%A7%E5%92%8C%E8%AD%A6%E6%8A%A5%EF%BC%8C%E4%BB%A5%E4%BE%BF%E5%8F%91%E7%8E%B0%E5%8F%AF%E7%96%91%E7%9A%84%E6%B4%BB%E5%8A%A8%E5%B9%B6%E8%BF%85%E9%80%9F%E5%81%9A%E5%87%BA%E5%8F%8D%E5%BA%94-%E5%BB%BA%E7%AB%8B%E6%88%96%E9%87%87%E7%94%A8%E4%BA%8B%E6%95%85%E5%BA%94%E5%AF%B9%E5%92%8C%E6%81%A2%E5%A4%8D%E8%AE%A1%E5%88%92%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A%E7%BE%8E%E5%9B%BD%E5%9B%BD%E5%AE%B6%E6%A0%87%E5%87%86%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6%E6%89%80%EF%BC%88NIST%EF%BC%89800-61r2%E6%88%96%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E3%80%82-%E6%9C%89%E4%B8%80%E4%BA%9B%E5%95%86%E4%B8%9A%E5%92%8C%E5%BC%80%E6%BA%90%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BF%9D%E6%8A%A4%E6%A1%86%E6%9E%B6%EF%BC%9AOWASP-ModSecurity%E6%A0%B8%E5%BF%83%E8%A7%84%E5%88%99%E9%9B%86%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%BC%80%E6%BA%90%E7%9A%84%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3%E8%BD%AF%E4%BB%B6%EF%BC%8C%E5%A6%82%EF%BC%9AElasticsearch%E3%80%81Logstash-Kibana-ELK-%E3%80%81%E5%85%B7%E6%9C%89%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%8A%E8%AD%A6%E5%8A%9F%E8%83%BD"><span class="toc-number">10.1.</span> <span class="toc-text">开发人员根据应用的风险，实施以下部分或全部控制        - 确保所有的登录、访问控制和服务器端输入验证失败都可以被记录在在足够的用户上下文中，以识别可疑或恶意的账户，并保留足够的    时间以允许延迟的取证分析。        - 确保日志是日志管理解决方案以方便使用的格式生成的        - 确保日志数据被正确编码加密，以防止对日志或监控系统的注入或攻击        - 确保高价值交易又完整性控制的审计跟踪，以防止篡改或删除，例如：只附加数据库表或类似的内容        - DevSecOps团队应该建立有效的监控和警报，以便发现可疑的活动并迅速做出反应        - 建立或采用事故应对和恢复计划，例如：美国国家标准技术研究所（NIST）800-61r2或更高版本。        - 有一些商业和开源的应用程序保护框架：OWASP ModSecurity核心规则集，以及开源的日志相关软件，如：Elasticsearch、Logstash    Kibana(ELK)、具有自定义告警功能
+    </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A10%EF%BC%9A%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%EF%BC%88SSRF%EF%BC%89"><span class="toc-number">11.</span> <span class="toc-text">A10：服务端请求伪造（SSRF）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%EF%BC%9A-7"><span class="toc-number">11.0.1.</span> <span class="toc-text">预防措施：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E9%98%B2%E5%BE%A1%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="toc-number">11.0.2.</span> <span class="toc-text">应用层防御建议：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/30/XSS%E6%80%BB%E7%BB%93/" title="XSS总结">XSS总结</a><time datetime="2023-06-30T02:01:47.855Z" title="发表于 2023-06-30 10:01:47">2023-06-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/30/OWASPTOP10/" title="OWASP top10">OWASP top10</a><time datetime="2023-06-30T01:34:34.669Z" title="发表于 2023-06-30 09:34:34">2023-06-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/" title="文件上传总结">文件上传总结</a><time datetime="2023-06-30T01:23:40.650Z" title="发表于 2023-06-30 09:23:40">2023-06-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-python%E5%8F%8D%E5%BA%8F%E5%88%97/" title="序列化-python反序列化">序列化-python反序列化</a><time datetime="2023-06-06T09:55:15.638Z" title="发表于 2023-06-06 17:55:15">2023-06-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="序列化-PHP">序列化-PHP</a><time datetime="2023-06-06T09:55:15.128Z" title="发表于 2023-06-06 17:55:15">2023-06-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By wooyaa</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
